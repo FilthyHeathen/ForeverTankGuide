@@ -1,6 +1,6 @@
 --[[
     ForeverTankGuide - Modules/Races/Alliance/Dwarf.lua
-    Dwarf Racials, Passives, Synergies, and Macros
+    Dwarf Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
 local ADDON_NAME, FTG = ...
@@ -9,12 +9,13 @@ local DwarfModule = {
     name = "Dwarf",
     token = "DWARF",
     faction = "Alliance",
-    description = "God-tier defensive tanking race. Stoneform removes all bleed, poison, and disease debuffs and grants +10% Armor. Frost Resistance and Find Treasure.",
+    description = "God-tier defensive tanking and healing race. Stoneform removes all bleed, poison, and disease debuffs and grants +10% Armor. Frost Resistance and Find Treasure.",
     brackets = {
         [1] = {
             zones = {
-                { name = "Dun Morogh", range = "1–10", notes = "Coldridge Valley to Kharanos. Ironforge mining trainers." },
-                { name = "Loch Modan & Wetlands", range = "10–20", notes = "Thelsamar and Menethil Harbor. High density of Tin and Bronze." }
+                { name = "Coldridge Valley (Dun Morogh)", range = "1–6", notes = "Dwarf & Gnome starting valley: Rockjaw Troggs, Frostmane Troll cave, and Boar hunting." },
+                { name = "Dun Morogh / Kharanos", range = "6–10", notes = "Kharanos hub, Brewnall Village, Gol'Bolar Quarry, and Ironforge tram connection." },
+                { name = "Loch Modan (Thelsamar) & Wetlands", range = "10–20", notes = "Thelsamar & Farstrider Lodge quests, Stonesplitter Troggs, and Westfall/Deadmines option." }
             },
             racials = {
                 { name = "Stoneform", desc = "Dispels all Bleed, Poison, and Disease effects and grants complete immunity to them, plus +10% Armor for 8 seconds (3 min cooldown)!" },
@@ -28,16 +29,34 @@ local DwarfModule = {
             }
         },
         [2] = {
+            zones = {
+                { name = "Wetlands (Menethil Harbor) & Duskwood (Darkshire)", range = "20–30", notes = "Menethil Harbor excavations/orcs, Darkshire undead chains, and Gnomeregan/Stockade runs." },
+                { name = "Hillsbrad Foothills (Southshore)", range = "25–33", notes = "Southshore Alliance hub: Durnholde Syndicate, Yeti cave, and Hillsbrad fields." },
+                { name = "Arathi Highlands (Refuge Pointe)", range = "30–40", notes = "Refuge Pointe Alliance hub: Stromgarde Keep, Faldir's Cove, and Witherbark trolls." },
+                { name = "Stranglethorn Vale (Rebel Camp)", range = "30–40", notes = "Rebel Camp, Nesingwary's Expedition (+5 Gun Skill synergy!), and Booty Bay." }
+            },
             tankTips = {
                 "In Shadowfang Keep and Scarlet Monastery, Stoneform eliminates disease and bleed effects without needing healer dispels."
             }
         },
         [3] = {
+            zones = {
+                { name = "Badlands & Uldaman (Ironforge Explorers' League)", range = "38–44", notes = "Prospector quests tied directly to Ironforge's Explorers' League and Uldaman." },
+                { name = "Feralas (Feathermoon Stronghold)", range = "42–48", notes = "Feathermoon Stronghold Alliance hub: Gordunni ogres, Yetis, and Maraudon prep." },
+                { name = "Tanaris (Gadgetzan) & Hinterlands (Aerie Peak)", range = "43–50", notes = "Aerie Peak Wildhammer dwarves, Jintha'Alor elites, and Zul'Farrak dungeon quests." },
+                { name = "Searing Gorge (Thorium Point)", range = "48–52", notes = "Dark Iron dwarf bounties and Blackrock Depths key preparation." }
+            },
             tankTips = {
                 "In Maraudon and Zul'Farrak, Stoneform completely negates Princess Theradras and Noxxion lethal stacking nature poisons."
             }
         },
         [4] = {
+            zones = {
+                { name = "Un'Goro Crater (Marshal's Refuge)", range = "51–55", notes = "High-density circular quest loop and rich Thorium veins." },
+                { name = "Western Plaguelands (Chillwind Camp)", range = "52–58", notes = "Chillwind Camp Alliance hub: Scourge cauldrons and Scholomance key chain." },
+                { name = "Eastern Plaguelands (Light's Hope) & Burning Steppes", range = "54–60", notes = "Morgan's Vigil (Onyxia attunement), Blackrock Depths, and Stratholme." },
+                { name = "Winterspring (Everlook)", range = "55–60", notes = "Winterfall furbolgs and endgame pre-raid BIS preparation." }
+            },
             tankTips = {
                 "In UBRS (Rend Blackhand) and Stratholme, Stoneform's +10% armor buff and bleed immunity turns deadly physical spikes into manageable blows."
             }
@@ -45,6 +64,7 @@ local DwarfModule = {
     },
     macros = {
         {
+            category = "Defensive / Tank",
             title = "Dwarf: Stoneform Cleanse & Armor",
             desc = "Instantly clears all bleeds, poisons, and diseases and gains +10% armor.",
             code = "#showtooltip Stoneform\n/stopcasting\n/cast Stoneform"

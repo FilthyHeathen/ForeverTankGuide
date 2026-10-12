@@ -176,6 +176,68 @@ local MageModule = {
                     code = "#showtooltip Combustion\n/cast Combustion\n/use 13\n/cast Fireball"
                 }
             }
+        },
+
+        ["ARCANE"] = {
+            specName = "Arcane (Presence of Mind & Arcane Power Burst)",
+            role = "DPS",
+            order = 3,
+            statPriority = "Spell Hit (Arcane Focus +10% Arcane Hit!) > Spell Damage & Crit > Intellect (Arcane Mind +15% Int) > MP5",
+            phaseGuidance = {
+                [1] = {
+                    name = "Phase 1: Levels 1–20",
+                    summary = "Arcane Subtlety (-40% Arcane Threat), Arcane Focus (+10% Arcane Hit), and Arcane Concentration (Clearcasting!).",
+                    zones = {},
+                    abilities = {
+                        { level = 8, name = "Arcane Missiles", desc = "5-wave channeled Arcane nuke that cannot be interrupted by damage with Improved Arcane Missiles (5/5)." },
+                        { level = 14, name = "Arcane Explosion", desc = "Spam-friendly instant AoE arcane blast (becomes instant with 5/5 Improved Arcane Explosion)." }
+                    },
+                    rules = {
+                        "Arcane Concentration (5/5) gives every damaging spell a 10% chance to proc Clearcasting (100% free next spell)—spend Clearcasting on high-mana Arcane Missiles or Flamestrike!"
+                    }
+                },
+                [2] = {
+                    name = "Phase 2: Levels 20–40",
+                    summary = "Arcane Meditation (15% in-combat Spirit mana regen), Presence of Mind (lvl 30 Instant Cast!).",
+                    zones = {},
+                    abilities = {
+                        { level = 30, name = "Presence of Mind (Talent)", desc = "Makes your next Mage spell with a cast time below 10 sec an INSTANT cast (3 min cooldown)!" }
+                    },
+                    rules = {
+                        "Use Presence of Mind + Polymorph to instantly sheep a dangerous runner or healer, or Presence of Mind + Pyroblast/Frostbolt for instant burst!"
+                    }
+                },
+                [3] = {
+                    name = "Phase 3: Levels 40–52",
+                    summary = "Arcane Instability (+3% Damage & +3% Crit to ALL spells) and Arcane Power (+30% Spell Damage!).",
+                    zones = {},
+                    abilities = {
+                        { level = 40, name = "Arcane Power (Talent)", desc = "Increases all spell damage by 30% while spells cost 30% more mana for 15 seconds!" }
+                    },
+                    rules = {
+                        "Skyborne Alliance Mages can pair Aerial Glide + Presence of Mind + Arcane Explosion from elevated ledges for devastating mobile AoE clears."
+                    }
+                },
+                [4] = {
+                    name = "Phase 4: Levels 52–60",
+                    summary = "31/0/20 AP-Frost Raid Spec: +30% Arcane Power + Presence of Mind + Trinket Burst.",
+                    zones = {},
+                    abilities = {
+                        { level = 60, name = "AP + PoM + Trinket Macro", desc = "Combines Arcane Power (+30% dmg), Talisman of Ephemeral Power / ZHC, and Presence of Mind." }
+                    },
+                    rules = {
+                        "Once a fellow Frost Mage in your raid provides 5/5 Winter's Chill, respec to 31/0/20 Arcane/Frost to gain Arcane Instability (+3% dmg/crit) and Arcane Power (+30% burst)!"
+                    }
+                }
+            },
+            macros = {
+                {
+                    category = "Burst / DPS",
+                    title = "Arcane: AP + PoM + Trinket Instant Nuke",
+                    desc = "Pops Arcane Power (+30% damage), activates Spell Damage Trinket, and fires an instant Frostbolt/Pyroblast via Presence of Mind.",
+                    code = "#showtooltip Arcane Power\n/cast Arcane Power\n/use 13\n/cast Presence of Mind\n/cast Frostbolt"
+                }
+            }
         }
     }
 }

@@ -65,11 +65,22 @@ function FTG:GetPlayerSpec(classToken)
     return classMod.defaultSpec or "PROTECTION"
 end
 
--- Auto-detect player race token
+-- Auto-detect player race token (including cross-faction Skyborne detection)
 function FTG:GetPlayerRace()
-    local _, raceToken = UnitRace("player")
-    if raceToken == "Scourge" then raceToken = "UNDEAD" end
-    return raceToken and string.upper(raceToken) or "UNDEAD"
+    local raceName, raceToken = UnitRace("player")
+    local token = string.upper(raceToken or raceName or "UNDEAD")
+    if token == "SCOURGE" then
+        return "UNDEAD"
+    end
+    if token:find("SKYBORNE") or string.upper(raceName or ""):find("SKYBORNE") then
+        local faction = UnitFactionGroup and UnitFactionGroup("player") or "Horde"
+        if faction == "Alliance" then
+            return "SKYBORNE_ALLIANCE"
+        else
+            return "SKYBORNE_HORDE"
+        end
+    end
+    return token
 end
 
 -- Auto-detect primary profession (Engineering, Blacksmithing, Alchemy, Leatherworking, Tailoring)

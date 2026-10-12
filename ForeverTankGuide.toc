@@ -1,8 +1,8 @@
 ## Interface: 16001
 ## Title: |cffc79c6eForeverTankGuide|r
-## Notes: Dynamic Leveling, Dungeon, and Profession Assistant for All Roles (Tank/Healer/DPS), Specs, Races & Professions.
+## Notes: Dynamic Leveling, Dungeon, and Profession Assistant for All Roles (Tank/Healer/DPS), Specs, Races (incl. Skyborne) & Professions.
 ## Author: GuideBuilder
-## Version: 1.2.0
+## Version: 1.3.0
 ## SavedVariablesPerCharacter: FTG_CharDB
 
 # Core Engine & Dynamic Registry
@@ -25,12 +25,14 @@ Modules\Races\Horde\Undead.lua
 Modules\Races\Horde\Tauren.lua
 Modules\Races\Horde\Orc.lua
 Modules\Races\Horde\Troll.lua
+Modules\Races\Horde\SkyborneHorde.lua
 
 # Race Modules (Alliance)
 Modules\Races\Alliance\Human.lua
 Modules\Races\Alliance\Dwarf.lua
 Modules\Races\Alliance\NightElf.lua
 Modules\Races\Alliance\Gnome.lua
+Modules\Races\Alliance\SkyborneAlliance.lua
 
 # Profession Modules
 Modules\Professions\Engineering.lua

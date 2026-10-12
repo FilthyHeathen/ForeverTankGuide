@@ -70,7 +70,7 @@ end
 function FTG:GetRegisteredRaces()
     local list = {}
     for k, v in pairs(self.Registry.Races) do
-        if k ~= "SCOURGE" then -- prevent duplicate Scourge/Undead entry in dropdown
+        if k ~= "SCOURGE" and k ~= "SKYBORNE" then -- prevent duplicate alias entries in dropdown
             table.insert(list, { token = k, name = v.name or k, faction = v.faction or "Neutral" })
         end
     end
@@ -132,6 +132,8 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
         statPriority = statPriority,
         raceKey = raceKey,
         raceName = raceMod.name or raceKey,
+        faction = raceMod.faction or "Horde",
+        availableClasses = raceMod.availableClasses,
         profKey = profKey,
         profName = profMod.name or profKey,
         Brackets = {},
@@ -147,15 +149,13 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
         local pBracket = (profMod.brackets and profMod.brackets[b]) or {}
         local dBracket = (dungMod.brackets and dungMod.brackets[b]) or {}
 
-        -- Zones: combine race starting/priority zones and spec/class recommendations
+        -- Zones: strictly populate based on active Race & Faction quest routing first
         local combinedZones = {}
-        if rBracket.zones then
+        if rBracket.zones and #rBracket.zones > 0 then
             for _, z in ipairs(rBracket.zones) do table.insert(combinedZones, z) end
-        end
-        if sBracket.zones then
+        elseif sBracket.zones and #sBracket.zones > 0 then
             for _, z in ipairs(sBracket.zones) do table.insert(combinedZones, z) end
-        end
-        if #combinedZones == 0 and dBracket.zones then
+        elseif dBracket.zones then
             for _, z in ipairs(dBracket.zones) do table.insert(combinedZones, z) end
         end
 

@@ -566,12 +566,13 @@ function FTG.UI:RenderOverview(child, bracket, profile)
         yOffset = yOffset - (summary:GetStringHeight() + 14)
     end
 
-    -- Section: Recommended Leveling Zones
+    -- Section: Recommended Leveling Zones (Strictly Race & Faction Routed)
     if bracket.zones and #bracket.zones > 0 then
         local zoneHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         zoneHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
         zoneHeader:SetTextColor(0.3, 1.0, 0.3, 1) -- Bright lime green
-        zoneHeader:SetText(string.format("Recommended Leveling & Farming Zones (%s)", profile.raceName))
+        local factionColor = (profile.faction == "Alliance" and "|cff3388ffAlliance|r") or "|cffff3333Horde|r"
+        zoneHeader:SetText(string.format("Recommended Leveling & Farming Zones (%s — %s Route)", profile.raceName, factionColor))
         ApplyDropShadow(zoneHeader)
         table.insert(child.elements, zoneHeader)
         yOffset = yOffset - 18

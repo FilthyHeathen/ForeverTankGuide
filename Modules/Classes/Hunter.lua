@@ -180,6 +180,76 @@ local HunterModule = {
                     code = "#showtooltip Scatter Shot\n/stopcasting\n/cast [@mouseover,harm,nodead][harm,nodead] Scatter Shot"
                 }
             }
+        },
+
+        ["SURVIVAL"] = {
+            specName = "Survival (Agility / Trap & Hybrid DPS)",
+            role = "DPS",
+            order = 3,
+            statPriority = "Agility (Lightning Reflexes +15% Agi!) > Hit (Surefooted +3% Hit -> 6% Gear Cap) > Crit > Stamina",
+            phaseGuidance = {
+                [1] = {
+                    name = "Phase 1: Levels 1–20",
+                    summary = "Savage Strikes (+20% Raptor/Mongoose Crit), Entrapment, and Wing Clip kiting.",
+                    zones = {},
+                    abilities = {
+                        { level = 12, name = "Wing Clip", desc = "Instant melee hamstring slowing enemy movement speed by 50–60% for 10 seconds." },
+                        { level = 16, name = "Immolation & Explosive Traps", desc = "High-damage fire traps boosted by Clever Traps (+30% trap damage)." }
+                    },
+                    rules = {
+                        "Weave Raptor Strike + Wing Clip whenever an enemy closes into melee range, then step out or Aerial Glide (Skyborne) back to Auto Shot range!"
+                    }
+                },
+                [2] = {
+                    name = "Phase 2: Levels 20–40",
+                    summary = "Deterrence (+25% Dodge/Parry cooldown), Surefooted (+3% Hit & +15% Trap Resist), and Counterattack.",
+                    zones = {},
+                    abilities = {
+                        { level = 20, name = "Deterrence (Talent)", desc = "Increases Dodge and Parry chance by 25% for 10 seconds—turns you into an emergency melee tank!" },
+                        { level = 30, name = "Counterattack (Talent)", desc = "Triggered after a parry: deals damage and immobilizes the target for 5 seconds (cannot be blocked/dodged/parried)!" }
+                    },
+                    rules = {
+                        "3/3 Surefooted gives you +3% Melee and Ranged Hit passively, lowering your endgame Hit gear requirement from 9% down to just 6%!"
+                    }
+                },
+                [3] = {
+                    name = "Phase 3: Levels 40–52",
+                    summary = "Killer Instinct (+3% Crit to all attacks) and Wyvern Sting (lvl 40 CC).",
+                    zones = {},
+                    abilities = {
+                        { level = 40, name = "Wyvern Sting (Talent)", desc = "Puts target to sleep for 12 seconds (usable out of combat for double-CC alongside Freezing Trap)." }
+                    },
+                    rules = {
+                        "In dungeons, you can CC two separate mobs by opening with Wyvern Sting on one target and pulling another into your Freezing Trap!"
+                    }
+                },
+                [4] = {
+                    name = "Phase 4: Levels 52–60",
+                    summary = "Lightning Reflexes (+15% Total Agility!) at ~450+ base Agility and Melee-Weaving mastery.",
+                    zones = {},
+                    abilities = {
+                        { level = 60, name = "Lightning Reflexes (5/5 Talent)", desc = "Multiplies your total Agility by 15%, scaling massively with high-end Agility gear and ZG buffs." }
+                    },
+                    rules = {
+                        "Once your unbuffed Agility exceeds 425+, 0/21/30 Survival/Marksmanship outscales pure Marksmanship in personal DPS!",
+                        "Melee-Weaving: Run in between Auto Shots to land a 2H Raptor Strike, then step back out (or Skyborne Gale Gust / Aerial Glide) before your next Auto Shot timer!"
+                    }
+                }
+            },
+            macros = {
+                {
+                    category = "Burst / DPS",
+                    title = "Survival: Raptor Strike + Mongoose Bite + Counterattack",
+                    desc = "Executes Counterattack/Mongoose Bite procs and queues Raptor Strike in melee.",
+                    code = "#showtooltip Raptor Strike\n/startattack\n/cast Counterattack\n/cast Mongoose Bite\n/cast Raptor Strike"
+                },
+                {
+                    category = "Defensive / Tank",
+                    title = "Survival: Deterrence + Monkey Aspect",
+                    desc = "Pops Deterrence (+25% Dodge/Parry) and shifts to Aspect of the Monkey (+8% Dodge) for survival.",
+                    code = "#showtooltip Deterrence\n/cast Aspect of the Monkey\n/cast Deterrence"
+                }
+            }
         }
     }
 }

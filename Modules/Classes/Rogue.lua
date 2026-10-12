@@ -183,6 +183,68 @@ local RogueModule = {
                     code = "#showtooltip Blind\n/cast [@mouseover,harm,nodead][harm,nodead] Blind"
                 }
             }
+        },
+
+        ["ASSASSINATION"] = {
+            specName = "Assassination (Poisons & Seal Fate Daggers)",
+            role = "DPS",
+            order = 3,
+            statPriority = "Crit (to proc Seal Fate +2 Combo Points!) > Hit (to 9% Yellow) > Daggers / Fast Weapons > Agility > Attack Power",
+            phaseGuidance = {
+                [1] = {
+                    name = "Phase 1: Levels 1–20",
+                    summary = "Malice (+5% Crit), Ruthlessness, and Improved Eviscerate (+15% Finisher Damage).",
+                    zones = {},
+                    abilities = {
+                        { level = 14, name = "Ambush & Backstab", desc = "Massive rear-positional dagger openers and builders." }
+                    },
+                    rules = {
+                        "Take Remorseless Attacks (2/2) while leveling—every mob you kill grants +40% Crit on your next Sinister Strike, Backstab, or Ambush!"
+                    }
+                },
+                [2] = {
+                    name = "Phase 2: Levels 20–40",
+                    summary = "Vile Poisons (+20% Poison Damage), Improved Poisons, and Cold Blood (lvl 30 Guaranteed Crit!).",
+                    zones = {},
+                    abilities = {
+                        { level = 30, name = "Cold Blood (Talent)", desc = "Increases the critical strike chance of your next offensive ability by 100%!" },
+                        { level = 30, name = "Kidney Shot", desc = "Up to 6-second melee stun finisher—locks down dangerous dungeon casters." }
+                    },
+                    rules = {
+                        "Save Cold Blood for 5-combo-point Eviscerates to instantly delete low-health dungeon bosses or PvP targets."
+                    }
+                },
+                [3] = {
+                    name = "Phase 3: Levels 40–52",
+                    summary = "Seal Fate (+1 Extra Combo Point on every Critical Strike!) and Vigor (110 Max Energy).",
+                    zones = {},
+                    abilities = {
+                        { level = 40, name = "Seal Fate (5/5 Talent)", desc = "Critical strikes from combo-generating abilities grant an additional combo point!" }
+                    },
+                    rules = {
+                        "With Seal Fate, a single Backstab or Sinister Strike crit generates 2 combo points (and Cheap Shot generates 3), flooding you with 5-point finishers!"
+                    }
+                },
+                [4] = {
+                    name = "Phase 4: Levels 52–60",
+                    summary = "High-Crit Seal Fate Daggers, Aged Core Leather Gloves (+5 Dagger Skill), and Relentless Strikes.",
+                    zones = {},
+                    abilities = {
+                        { level = 60, name = "Cold Blood + 5pt Eviscerate", desc = "Guaranteed 2,000+ critical finisher with Relentless Strikes (+25 Energy refund)." }
+                    },
+                    rules = {
+                        "Always maintain 100% Slice and Dice uptime first, then dump rapid Seal Fate 5-point Eviscerates with Relentless Strikes energy refunds."
+                    }
+                }
+            },
+            macros = {
+                {
+                    category = "Burst / DPS",
+                    title = "Assassination: Cold Blood + 5pt Eviscerate",
+                    desc = "Activates Cold Blood off the GCD and immediately fires a guaranteed critical Eviscerate.",
+                    code = "#showtooltip Eviscerate\n/cast Cold Blood\n/cast Eviscerate"
+                }
+            }
         }
     }
 }
