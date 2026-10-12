@@ -9,7 +9,7 @@ FTG.UI = {}
 
 local BACKDROP_DIALOG_DARK = {
     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
-    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Border",
+    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
     tile = true,
     tileSize = 32,
     edgeSize = 24,
@@ -34,6 +34,15 @@ local BACKDROP_SLIDER_STYLE = {
     insets = { left = 3, right = 3, top = 3, bottom = 3 }
 }
 
+-- Helper to apply shadow to FontStrings
+local function ApplyDropShadow(fs)
+    if fs and fs.SetShadowOffset then
+        fs:SetShadowOffset(1, -1)
+        fs:SetShadowColor(0, 0, 0, 1)
+    end
+    return fs
+end
+
 function FTG.UI:CreateMainFrame()
     if self.MainFrame then return self.MainFrame end
 
@@ -44,14 +53,14 @@ function FTG.UI:CreateMainFrame()
     f:EnableMouse(true)
     f:RegisterForDrag("LeftButton")
     f:SetClampedToScreen(true)
-    f:SetFrameStrata("MEDIUM")
+    f:SetFrameStrata("DIALOG")
     f:SetToplevel(true)
 
-    -- Backing graphics
+    -- Backing graphics: solid opaque dark charcoal with Blizzard gold border
     if f.SetBackdrop then
         f:SetBackdrop(BACKDROP_DIALOG_DARK)
-        f:SetBackdropColor(0.08, 0.08, 0.1, 0.95)
-        f:SetBackdropBorderColor(0.9, 0.75, 0.3, 1)
+        f:SetBackdropColor(0.05, 0.05, 0.05, 0.95)
+        f:SetBackdropBorderColor(0.8, 0.7, 0.2, 1)
     end
 
     -- Drag Handlers
@@ -64,7 +73,7 @@ function FTG.UI:CreateMainFrame()
     titleBg:SetPoint("TOPRIGHT", f, "TOPRIGHT", -10, -8)
     titleBg:SetHeight(38)
     titleBg:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background")
-    titleBg:SetVertexColor(0.12, 0.08, 0.16, 0.75)
+    titleBg:SetVertexColor(0.10, 0.08, 0.12, 0.95)
 
     -- Icon
     local titleIcon = f:CreateTexture(nil, "OVERLAY")
@@ -76,12 +85,15 @@ function FTG.UI:CreateMainFrame()
     -- Title Text
     local titleText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     titleText:SetPoint("LEFT", titleIcon, "RIGHT", 10, 0)
-    titleText:SetText("|cffffd200Forever Tank Guide|r |cff00ff00[Modular Registry Edition]|r")
+    titleText:SetText("|cffffd200Forever Tank Guide|r |cff40ff40[Modular Registry Edition]|r")
+    ApplyDropShadow(titleText)
     f.TitleText = titleText
 
     -- Player Level / Active status subtitle
     local levelText = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     levelText:SetPoint("RIGHT", titleBg, "RIGHT", -36, 0)
+    levelText:SetTextColor(0.9, 0.9, 0.9, 1)
+    ApplyDropShadow(levelText)
     f.LevelText = levelText
 
     -- Close Button
@@ -115,37 +127,42 @@ function FTG.UI:CreateProfileBar(parent)
 
     if bar.SetBackdrop then
         bar:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-        bar:SetBackdropColor(0.04, 0.04, 0.06, 0.8)
-        bar:SetBackdropBorderColor(0.3, 0.3, 0.4, 0.6)
+        bar:SetBackdropColor(0.04, 0.04, 0.06, 0.95)
+        bar:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.8)
     end
 
     local label = bar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     label:SetPoint("LEFT", bar, "LEFT", 8, 0)
     label:SetText("|cffffcc00Profile:|r")
+    ApplyDropShadow(label)
 
     -- Class Selector Button
     local classBtn = CreateFrame("Button", "FTG_ClassDropdownBtn", bar, "UIPanelButtonTemplate")
     classBtn:SetSize(140, 20)
     classBtn:SetPoint("LEFT", label, "RIGHT", 8, 0)
     classBtn:SetText("Class")
+    ApplyDropShadow(classBtn:GetFontString())
 
     -- Race Selector Button
     local raceBtn = CreateFrame("Button", "FTG_RaceDropdownBtn", bar, "UIPanelButtonTemplate")
     raceBtn:SetSize(130, 20)
     raceBtn:SetPoint("LEFT", classBtn, "RIGHT", 6, 0)
     raceBtn:SetText("Race")
+    ApplyDropShadow(raceBtn:GetFontString())
 
     -- Profession Selector Button
     local profBtn = CreateFrame("Button", "FTG_ProfDropdownBtn", bar, "UIPanelButtonTemplate")
     profBtn:SetSize(140, 20)
     profBtn:SetPoint("LEFT", raceBtn, "RIGHT", 6, 0)
     profBtn:SetText("Profession")
+    ApplyDropShadow(profBtn:GetFontString())
 
     -- Auto-Detect / Reset Button
     local resetBtn = CreateFrame("Button", nil, bar, "UIPanelButtonTemplate")
     resetBtn:SetSize(110, 20)
     resetBtn:SetPoint("RIGHT", bar, "RIGHT", -6, 0)
     resetBtn:SetText("Detect Player")
+    ApplyDropShadow(resetBtn:GetFontString())
     resetBtn:SetScript("OnClick", function()
         FTG:ResetProfileToPlayer()
         FTG:Print("Profile reset to live character auto-detection.")
@@ -239,6 +256,7 @@ function FTG.UI:CreateTopBar(parent)
             btn:SetPoint("LEFT", bar, "LEFT", 0, 0)
         end
         btn:SetText(t.label)
+        ApplyDropShadow(btn:GetFontString())
 
         btn:SetScript("OnClick", function()
             FTG:SetSelectedBracket(t.id)
@@ -259,8 +277,8 @@ function FTG.UI:CreateSideMenu(parent)
 
     if menu.SetBackdrop then
         menu:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-        menu:SetBackdropColor(0.04, 0.04, 0.06, 0.8)
-        menu:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.7)
+        menu:SetBackdropColor(0.04, 0.04, 0.06, 0.95)
+        menu:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.8)
     end
 
     local items = {
@@ -281,7 +299,9 @@ function FTG.UI:CreateSideMenu(parent)
             btn:SetPoint("TOP", menu, "TOP", 0, -10)
         end
         btn:SetText(item.text)
-        btn:GetFontString():SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+        local fs = btn:GetFontString()
+        fs:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+        ApplyDropShadow(fs)
 
         btn:SetScript("OnClick", function()
             FTG:SetViewTab(item.id)
@@ -298,7 +318,7 @@ function FTG.UI:CreateSideMenu(parent)
     statusBox:SetHeight(85)
     if statusBox.SetBackdrop then
         statusBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-        statusBox:SetBackdropColor(0.02, 0.02, 0.02, 0.7)
+        statusBox:SetBackdropColor(0.02, 0.02, 0.02, 0.85)
     end
 
     local statusText = statusBox:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -306,7 +326,8 @@ function FTG.UI:CreateSideMenu(parent)
     statusText:SetPoint("BOTTOMRIGHT", statusBox, "BOTTOMRIGHT", -6, 6)
     statusText:SetJustifyH("LEFT")
     statusText:SetJustifyV("TOP")
-    statusText:SetText("|cffffcc00Modular Engine:|r\nActive\n|cffaaaaaaUse profile bar above to preview other classes/races.|r")
+    statusText:SetText("|cffffcc00Modular Engine:|r\nActive\n|cffccccccUse profile bar above to preview other classes/races.|r")
+    ApplyDropShadow(statusText)
     parent.StatusBoxText = statusText
 
     parent.NavButtons = navButtons
@@ -319,8 +340,8 @@ function FTG.UI:CreateContentArea(parent)
 
     if content.SetBackdrop then
         content:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-        content:SetBackdropColor(0.05, 0.05, 0.07, 0.85)
-        content:SetBackdropBorderColor(0.5, 0.45, 0.35, 0.8)
+        content:SetBackdropColor(0.03, 0.03, 0.05, 0.95)
+        content:SetBackdropBorderColor(0.6, 0.5, 0.35, 0.9)
     end
 
     local scrollFrame = CreateFrame("ScrollFrame", "FTG_ContentScrollFrame", content)
@@ -388,7 +409,7 @@ function FTG.UI:UpdateView()
 
     -- Update Top Title / Level
     local playerLevel = UnitLevel("player") or 1
-    f.LevelText:SetText(string.format("Player Lvl: |cff00ff00%d|r | Active: |cffffd200%s %s|r", playerLevel, profile.raceName, profile.className))
+    f.LevelText:SetText(string.format("Player Lvl: |cff40ff40%d|r | Active: |cffffd200%s %s|r", playerLevel, profile.raceName, profile.className))
 
     -- Highlight Bracket Buttons
     for id, btn in pairs(f.BracketButtons) do
@@ -446,6 +467,7 @@ function FTG.UI:RenderOverview(child, bracket, profile)
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
     title:SetText(string.format("|cffffcc00%s|r - |cffffffff%s %s|r", bracket.name or "Phase", profile.raceName, profile.className))
+    ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
 
@@ -455,16 +477,20 @@ function FTG.UI:RenderOverview(child, bracket, profile)
         summary:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
         summary:SetWidth(width)
         summary:SetJustifyH("LEFT")
-        summary:SetText(string.format("|cffbbbbbb%s|r", bracket.summary))
+        summary:SetTextColor(0.9, 0.9, 0.9, 1)
+        summary:SetText(bracket.summary)
+        ApplyDropShadow(summary)
         table.insert(child.elements, summary)
         yOffset = yOffset - (summary:GetStringHeight() + 14)
     end
 
     -- Section: Recommended Leveling Zones
     if bracket.zones and #bracket.zones > 0 then
-        local zoneHeader = child:CreateFontString(nil, "OVERLAY", "GameFontGreen")
+        local zoneHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         zoneHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        zoneHeader:SetTextColor(0.3, 1.0, 0.3, 1) -- Bright lime green
         zoneHeader:SetText(string.format("Recommended Leveling & Farming Zones (%s)", profile.raceName))
+        ApplyDropShadow(zoneHeader)
         table.insert(child.elements, zoneHeader)
         yOffset = yOffset - 18
 
@@ -473,7 +499,9 @@ function FTG.UI:RenderOverview(child, bracket, profile)
             line:SetPoint("TOPLEFT", child, "TOPLEFT", 20, yOffset)
             line:SetWidth(width - 20)
             line:SetJustifyH("LEFT")
-            line:SetText(string.format("• |cffffd200%s|r (|cff00ff00Lvl %s|r): %s", z.name, z.range, z.notes))
+            line:SetTextColor(0.9, 0.9, 0.9, 1)
+            line:SetText(string.format("• |cffffd200%s|r (|cff40ff40Lvl %s|r): %s", z.name, z.range, z.notes))
+            ApplyDropShadow(line)
             table.insert(child.elements, line)
             yOffset = yOffset - (line:GetStringHeight() + 6)
         end
@@ -482,9 +510,11 @@ function FTG.UI:RenderOverview(child, bracket, profile)
 
     -- Section: Key Ability Milestones & Racials
     if bracket.abilities and #bracket.abilities > 0 then
-        local abHeader = child:CreateFontString(nil, "OVERLAY", "GameFontGreen")
+        local abHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         abHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        abHeader:SetTextColor(0.3, 1.0, 0.3, 1) -- Bright lime green
         abHeader:SetText(string.format("Abilities & Racials (%s)", profile.className))
+        ApplyDropShadow(abHeader)
         table.insert(child.elements, abHeader)
         yOffset = yOffset - 18
 
@@ -493,7 +523,9 @@ function FTG.UI:RenderOverview(child, bracket, profile)
             line:SetPoint("TOPLEFT", child, "TOPLEFT", 20, yOffset)
             line:SetWidth(width - 20)
             line:SetJustifyH("LEFT")
+            line:SetTextColor(0.9, 0.9, 0.9, 1)
             line:SetText(string.format("• |cffffd200Level %d: %s|r - %s", ab.level, ab.name, ab.desc))
+            ApplyDropShadow(line)
             table.insert(child.elements, line)
             yOffset = yOffset - (line:GetStringHeight() + 6)
         end
@@ -502,9 +534,11 @@ function FTG.UI:RenderOverview(child, bracket, profile)
 
     -- Section: Core Tank Rules
     if bracket.tankRules and #bracket.tankRules > 0 then
-        local tankHeader = child:CreateFontString(nil, "OVERLAY", "GameFontRed")
+        local tankHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         tankHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        tankHeader:SetTextColor(1.0, 0.8, 0.2, 1) -- Bright amber / gold
         tankHeader:SetText(string.format("Tactical Tanking Rules (%s)", profile.className))
+        ApplyDropShadow(tankHeader)
         table.insert(child.elements, tankHeader)
         yOffset = yOffset - 18
 
@@ -513,7 +547,9 @@ function FTG.UI:RenderOverview(child, bracket, profile)
             line:SetPoint("TOPLEFT", child, "TOPLEFT", 20, yOffset)
             line:SetWidth(width - 20)
             line:SetJustifyH("LEFT")
-            line:SetText(string.format("|cffff4444[%d]|r %s", idx, rule))
+            line:SetTextColor(0.9, 0.9, 0.9, 1)
+            line:SetText(string.format("|cffffcc00[%d]|r %s", idx, rule))
+            ApplyDropShadow(line)
             table.insert(child.elements, line)
             yOffset = yOffset - (line:GetStringHeight() + 6)
         end
@@ -531,14 +567,17 @@ function FTG.UI:RenderProfession(child, bracket, profile)
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
     title:SetText(string.format("|cffffcc00%s Roadmap - %s|r", prof.name or profile.profName, prof.range or "Skill 1–300"))
+    ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
 
     -- Milestones
     if prof.milestones and #prof.milestones > 0 then
-        local msHeader = child:CreateFontString(nil, "OVERLAY", "GameFontGreen")
+        local msHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         msHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        msHeader:SetTextColor(0.3, 1.0, 0.3, 1) -- Bright lime green
         msHeader:SetText("Crafting Progression & Target Utilities")
+        ApplyDropShadow(msHeader)
         table.insert(child.elements, msHeader)
         yOffset = yOffset - 18
 
@@ -548,20 +587,23 @@ function FTG.UI:RenderProfession(child, bracket, profile)
             box:SetSize(width - 15, 46)
             if box.SetBackdrop then
                 box:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-                box:SetBackdropColor(0.1, 0.1, 0.12, 0.6)
-                box:SetBackdropBorderColor(0.3, 0.3, 0.4, 0.5)
+                box:SetBackdropColor(0.08, 0.08, 0.10, 0.9)
+                box:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.7)
             end
             table.insert(child.elements, box)
 
             local t1 = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
             t1:SetPoint("TOPLEFT", box, "TOPLEFT", 8, -6)
-            t1:SetText(string.format("|cff00ff00[Skill %d]|r |cffffffff%s|r", m.skill, m.name))
+            t1:SetText(string.format("|cff40ff40[Skill %d]|r |cffffffff%s|r", m.skill, m.name))
+            ApplyDropShadow(t1)
 
             local t2 = box:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
             t2:SetPoint("TOPLEFT", box, "TOPLEFT", 8, -22)
             t2:SetWidth(width - 35)
             t2:SetJustifyH("LEFT")
-            t2:SetText(string.format("|cffaaaaaaMats: %s|r  |  |cffffd200%s|r", m.mats, m.notes))
+            t2:SetTextColor(0.9, 0.9, 0.9, 1)
+            t2:SetText(string.format("|cffccccccMats: %s|r  |  |cffffd200%s|r", m.mats, m.notes))
+            ApplyDropShadow(t2)
 
             yOffset = yOffset - 50
         end
@@ -570,16 +612,20 @@ function FTG.UI:RenderProfession(child, bracket, profile)
 
     -- Shopping List
     if prof.shoppingList and #prof.shoppingList > 0 then
-        local shopHeader = child:CreateFontString(nil, "OVERLAY", "GameFontGreen")
+        local shopHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         shopHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        shopHeader:SetTextColor(0.3, 1.0, 0.3, 1) -- Bright lime green
         shopHeader:SetText("Materials Shopping & Hoarding List")
+        ApplyDropShadow(shopHeader)
         table.insert(child.elements, shopHeader)
         yOffset = yOffset - 18
 
         for _, item in ipairs(prof.shoppingList) do
             local line = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
             line:SetPoint("TOPLEFT", child, "TOPLEFT", 25, yOffset)
+            line:SetTextColor(0.9, 0.9, 0.9, 1)
             line:SetText(string.format("• |cffffffff%s|r", item))
+            ApplyDropShadow(line)
             table.insert(child.elements, line)
             yOffset = yOffset - 18
         end
@@ -588,9 +634,11 @@ function FTG.UI:RenderProfession(child, bracket, profile)
     -- Auction House Profits (if available in Phase 4)
     if prof.ahProfits then
         yOffset = yOffset - 14
-        local ahHeader = child:CreateFontString(nil, "OVERLAY", "GameFontGold")
+        local ahHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         ahHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        ahHeader:SetTextColor(1.0, 0.8, 0.2, 1) -- Bright amber / gold
         ahHeader:SetText("Commercial Gold Making & AH Opportunities")
+        ApplyDropShadow(ahHeader)
         table.insert(child.elements, ahHeader)
         yOffset = yOffset - 20
 
@@ -599,7 +647,9 @@ function FTG.UI:RenderProfession(child, bracket, profile)
             line:SetPoint("TOPLEFT", child, "TOPLEFT", 20, yOffset)
             line:SetWidth(width - 20)
             line:SetJustifyH("LEFT")
+            line:SetTextColor(0.9, 0.9, 0.9, 1)
             line:SetText(string.format("• |cffffd200%s|r: %s", ah.item, ah.notes))
+            ApplyDropShadow(line)
             table.insert(child.elements, line)
             yOffset = yOffset - (line:GetStringHeight() + 6)
         end
@@ -617,12 +667,15 @@ function FTG.UI:RenderDungeons(child, bracket)
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
     title:SetText("|cffffcc00Dungeon Tanking & Gear Checklist|r")
+    ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
 
     local sub = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     sub:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    sub:SetTextColor(0.9, 0.9, 0.9, 1)
     sub:SetText("Check off dungeons completed and key gear acquired for this bracket:")
+    ApplyDropShadow(sub)
     table.insert(child.elements, sub)
     yOffset = yOffset - 20
 
@@ -632,8 +685,8 @@ function FTG.UI:RenderDungeons(child, bracket)
         dungBox:SetSize(width, 28)
         if dungBox.SetBackdrop then
             dungBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-            dungBox:SetBackdropColor(0.12, 0.08, 0.16, 0.9)
-            dungBox:SetBackdropBorderColor(0.6, 0.4, 0.8, 0.8)
+            dungBox:SetBackdropColor(0.12, 0.08, 0.16, 0.95)
+            dungBox:SetBackdropBorderColor(0.7, 0.5, 0.9, 0.9)
         end
         table.insert(child.elements, dungBox)
 
@@ -648,15 +701,18 @@ function FTG.UI:RenderDungeons(child, bracket)
 
         local dungLabel = dungBox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         dungLabel:SetPoint("LEFT", dungCheck, "RIGHT", 4, 0)
-        dungLabel:SetText(string.format("|cffffd200%s|r (|cff00ff00Lvl %s|r) - %s", d.name, d.level, d.location))
+        dungLabel:SetText(string.format("|cffffd200%s|r (|cff40ff40Lvl %s|r) - %s", d.name, d.level, d.location))
+        ApplyDropShadow(dungLabel)
 
         yOffset = yOffset - 32
 
-        local noteText = child:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+        local noteText = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
         noteText:SetPoint("TOPLEFT", child, "TOPLEFT", 30, yOffset)
         noteText:SetWidth(width - 30)
         noteText:SetJustifyH("LEFT")
-        noteText:SetText(string.format("Tank Strategy: %s", d.notes))
+        noteText:SetTextColor(0.85, 0.85, 0.85, 1)
+        noteText:SetText(string.format("|cffffd200Tank Strategy:|r %s", d.notes))
+        ApplyDropShadow(noteText)
         table.insert(child.elements, noteText)
         yOffset = yOffset - (noteText:GetStringHeight() + 8)
 
@@ -678,7 +734,9 @@ function FTG.UI:RenderDungeons(child, bracket)
 
                 local dropText = dropRow:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
                 dropText:SetPoint("LEFT", dropCheck, "RIGHT", 4, 0)
-                dropText:SetText(string.format("|cff00ffff%s|r (%s) - |cffffffff%s|r |cff888888[%s]|r", drop.name, drop.slot, drop.notes, drop.boss))
+                dropText:SetTextColor(0.9, 0.9, 0.9, 1)
+                dropText:SetText(string.format("|cff00ffff%s|r (%s) - %s |cffaaaaaa[%s]|r", drop.name, drop.slot, drop.notes, drop.boss))
+                ApplyDropShadow(dropText)
 
                 yOffset = yOffset - 24
             end
@@ -698,12 +756,15 @@ function FTG.UI:RenderMacros(child, profile)
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
     title:SetText(string.format("|cffffcc00Macro Vault (%s / %s / %s)|r", profile.className, profile.raceName, profile.profName))
+    ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
 
     local sub = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     sub:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    sub:SetTextColor(0.9, 0.9, 0.9, 1)
     sub:SetText("Select macro text to copy (Ctrl+C) or click 'Save to WoW' to write directly to your in-game macro book:")
+    ApplyDropShadow(sub)
     table.insert(child.elements, sub)
     yOffset = yOffset - 22
 
@@ -713,25 +774,29 @@ function FTG.UI:RenderMacros(child, profile)
         box:SetSize(width, 100)
         if box.SetBackdrop then
             box:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-            box:SetBackdropColor(0.06, 0.06, 0.08, 0.8)
-            box:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.6)
+            box:SetBackdropColor(0.06, 0.06, 0.08, 0.9)
+            box:SetBackdropBorderColor(0.5, 0.5, 0.6, 0.8)
         end
         table.insert(child.elements, box)
 
         local t = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         t:SetPoint("TOPLEFT", box, "TOPLEFT", 10, -8)
-        t:SetText(string.format("|cff00ff00%s|r", m.title))
+        t:SetText(string.format("|cff40ff40%s|r", m.title))
+        ApplyDropShadow(t)
 
-        local d = box:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+        local d = box:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
         d:SetPoint("TOPLEFT", box, "TOPLEFT", 10, -24)
         d:SetWidth(width - 150)
         d:SetJustifyH("LEFT")
+        d:SetTextColor(0.85, 0.85, 0.85, 1)
         d:SetText(m.desc)
+        ApplyDropShadow(d)
 
         local btn = CreateFrame("Button", nil, box, "UIPanelButtonTemplate")
         btn:SetSize(110, 22)
         btn:SetPoint("TOPRIGHT", box, "TOPRIGHT", -10, -8)
         btn:SetText("Save to WoW")
+        ApplyDropShadow(btn:GetFontString())
         btn:SetScript("OnClick", function()
             FTG:InstallMacro(m.title, m.code)
         end)
@@ -740,6 +805,7 @@ function FTG.UI:RenderMacros(child, profile)
         editBox:SetPoint("TOPLEFT", box, "TOPLEFT", 12, -44)
         editBox:SetPoint("BOTTOMRIGHT", box, "BOTTOMRIGHT", -12, 8)
         editBox:SetFontObject("GameFontHighlightSmall")
+        editBox:SetTextColor(0.95, 0.95, 0.95, 1)
         editBox:SetMultiLine(true)
         editBox:SetMaxLetters(255)
         editBox:SetAutoFocus(false)
@@ -747,8 +813,8 @@ function FTG.UI:RenderMacros(child, profile)
 
         if editBox.SetBackdrop then
             editBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-            editBox:SetBackdropColor(0.02, 0.02, 0.02, 0.9)
-            editBox:SetBackdropBorderColor(0.2, 0.2, 0.2, 0.8)
+            editBox:SetBackdropColor(0.02, 0.02, 0.02, 0.95)
+            editBox:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.9)
         end
 
         editBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
