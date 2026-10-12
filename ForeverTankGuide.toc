@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 16001
 ## Title: |cffc79c6eForeverTankGuide|r
 ## Notes: Dynamic Leveling, Dungeon Tanking, and Profession Progression Assistant for all Tanks, Races & Professions.
 ## Author: GuideBuilder
