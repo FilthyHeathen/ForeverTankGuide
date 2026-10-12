@@ -110,20 +110,24 @@ function FTG:CreateMinimapButton()
     btn:EnableMouse(true)
     btn:SetMovable(true)
 
-    local icon = btn:CreateTexture(nil, "BACKGROUND")
-    icon:SetSize(20, 20)
+    local icon = btn:CreateTexture(nil, "BORDER")
+    icon:ClearAllPoints()
     icon:SetPoint("CENTER", btn, "CENTER", 0, 0)
+    icon:SetSize(20, 20)
     icon:SetTexture("Interface\\Icons\\Spell_Holy_DevotionAura")
+    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
     btn.Icon = icon
 
     local border = btn:CreateTexture(nil, "OVERLAY")
-    border:SetSize(54, 54)
+    border:ClearAllPoints()
     border:SetPoint("CENTER", btn, "CENTER", 0, 0)
+    border:SetSize(34, 34)
     border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 
     local highlight = btn:CreateTexture(nil, "HIGHLIGHT")
-    highlight:SetSize(22, 22)
+    highlight:ClearAllPoints()
     highlight:SetPoint("CENTER", btn, "CENTER", 0, 0)
+    highlight:SetSize(32, 32)
     highlight:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
     highlight:SetBlendMode("ADD")
 
