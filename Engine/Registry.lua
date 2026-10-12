@@ -1,6 +1,6 @@
 --[[
     ForeverTankGuide - Engine/Registry.lua
-    Data Aggregation and Dynamic Module Registration API
+    Data Aggregation and Dynamic Module Registration API (All Roles & Specs Edition)
 ]]
 
 local ADDON_NAME, FTG = ...
@@ -46,10 +46,33 @@ function FTG:GetRegisteredClasses()
     return list
 end
 
+function FTG:GetRegisteredSpecsForClass(classToken)
+    classToken = string.upper(classToken or "PALADIN")
+    local classMod = self.Registry.Classes[classToken]
+    local list = {}
+    if classMod and classMod.specs then
+        for specKey, specData in pairs(classMod.specs) do
+            table.insert(list, {
+                token = specKey,
+                name = specData.specName or specKey,
+                role = specData.role or "DPS",
+                order = specData.order or 99
+            })
+        end
+        table.sort(list, function(a, b)
+            if a.order ~= b.order then return a.order < b.order end
+            return a.name < b.name
+        end)
+    end
+    return list
+end
+
 function FTG:GetRegisteredRaces()
     local list = {}
     for k, v in pairs(self.Registry.Races) do
-        table.insert(list, { token = k, name = v.name or k, faction = v.faction or "Neutral" })
+        if k ~= "SCOURGE" then -- prevent duplicate Scourge/Undead entry in dropdown
+            table.insert(list, { token = k, name = v.name or k, faction = v.faction or "Neutral" })
+        end
     end
     table.sort(list, function(a, b) return a.name < b.name end)
     return list
@@ -64,20 +87,49 @@ function FTG:GetRegisteredProfessions()
     return list
 end
 
--- Composite Profile Construction
-function FTG:GetCompositeProfile(overrideClass, overrideRace, overrideProf)
+-- Composite Profile Construction (Class + Spec + Race + Profession + Dungeons)
+function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, overrideProf)
     local classKey = string.upper(overrideClass or self:GetPlayerClass())
     local raceKey = string.upper(overrideRace or self:GetPlayerRace())
     local profKey = string.upper(overrideProf or self:GetPlayerProfession())
 
     local classMod = self.Registry.Classes[classKey] or self.Registry.Classes["PALADIN"] or {}
-    local raceMod = self.Registry.Races[raceKey] or self.Registry.Races["SCOURGE"] or self.Registry.Races["UNDEAD"] or {}
+    local raceMod = self.Registry.Races[raceKey] or self.Registry.Races["UNDEAD"] or {}
     local profMod = self.Registry.Professions[profKey] or self.Registry.Professions["ENGINEERING"] or {}
     local dungMod = self.Registry.Dungeons or {}
+
+    -- Resolve active spec
+    local specKey = overrideSpec and string.upper(overrideSpec) or self:GetPlayerSpec(classKey)
+    local specMod = nil
+    if classMod.specs then
+        specMod = classMod.specs[specKey]
+        if not specMod then
+            -- Fallback to default spec or first available spec
+            local defKey = classMod.defaultSpec
+            if defKey and classMod.specs[defKey] then
+                specKey = defKey
+                specMod = classMod.specs[defKey]
+            else
+                for k, v in pairs(classMod.specs) do
+                    specKey = k
+                    specMod = v
+                    break
+                end
+            end
+        end
+    end
+    specMod = specMod or {}
+
+    local role = specMod.role or "TANK"
+    local statPriority = specMod.statPriority or "Stamina > Primary Stat > Mitigation / Crit"
 
     local composite = {
         classKey = classKey,
         className = classMod.name or classKey,
+        specKey = specKey,
+        specName = specMod.specName or specKey,
+        role = role,
+        statPriority = statPriority,
         raceKey = raceKey,
         raceName = raceMod.name or raceKey,
         profKey = profKey,
@@ -88,18 +140,20 @@ function FTG:GetCompositeProfile(overrideClass, overrideRace, overrideProf)
 
     -- Aggregate 4 Brackets
     for b = 1, 4 do
-        local cBracket = (classMod.brackets and classMod.brackets[b]) or {}
+        local sBracket = (specMod.phaseGuidance and specMod.phaseGuidance[b])
+                      or (classMod.brackets and classMod.brackets[b])
+                      or {}
         local rBracket = (raceMod.brackets and raceMod.brackets[b]) or {}
         local pBracket = (profMod.brackets and profMod.brackets[b]) or {}
         local dBracket = (dungMod.brackets and dungMod.brackets[b]) or {}
 
-        -- Zones: combine class recommendations and race starting/priority zones
+        -- Zones: combine race starting/priority zones and spec/class recommendations
         local combinedZones = {}
         if rBracket.zones then
             for _, z in ipairs(rBracket.zones) do table.insert(combinedZones, z) end
         end
-        if cBracket.zones then
-            for _, z in ipairs(cBracket.zones) do table.insert(combinedZones, z) end
+        if sBracket.zones then
+            for _, z in ipairs(sBracket.zones) do table.insert(combinedZones, z) end
         end
         if #combinedZones == 0 and dBracket.zones then
             for _, z in ipairs(dBracket.zones) do table.insert(combinedZones, z) end
@@ -107,19 +161,21 @@ function FTG:GetCompositeProfile(overrideClass, overrideRace, overrideProf)
 
         -- Abilities
         local combinedAbilities = {}
-        if cBracket.abilities then
-            for _, ab in ipairs(cBracket.abilities) do table.insert(combinedAbilities, ab) end
-        end
         if rBracket.racials and b == 1 then
             for _, rac in ipairs(rBracket.racials) do
-                table.insert(combinedAbilities, 1, { level = 1, name = rac.name .. " (Racial)", desc = rac.desc })
+                table.insert(combinedAbilities, { level = 1, name = rac.name .. " (Racial)", desc = rac.desc })
             end
         end
+        if sBracket.abilities then
+            for _, ab in ipairs(sBracket.abilities) do table.insert(combinedAbilities, ab) end
+        end
 
-        -- Tank Rules
+        -- Tactical / Role Rules
         local combinedRules = {}
-        if cBracket.tankRules then
-            for _, rule in ipairs(cBracket.tankRules) do table.insert(combinedRules, rule) end
+        if sBracket.rules then
+            for _, rule in ipairs(sBracket.rules) do table.insert(combinedRules, rule) end
+        elseif sBracket.tankRules then
+            for _, rule in ipairs(sBracket.tankRules) do table.insert(combinedRules, rule) end
         end
         if rBracket.tankTips then
             for _, tip in ipairs(rBracket.tankTips) do table.insert(combinedRules, tip) end
@@ -138,10 +194,10 @@ function FTG:GetCompositeProfile(overrideClass, overrideRace, overrideProf)
 
         composite.Brackets[b] = {
             id = b,
-            name = cBracket.name or string.format("Phase %d", b),
-            minLevel = cBracket.minLevel or (b == 1 and 1 or (b == 2 and 20 or (b == 3 and 40 or 52))),
-            maxLevel = cBracket.maxLevel or (b == 1 and 20 or (b == 2 and 40 or (b == 3 and 52 or 60))),
-            summary = cBracket.summary or (raceMod.name .. " " .. classMod.name .. " progression."),
+            name = sBracket.name or (b == 1 and "Phase 1: Levels 1–20" or (b == 2 and "Phase 2: Levels 20–40" or (b == 3 and "Phase 3: Levels 40–52" or "Phase 4: Levels 52–60"))),
+            minLevel = sBracket.minLevel or (b == 1 and 1 or (b == 2 and 20 or (b == 3 and 40 or 52))),
+            maxLevel = sBracket.maxLevel or (b == 1 and 20 or (b == 2 and 40 or (b == 3 and 52 or 60))),
+            summary = sBracket.summary or string.format("%s %s (%s) progression and tactical milestones.", raceMod.name or raceKey, specMod.specName or "", classMod.name or classKey),
             zones = combinedZones,
             abilities = combinedAbilities,
             tankRules = combinedRules,
@@ -150,15 +206,49 @@ function FTG:GetCompositeProfile(overrideClass, overrideRace, overrideProf)
         }
     end
 
-    -- Aggregate Macros: Class Macros + Race Macros + Profession Utility Macros
-    if classMod.macros then
-        for _, m in ipairs(classMod.macros) do table.insert(composite.Macros, m) end
+    -- Aggregate Macros with Role/Category metadata
+    local defaultCategory = (role == "TANK" and "Defensive / Tank") or (role == "HEALER" and "Healing / Mouseover") or "Burst / DPS"
+
+    if specMod.macros then
+        for _, m in ipairs(specMod.macros) do
+            table.insert(composite.Macros, {
+                title = m.title,
+                desc = m.desc,
+                code = m.code,
+                category = m.category or defaultCategory
+            })
+        end
+    elseif classMod.macros then
+        for _, m in ipairs(classMod.macros) do
+            table.insert(composite.Macros, {
+                title = m.title,
+                desc = m.desc,
+                code = m.code,
+                category = m.category or defaultCategory
+            })
+        end
     end
+
     if raceMod.macros then
-        for _, m in ipairs(raceMod.macros) do table.insert(composite.Macros, m) end
+        for _, m in ipairs(raceMod.macros) do
+            table.insert(composite.Macros, {
+                title = m.title,
+                desc = m.desc,
+                code = m.code,
+                category = m.category or "Racial / Utility"
+            })
+        end
     end
+
     if profMod.macros then
-        for _, m in ipairs(profMod.macros) do table.insert(composite.Macros, m) end
+        for _, m in ipairs(profMod.macros) do
+            table.insert(composite.Macros, {
+                title = m.title,
+                desc = m.desc,
+                code = m.code,
+                category = m.category or "Profession / Utility"
+            })
+        end
     end
 
     return composite

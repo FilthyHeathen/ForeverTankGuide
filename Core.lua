@@ -13,6 +13,7 @@ local DEFAULT_CONFIG = {
     currentView = "overview",
     completedTasks = {},
     overrideClass = nil,
+    overrideSpec = nil,
     overrideRace = nil,
     overrideProf = nil
 }
@@ -174,8 +175,8 @@ function FTG:CreateMinimapButton()
     btn:SetScript("OnEnter", function(self)
         local prof = FTG:GetActiveProfile()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:AddLine("|cffffd200Forever Tank Guide|r", 1, 1, 1)
-        GameTooltip:AddLine(string.format("|cff00ff00%s %s Tank|r", prof.raceName, prof.className), 0.8, 0.8, 0.8)
+        GameTooltip:AddLine("|cffffd200Forever Guide|r", 1, 1, 1)
+        GameTooltip:AddLine(string.format("|cff40ff40[%s] %s %s|r", prof.role or "TANK", prof.raceName, prof.specName), 0.8, 0.8, 0.8)
         GameTooltip:AddLine("Left-Click: Toggle Guide Window", 0.9, 0.9, 0.9)
         GameTooltip:AddLine("Left-Click & Drag: Move Icon", 0.6, 0.6, 0.6)
         GameTooltip:Show()
@@ -212,7 +213,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 
             FTG:CreateMinimapButton()
             local prof = FTG:GetActiveProfile()
-            FTG:Print(string.format("Loaded v1.1.0 Modular Edition. Active: |cff00ff00%s %s (%s)|r. Type |cffffd200/ftg|r or click minimap icon.", prof.raceName, prof.className, prof.profName))
+            FTG:Print(string.format("Loaded v1.2.0 All-Role Edition. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/ftg|r or click minimap icon.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then

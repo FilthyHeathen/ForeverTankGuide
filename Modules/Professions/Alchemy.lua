@@ -1,6 +1,6 @@
 --[[
     ForeverTankGuide - Modules/Professions/Alchemy.lua
-    Alchemy Progression, Stoneshield Potions, Defense Elixirs, and Flasks
+    Alchemy Progression: Stoneshield Potions, Mana Potions, Mongoose, Greater Arcane Elixirs, and Flasks
 ]]
 
 local ADDON_NAME, FTG = ...
@@ -8,14 +8,14 @@ local ADDON_NAME, FTG = ...
 local AlchemyModule = {
     name = "Alchemy",
     token = "ALCHEMY",
-    description = "Consumable durability engine. Craft Greater Stoneshield Potions (+2000 Armor), Elixir of Superior Defense, Troll's Blood regeneration, and Flask of the Titans.",
+    description = "Universal consumable engine for Tanks, Healers, and DPS. Craft Greater Stoneshield (+2000 Armor), Major Mana Potions, Elixir of the Mongoose, Greater Arcane Elixir, and Raid Flasks.",
     brackets = {
         [1] = {
             range = "Skill 1–100",
             milestones = {
-                { skill = 1, name = "Minor Healing & Minor Armor Potion", mats = "Peacebloom, Silverleaf", notes = "+25 Armor for 1 hour." },
-                { skill = 50, name = "Weak Troll's Blood Potion", mats = "Peacebloom, Earthroot", notes = "Regenerates 2 HP every 5 seconds for 1 hour." },
-                { skill = 90, name = "Elixir of Wisdom & Lesser Armor", mats = "Mageroyal, Briarthorn", notes = "Stamina, armor, and intellect boost." }
+                { skill = 1, name = "Minor Healing & Minor Armor Potion", mats = "Peacebloom, Silverleaf", notes = "+50 Armor for 1 hour + instant emergency HP." },
+                { skill = 50, name = "Weak Troll's Blood & Elixir of Lion's Strength", mats = "Peacebloom, Earthroot", notes = "+4 Strength and passive HP regeneration." },
+                { skill = 90, name = "Elixir of Wisdom & Minor Mana Potion", mats = "Mageroyal, Briarthorn, Stranglekelp", notes = "+6 Intellect and early mana recovery for Healers/Casters." }
             },
             shoppingList = {
                 "Peacebloom x 30-40",
@@ -29,30 +29,31 @@ local AlchemyModule = {
         [2] = {
             range = "Skill 100–225",
             milestones = {
-                { skill = 130, name = "Lesser Stoneshield Potion", mats = "Mithril Ore / Stranglekelp", notes = "+1000 Armor for 90 seconds. Life-saver during boss enrages." },
-                { skill = 150, name = "Elixir of Defense", mats = "Wild Steelbloom, Stranglekelp", notes = "+150 Armor buff for 1 hour." },
-                { skill = 175, name = "Elixir of Fortitude", mats = "Wild Steelbloom, Goldthorn", notes = "+120 Max Health for 1 hour." },
-                { skill = 215, name = "Greater Stoneshield Potion (Recipe Drop)", mats = "Thorium Ore x2, Stranglekelp x1", notes = "HOLY GRAIL: +2000 Armor for 2 minutes! Slashes incoming physical damage in half!" }
+                { skill = 120, name = "Mana Potion & LesserMana Potion", mats = "Stranglekelp, Kingsblood", notes = "Essential mana sustain for dungeon Healers and Paladin tanks." },
+                { skill = 150, name = "Free Action Potion (FAP)", mats = "Blackmouth Oil x2, Stranglekelp x1", notes = "30 seconds of complete Stun and Movement Impairment immunity!" },
+                { skill = 175, name = "Elixir of Fortitude & Greater Mana Potion", mats = "Wild Steelbloom, Goldthorn, Khadgar's Whisker", notes = "+120 Max Health for 1 hour and 700-900 Mana restore." },
+                { skill = 195, name = "Elixir of Greater Agility & Arcane Elixir", mats = "Goldthorn, Blindweed", notes = "+25 Agility (Melee/Hunter) or +20 Spell Damage (Caster)." }
             },
             shoppingList = {
                 "Stranglekelp x 40-50",
                 "Wild Steelbloom x 30-40",
                 "Goldthorn x 30-40",
                 "Kingsblood x 30-40",
-                "Fadeleaf x 20-30"
+                "Khadgar's Whisker x 20-30"
             }
         },
 
         [3] = {
             range = "Skill 200–260",
             milestones = {
-                { skill = 235, name = "Elixir of Greater Intellect", mats = "Khada's Whiskers, Blindweed", notes = "Generates bigger mana pool for Paladin/Shaman tanking." },
-                { skill = 245, name = "Elixir of the Giants", mats = "Ghost Mushroom, Gromsblood", notes = "+25 Strength for 1 hour. Increases block value and AP." },
-                { skill = 250, name = "Elixir of Superior Defense", mats = "Stonescale Eel x2, Sungrass x1", notes = "+450 Armor for 1 hour." }
+                { skill = 205, name = "Limited Invulnerability Potion (LIP)", mats = "Blindweed x2, Ghost Mushroom x1", notes = "6 seconds of Physical Immunity! Saves DPS who pull aggro and Tanks on AoE pulls!" },
+                { skill = 245, name = "Elixir of the Giants & Superior Mana Potion", mats = "Sungrass, Blindweed, Gromsblood", notes = "+25 Strength (1 hr) and 900–1,500 Mana restore." },
+                { skill = 250, name = "Elixir of Superior Defense", mats = "Stonescale Oil x2, Sungrass x1", notes = "+450 Armor for 1 hour." }
             },
             shoppingList = {
                 "Stonescale Eel x 40-60",
-                "Sungrass x 30-40",
+                "Sungrass x 40-50",
+                "Blindweed x 40-50",
                 "Ghost Mushroom x 15-20",
                 "Gromsblood x 20-30"
             }
@@ -61,29 +62,38 @@ local AlchemyModule = {
         [4] = {
             range = "Skill 260–300",
             milestones = {
-                { skill = 280, name = "Major Healing Potion", mats = "Golden Sansam x2, Mountain Silversage x1", notes = "Instant 1050-1750 health recovery." },
-                { skill = 290, name = "Mageblood Potion", mats = "Dreamfoil x1, Plaguebloom x2", notes = "Regenerates 12 mana every 5 seconds for 1 hour. Mandatory for Paladin tanks." },
-                { skill = 300, name = "Flask of the Titans (Scholo Drop)", mats = "Gromsblood x30, Stonescale Eel x10, Black Lotus x1", notes = "Increases maximum health by 1,200 for 2 hours! Persists through death!" }
+                { skill = 275, name = "Transmute: Arcanite (48-Hour Cooldown!)", mats = "Thorium Bar x1, Arcane Crystal x1", notes = "Passive gold maker and essential for Lionheart Helm / Force Reactive Disk." },
+                { skill = 280, name = "Greater Stoneshield (+2000 Armor) & Elixir of the Mongoose", mats = "Thorium Ore / Mountain Silversage, Plaguebloom", notes = "Tank BIS (+2000 Armor) & Melee/Hunter BIS (+25 Agi, +2% Crit)!" },
+                { skill = 285, name = "Greater Arcane Elixir & Mageblood Potion", mats = "Dreamfoil, Mountain Silversage, Plaguebloom", notes = "Caster BIS (+35 Spell Power) & Healer BIS (+12 MP5)!" },
+                { skill = 295, name = "Major Mana Potion & Major Healing Potion", mats = "Dreamfoil x3, Icecap x2 / Golden Sansam", notes = "Restores 1,350 to 2,250 Mana! Mandatory for all Healers and Casters." },
+                { skill = 300, name = "Flasks (Titans / Distilled Wisdom / Supreme Power)", mats = "Black Lotus x1 + 30x Herbs (Scholo / BWL Alchemy Lab)", notes = "+1,200 HP (Tanks), +2,000 Mana (Healers), or +150 Spell Damage (Casters)!" }
             },
             shoppingList = {
-                "Golden Sansam x 40-60",
-                "Mountain Silversage x 30-40",
-                "Plaguebloom x 40-50",
-                "Dreamfoil x 30-40",
-                "Black Lotus x 1-2"
+                "Dreamfoil x 60-80",
+                "Mountain Silversage x 40-60",
+                "Plaguebloom x 40-60",
+                "Icecap x 40-50",
+                "Black Lotus x 1-3"
             },
             ahProfits = {
-                { item = "Greater Stoneshield Potions", notes = "Continuous top-seller for every progression raid night." },
-                { item = "Mageblood Potions", notes = "Healers and paladins consume dozens of these every week." },
-                { item = "Elixir of the Mongoose", notes = "All physical tanks and melee DPS buy these (+25 Agility, +2% Crit)." }
+                { item = "Elixir of the Mongoose & Greater Arcane Elixir", notes = "Every single melee, hunter, and caster DPS buys stacks of these every raid reset." },
+                { item = "Major Mana Potions & Mageblood Potions", notes = "Healers and Mages/Warlocks consume 10–20 Major Mana Potions per raid." },
+                { item = "Greater Stoneshield & Limited Invulnerability Potions (LIP)", notes = "High-margin tank and raid survival consumables." }
             }
         }
     },
     macros = {
         {
-            title = "Alchemy: Panic Stoneshield Potion",
+            category = "Defensive / Tank",
+            title = "Alchemy: Panic Greater Stoneshield",
             desc = "Drinks a Greater Stoneshield Potion immediately for +2000 emergency armor.",
             code = "#showtooltip Greater Stoneshield Potion\n/use Greater Stoneshield Potion"
+        },
+        {
+            category = "Healing / Mouseover",
+            title = "Alchemy: Emergency Major Mana Potion",
+            desc = "Drinks a Major Mana Potion immediately when running low on mana.",
+            code = "#showtooltip Major Mana Potion\n/use Major Mana Potion"
         }
     }
 }

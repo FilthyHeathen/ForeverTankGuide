@@ -1,6 +1,6 @@
 --[[
     ForeverTankGuide - Modules/Dungeons/Encounters.lua
-    Universal Dungeon Progression, Drop Tables, and Checklist Keys
+    Universal Dungeon Progression, Multi-Role Drop Tables ([Tank], [Heal], [DPS]), and Checklist Keys
 ]]
 
 local ADDON_NAME, FTG = ...
@@ -14,10 +14,11 @@ local EncountersModule = {
                     name = "Ragefire Chasm",
                     level = "13–16",
                     location = "Orgrimmar",
-                    notes = "Basic positioning test. Pull shamans away from packs with ranged explosives.",
+                    notes = "Basic positioning test. Pull shamans away from packs; interrupt Healing Wave.",
                     drops = {
-                        { id = "rfc_1", name = "Crystalline Cuffs", slot = "Wrists", boss = "Taragaman", notes = "Solid stamina/intellect boost." },
-                        { id = "rfc_2", name = "Subterranean Band", slot = "Finger", boss = "Maur Grimtotem", notes = "Early armor/stamina ring." }
+                        { id = "rfc_1", role = "HEAL", name = "Crystalline Cuffs", slot = "Wrists (Cloth)", boss = "Taragaman", notes = "Solid intellect/spirit boost for healers and casters." },
+                        { id = "rfc_2", role = "TANK", name = "Subterranean Cape", slot = "Back", boss = "Taragaman", notes = "Early armor and stamina cloak." },
+                        { id = "rfc_3", role = "DPS", name = "Chanting Blade", slot = "Dagger", boss = "Bazzalan", notes = "Fast early melee weapon." }
                     }
                 },
                 {
@@ -25,11 +26,13 @@ local EncountersModule = {
                     name = "Wailing Caverns",
                     level = "18–22",
                     location = "The Barrens",
-                    notes = "Watch for sleep effects. Keep mobs bundled away from slumbered healers.",
+                    notes = "Watch for Druid of the Fang sleep casts. Keep mobs bundled and interrupt Naralex's Nightmare.",
                     drops = {
-                        { id = "wc_1", name = "Mutant Breastplate", slot = "Chest (Mail)", boss = "Kresh", notes = "Top tier early tank armor." },
-                        { id = "wc_2", name = "Crescent Staff / Kresh's Back", slot = "Shield / Weapon", boss = "Kresh", notes = "Kresh's Back is an outstanding +stamina shield." },
-                        { id = "wc_3", name = "Leggings of the Fang", slot = "Legs (Leather/Mail)", boss = "Lord Cobrahn", notes = "Excellent agility/strength stats." }
+                        { id = "wc_1", role = "TANK", name = "Mutant Breastplate", slot = "Chest (Mail)", boss = "Mutanus", notes = "Top tier early tank armor and stamina." },
+                        { id = "wc_2", role = "TANK", name = "Kresh's Back", slot = "Shield", boss = "Kresh", notes = "Outstanding high-armor early shield." },
+                        { id = "wc_3", role = "ALL", name = "Crescent Staff", slot = "Staff (Quest)", boss = "Leaders of the Fang", notes = "Massive weapon damage & stats for Druids, Warriors, Shamans, Priests, Mages!" },
+                        { id = "wc_4", role = "DPS", name = "Leggings of the Fang", slot = "Legs (Leather)", boss = "Lord Cobrahn", notes = "Best agility/strength leather pants in Phase 1." },
+                        { id = "wc_5", role = "HEAL", name = "Robe of the Moccasin", slot = "Chest (Cloth)", boss = "Lord Pythas", notes = "High Spirit/Intellect healer robe." }
                     }
                 },
                 {
@@ -37,10 +40,12 @@ local EncountersModule = {
                     name = "The Deadmines",
                     level = "17–21",
                     location = "Westfall",
-                    notes = "Defias cannon door and boat event. Watch patrolling stealthed Defias shadows.",
+                    notes = "Watch patrolling stealthed Defias cutthroats behind your party after clearing each room.",
                     drops = {
-                        { id = "dm_1", name = "Commander's Crest / Smite's Mighty Hammer", slot = "Weapon", boss = "Mr. Smite", notes = "High physical damage hammer." },
-                        { id = "dm_2", name = "Cookie's Meat Mallet", slot = "One-Hand Mace", boss = "Cookie", notes = "Fast tanking swing speed." }
+                        { id = "dm_1", role = "DPS", name = "Smite's Mighty Hammer", slot = "Two-Hand Mace", boss = "Mr. Smite", notes = "Incredible slow 2H mace for Ret Paladins, Warriors, Feral Druids." },
+                        { id = "dm_2", role = "DPS", name = "Cruel Barb", slot = "One-Hand Sword", boss = "Edwin VanCleef", notes = "+12 Attack Power sword for Rogues, Warriors, Hunters." },
+                        { id = "dm_3", role = "HEAL", name = "Emberstone Staff", slot = "Staff", boss = "Captain Greenskin", notes = "Huge Intellect/Spirit staff for Healers and Casters." },
+                        { id = "dm_4", role = "TANK", name = "Cape of the Brotherhood", slot = "Back", boss = "Edwin VanCleef", notes = "Agility and Stamina cloak." }
                     }
                 }
             }
@@ -53,10 +58,11 @@ local EncountersModule = {
                     name = "Shadowfang Keep",
                     level = "22–26",
                     location = "Silverpine Forest",
-                    notes = "Watch for mind control and silence. Cleanse curses and magic rapidly.",
+                    notes = "Watch for Arugal Mind Control and Veil of Shadow (-75% healing reduction curse!).",
                     drops = {
-                        { id = "sfk_1", name = "Commander's Crest", slot = "Shield", boss = "Commander Springvale", notes = "Iconic tank shield with block & stamina." },
-                        { id = "sfk_2", name = "Silverlaine's Family Seal", slot = "Finger", boss = "Baron Silverlaine", notes = "Great stats for hybrid mana pools." }
+                        { id = "sfk_1", role = "TANK", name = "Commander's Crest", slot = "Shield", boss = "Commander Springvale", notes = "Iconic tank/healer shield with block, stamina & spirit." },
+                        { id = "sfk_2", role = "HEAL", name = "Feline Mantle & Robes of Arugal", slot = "Shoulders / Chest", boss = "Wolf Master Nandos / Arugal", notes = "Best-in-bracket Intellect/Spirit cloth until level 35!" },
+                        { id = "sfk_3", role = "DPS", name = "Meteor Shard", slot = "Dagger", boss = "Archmage Arugal", notes = "High DPS fire-proc dagger." }
                     }
                 },
                 {
@@ -64,10 +70,11 @@ local EncountersModule = {
                     name = "Razorfen Kraul",
                     level = "29–34",
                     location = "Southern Barrens",
-                    notes = "Quilboar geometry. Pull casters back behind pillars before dropping AoE threat.",
+                    notes = "Pull quilboar casters back behind corners; destroy Earthgrab and Healing totems immediately.",
                     drops = {
-                        { id = "rfk_1", name = "Heart of Agamaggan", slot = "Shield", boss = "Charlga Razorflank", notes = "Solid armor and stamina." },
-                        { id = "rfk_2", name = "Swine Fists", slot = "Hands (Mail)", boss = "Charlga Razorflank", notes = "High strength piece." }
+                        { id = "rfk_1", role = "TANK", name = "Heart of Agamaggan", slot = "Shield", boss = "Charlga Razorflank", notes = "High armor, stamina, and spirit shield." },
+                        { id = "rfk_2", role = "DPS", name = "Corpsemaker", slot = "Two-Hand Axe", boss = "Overlord Ramtusk", notes = "Massive 3.80 speed 2H Axe for Warriors, Enhancement Shamans, Ret Paladins." },
+                        { id = "rfk_3", role = "DPS", name = "Swine Fists", slot = "Hands (Mail)", boss = "Charlga Razorflank", notes = "High strength gauntlets." }
                     }
                 },
                 {
@@ -75,11 +82,12 @@ local EncountersModule = {
                     name = "Scarlet Monastery (GY / Lib / Arm / Cath)",
                     level = "32–42",
                     location = "Tirisfal Glades",
-                    notes = "Peak tank proving grounds. Heavy undead in Graveyard; humanoid runners in Arms/Cath.",
+                    notes = "Clear surrounding rooms before engaging Mograine; stun fleeing Scarlet humanoids at 15% HP.",
                     drops = {
-                        { id = "sm_1", name = "Herod's Shoulder", slot = "Shoulder (Mail)", boss = "Herod (Armory)", notes = "Massive stats for 37-40 leveling." },
-                        { id = "sm_2", name = "Aegis of the Scarlet Commander", slot = "Shield", boss = "Mograine (Cathedral)", notes = "Pre-raid tier block rating and defense." },
-                        { id = "sm_3", name = "Scarlet Leggings / Boots", slot = "Mail Set", boss = "Multiple Bosses", notes = "Incredible mail armor set bonus." }
+                        { id = "sm_1", role = "TANK", name = "Aegis of the Scarlet Commander", slot = "Shield", boss = "Mograine (Cathedral)", notes = "Premier tanking shield with high armor and block." },
+                        { id = "sm_2", role = "DPS", name = "Ravager & Herod's Shoulder", slot = "2H Axe / Shoulder", boss = "Herod (Armory)", notes = "Iconic AoE bladestorm axe and mail shoulders." },
+                        { id = "sm_3", role = "HEAL", name = "Whitemane's Chapeau & Triune Amulet", slot = "Head / Neck", boss = "High Inquisitor Whitemane", notes = "Massive Intellect/Spirit headpiece and neck for Healers/Casters." },
+                        { id = "sm_4", role = "DPS", name = "Hypnotic Blade & Illusionary Rod", slot = "Dagger / Staff", boss = "Arcanist Doan (Library)", notes = "Top spell damage weapons." }
                     }
                 }
             }
@@ -92,11 +100,11 @@ local EncountersModule = {
                     name = "Zul'Farrak",
                     level = "43–47",
                     location = "Tanaris",
-                    notes = "The iconic Pyramid stairs event. AoE threat + explosives shines here.",
+                    notes = "Kill Witch Doctor Zum'rah totems immediately; use AoE control on the Pyramid stairs event.",
                     drops = {
-                        { id = "zf_1", name = "The Rockpounder", slot = "Two-Hand Mace", boss = "Chief Ukorz Sandscalp", notes = "Solid stat weapon." },
-                        { id = "zf_2", name = "Bad Mojo Mask", slot = "Head", boss = "Witch Doctor Zum'rah", notes = "Decent stats/spirit." },
-                        { id = "zf_3", name = "Jinxed Hoodoo Skin", slot = "Chest (Mail/Plate)", boss = "Shadowpriest Sezz'ziz", notes = "High defensive stats." }
+                        { id = "zf_1", role = "DPS", name = "Sang'thraze / Jang'thraze (Sul'thraze)", slot = "Swords", boss = "Antu'sul / Chief Ukorz", notes = "High DPS swords." },
+                        { id = "zf_2", role = "HEAL", name = "Bad Mojo Mask & Jinxed Hoodoo Kilt", slot = "Head / Legs", boss = "Zum'rah / Sezz'ziz", notes = "Intellect and Spell/Healing power." },
+                        { id = "zf_3", role = "TANK", name = "Jinxed Hoodoo Skin", slot = "Chest (Leather)", boss = "Shadowpriest Sezz'ziz", notes = "Stamina and agility chest." }
                     }
                 },
                 {
@@ -104,11 +112,12 @@ local EncountersModule = {
                     name = "Maraudon",
                     level = "46–52",
                     location = "Desolace",
-                    notes = "Princess Theradras & Rotgrip. High poison and physical damage encounters.",
+                    notes = "Princess Theradras drops an AoE fear + dust field; ranged DPS and Healers must stand at max 30yd range.",
                     drops = {
-                        { id = "mara_1", name = "Mark of the Chosen", slot = "Trinket", boss = "Centaur Quest / Maraudon", notes = "MUST-HAVE: 2% chance when hit to gain +25 to all stats for 1 min. Incredible for tanks." },
-                        { id = "mara_2", name = "Gatorbite Axe", slot = "One-Hand Axe", boss = "Rotgrip", notes = "Fast weapon speed for steady proc generation." },
-                        { id = "mara_3", name = "Blackstone Ring", slot = "Finger", boss = "Princess Theradras", notes = "1% Hit + +20 AP." }
+                        { id = "mara_1", role = "TANK", name = "Mark of the Chosen", slot = "Trinket (Quest)", boss = "Pariah's Instructions", notes = "MUST-HAVE TANK TRINKET: 2% chance when hit to gain +25 to ALL stats for 1 min!" },
+                        { id = "mara_2", role = "DPS", name = "Blackstone Ring", slot = "Finger", boss = "Princess Theradras", notes = "PRE-RAID BIS: +20 Attack Power and +1% Melee/Ranged Hit!" },
+                        { id = "mara_3", role = "DPS", name = "Thrash Blade", slot = "One-Hand Sword (Quest)", boss = "Corruption of Earth and Seed", notes = "Extra-attack proc sword for Warriors, Rogues, Hunters!" },
+                        { id = "mara_4", role = "HEAL", name = "Charstone Dirk", slot = "Dagger", boss = "Princess Theradras", notes = "Intellect and MP5 caster/healer dagger." }
                     }
                 }
             }
@@ -118,14 +127,14 @@ local EncountersModule = {
             dungeons = {
                 {
                     key = "brd",
-                    name = "Blackrock Depths",
+                    name = "Blackrock Depths (BRD)",
                     level = "52–58",
                     location = "Blackrock Mountain",
-                    notes = "Massive sprawling complex. Key tank items from Emperor and General Angerforge.",
+                    notes = "Arena, Angerforge, Golem Lord, and Emperor runs provide foundational Pre-Raid BIS for all 3 roles.",
                     drops = {
-                        { id = "brd_1", name = "Force of Will", slot = "Trinket", boss = "General Angerforge", notes = "Top pre-raid defensive trinket (extra armor on proc + defense)." },
-                        { id = "brd_2", name = "Naglering", slot = "Finger", boss = "Golem Lord Argelmach", notes = "Reflects 3 Arcane damage on hit, triggers additional threat interactions." },
-                        { id = "brd_3", name = "Ironfoe", slot = "One-Hand Mace", boss = "Emperor Thaurissan", notes = "Legendary multi-attack weapon for high proc generation." }
+                        { id = "brd_1", role = "TANK", name = "Force of Will & Naglering", slot = "Trinket / Finger", boss = "Angerforge / Golem Lord", notes = "Top pre-raid defensive proc trinket and thorny threat ring." },
+                        { id = "brd_2", role = "DPS", name = "Hand of Justice & Savage Gladiator Chain", slot = "Trinket / Chest", boss = "Emperor / Arena", notes = "FOREVER BIS melee proc trinket (+20 AP, 2% extra swing) and +2% Crit chest!" },
+                        { id = "brd_3", role = "HEAL", name = "Second Wind & Ban'thok Sash", slot = "Trinket / Waist", boss = "Golem Lord / Arena", notes = "+22 Healing + 300 Mana restore trinket (Healers) and +1% Spell Hit belt (Casters)!" }
                     }
                 },
                 {
@@ -133,11 +142,11 @@ local EncountersModule = {
                     name = "Stratholme (Live & Undead)",
                     level = "58–60",
                     location = "Eastern Plaguelands",
-                    notes = "Undead side has dense ghoul and skeleton packs. Holy damage and AoE interrupts shine.",
+                    notes = "Line-of-Sight (LOS) pull caster gargoyles and skeleton mages around gate corners.",
                     drops = {
-                        { id = "strat_1", name = "Skullplate Shield", slot = "Shield", boss = "Malor the Zealous", notes = "High armor, high block value." },
-                        { id = "strat_2", name = "Medallion of the Grand Crusader", slot = "Trinket", boss = "Balnazzar", notes = "Great hybrid mana/defense." },
-                        { id = "strat_3", name = "Deathbone Set (5pc)", slot = "Plate Set", boss = "Multiple Undead Bosses", notes = "Premier pre-raid Protection tank set (+Defense and +MP5)." }
+                        { id = "strat_1", role = "TANK", name = "Deathbone Set & Skullplate Shield", slot = "Plate / Shield", boss = "Undead Bosses / Malor", notes = "High Defense and MP5 plate tank set." },
+                        { id = "strat_2", role = "HEAL", name = "Robes of the Exalted & Tooth of Gnarr", slot = "Chest / Neck", boss = "Baron Rivendare / Balnazzar", notes = "+68 Healing chest—Pre-Raid BIS for Priests, Druids, Shamans, Paladins!" },
+                        { id = "strat_3", role = "DPS", name = "Mask of the Unforgiven & Carapace Spine Crossbow", slot = "Head / Ranged", boss = "The Unforgiven / Nerub'enkan", notes = "+2% Hit/+1% Crit helm (Melee) and Pre-Raid BIS Crossbow (Hunters)!" }
                     }
                 },
                 {
@@ -145,10 +154,11 @@ local EncountersModule = {
                     name = "Scholomance",
                     level = "58–60",
                     location = "Western Plaguelands",
-                    notes = "Cultist caster packs require LOS (Line of Sight) pulls behind doorways.",
+                    notes = "Silence and LOS pull Necromancers; keep tanks topped before Rattlegore thrash strikes.",
                     drops = {
-                        { id = "scholo_1", name = "Deathbone Legguards / Chest", slot = "Plate Set", boss = "Doctor Theolen Krastinov / Bosses", notes = "Essential defense set pieces." },
-                        { id = "scholo_2", name = "Bonechill Hammer", slot = "One-Hand Mace", boss = "Ras Frostwhisper", notes = "High stamina cold proc mace." }
+                        { id = "scholo_1", role = "TANK", name = "Deathbone Legguards & Bonechill Hammer", slot = "Plate / Mace", boss = "Krastinov / Ras Frostwhisper", notes = "Core pre-raid Defense pieces." },
+                        { id = "scholo_2", role = "DPS", name = "Mirah's Song & Star of Mystaria", slot = "Sword / Neck", boss = "Kirtonos Quest / Balnazzar", notes = "Pre-Raid BIS off-hand sword (Melee) and +1% Spell Hit neck (Casters)." },
+                        { id = "scholo_3", role = "HEAL", name = "Animated Chain Necklace", slot = "Neck", boss = "Rammers", notes = "+33 Healing neck." }
                     }
                 },
                 {
@@ -156,10 +166,12 @@ local EncountersModule = {
                     name = "Upper Blackrock Spire (UBRS)",
                     level = "58–60",
                     location = "Blackrock Mountain",
-                    notes = "10-man raid dungeon. Rend Blackhand and General Drakkisath.",
+                    notes = "10-man raid dungeon. Jed Runewatcher (rare spawn!), Rend Blackhand, and General Drakkisath.",
                     drops = {
-                        { id = "ubrs_1", name = "Draconian Deflector", slot = "Shield", boss = "General Drakkisath", notes = "Best pre-raid mitigation shield in vanilla (+15 Defense, high block)." },
-                        { id = "ubrs_2", name = "Blackstone Ring", slot = "Finger", boss = "Maraudon / UBRS drops", notes = "Key threat stat piece." }
+                        { id = "ubrs_1", role = "TANK", name = "Draconian Deflector", slot = "Shield", boss = "General Drakkisath", notes = "Best pre-raid mitigation shield in vanilla (+10 Defense, +7 Stamina, Fire Resist)." },
+                        { id = "ubrs_2", role = "DPS", name = "Blackhand's Breadth & Dal'Rend's Sacred Charge", slot = "Trinket / Swords", boss = "Drakkisath Quest / Rend", notes = "+2% Crit trinket (ALL Melee/Hunters) and iconic dual-wield sword set!" },
+                        { id = "ubrs_3", role = "HEAL", name = "Briarwood Reed & Tooth of Gnarr", slot = "Trinket / Neck", boss = "Jed Runewatcher / Drakkisath", notes = "+29 Spell Damage & Healing trinket (Pre-Raid BIS for ALL Casters & Healers)!" },
+                        { id = "ubrs_4", role = "DPS", name = "Truestrike Shoulders", slot = "Shoulders (Leather)", boss = "Pyroguard Emberseer", notes = "+2% Hit and +24 AP shoulders for Warriors, Rogues, Hunters, Ferals, Ret!" }
                     }
                 }
             }

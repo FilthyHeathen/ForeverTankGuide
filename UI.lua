@@ -1,6 +1,6 @@
 --[[
     ForeverTankGuide - UI.lua
-    Dynamic Rendering Engine, Dropdowns, Checklists, and Macro Installer
+    Dynamic Rendering Engine: All Roles (Tank/Healer/DPS), Specs, Dropdowns, Checklists & Categorized Macro Vault
 ]]
 
 local ADDON_NAME, FTG = ...
@@ -8,15 +8,6 @@ local ADDON_NAME, FTG = ...
 FTG.UI = {}
 
 local BACKDROP_TEMPLATE = (BackdropTemplateMixin and "BackdropTemplate") or nil
-
-local BACKDROP_DIALOG_DARK = {
-    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
-    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-    tile = true,
-    tileSize = 32,
-    edgeSize = 24,
-    insets = { left = 6, right = 6, top = 6, bottom = 6 }
-}
 
 local BACKDROP_TOOLTIP_STYLE = {
     bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -45,11 +36,25 @@ local function ApplyDropShadow(fs)
     return fs
 end
 
+-- Role Badge Formatter
+local function FormatRoleBadge(role)
+    role = string.upper(role or "TANK")
+    if role == "TANK" then
+        return "|cff33aaff[TANK]|r"
+    elseif role == "HEALER" or role == "HEAL" then
+        return "|cff33ff66[HEAL]|r"
+    elseif role == "DPS" then
+        return "|cffff5555[DPS]|r"
+    else
+        return "|cffffd200[ALL]|r"
+    end
+end
+
 function FTG.UI:CreateMainFrame()
     if self.MainFrame then return self.MainFrame end
 
-    local f = CreateFrame("Frame", "FTG_MainFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
-    f:SetSize(820, 560)
+    local f = CreateFrame("Frame", "FTG_MainFrame", UIParent, BACKDROP_TEMPLATE)
+    f:SetSize(840, 560)
     f:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
     f:SetMovable(true)
     f:EnableMouse(true)
@@ -102,11 +107,11 @@ function FTG.UI:CreateMainFrame()
     -- Title Text
     local titleText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     titleText:SetPoint("LEFT", titleIcon, "RIGHT", 10, 0)
-    titleText:SetText("|cffffd200Forever Tank Guide|r |cff40ff40[Modular Registry Edition]|r")
+    titleText:SetText("|cffffd200Forever Guide|r |cff40ff40[All-Role & Spec Edition]|r")
     ApplyDropShadow(titleText)
     f.TitleText = titleText
 
-    -- Player Level / Active status subtitle
+    -- Player Level / Role Badge / Active status subtitle
     local levelText = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     levelText:SetPoint("RIGHT", titleBg, "RIGHT", -36, 0)
     levelText:SetTextColor(0.9, 0.9, 0.9, 1)
@@ -118,7 +123,7 @@ function FTG.UI:CreateMainFrame()
     closeBtn:SetPoint("TOPRIGHT", f, "TOPRIGHT", -4, -4)
     closeBtn:SetScript("OnClick", function() f:Hide() end)
 
-    -- Top Profile Selection Bar (Class, Race, Profession, and Auto-Detect Reset)
+    -- Top Profile Selection Bar (Class | Spec | Race | Profession | Detect Player)
     self:CreateProfileBar(f)
 
     -- Tab Bar (Top buttons: Bracket 1, Bracket 2, Bracket 3, Bracket 4)
@@ -135,9 +140,9 @@ function FTG.UI:CreateMainFrame()
     return f
 end
 
--- Profile Bar with Interactive Selectors
+-- Profile Bar with Interactive Selectors (Class, Spec, Race, Profession, Detect Player)
 function FTG.UI:CreateProfileBar(parent)
-    local bar = CreateFrame("Frame", nil, parent)
+    local bar = CreateFrame("Frame", nil, parent, BACKDROP_TEMPLATE)
     bar:SetPoint("TOPLEFT", parent, "TOPLEFT", 14, -48)
     bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -14, -48)
     bar:SetHeight(30)
@@ -153,30 +158,44 @@ function FTG.UI:CreateProfileBar(parent)
     label:SetText("|cffffcc00Profile:|r")
     ApplyDropShadow(label)
 
-    -- Class Selector Button
+    -- 1. Class Selector Button
     local classBtn = CreateFrame("Button", "FTG_ClassDropdownBtn", bar, "UIPanelButtonTemplate")
-    classBtn:SetSize(140, 20)
-    classBtn:SetPoint("LEFT", label, "RIGHT", 8, 0)
+    classBtn:SetSize(110, 20)
+    classBtn:SetPoint("LEFT", label, "RIGHT", 6, 0)
     classBtn:SetText("Class")
     ApplyDropShadow(classBtn:GetFontString())
 
-    -- Race Selector Button
+    -- 2. Spec Selector Button
+    local specBtn = CreateFrame("Button", "FTG_SpecDropdownBtn", bar, "UIPanelButtonTemplate")
+    specBtn:SetSize(175, 20)
+    specBtn:SetPoint("LEFT", classBtn, "RIGHT", 6, 0)
+    specBtn:SetText("Specialization")
+    ApplyDropShadow(specBtn:GetFontString())
+
+    -- 3. Race Selector Button
     local raceBtn = CreateFrame("Button", "FTG_RaceDropdownBtn", bar, "UIPanelButtonTemplate")
-    raceBtn:SetSize(130, 20)
-    raceBtn:SetPoint("LEFT", classBtn, "RIGHT", 6, 0)
+    raceBtn:SetSize(120, 20)
+    raceBtn:SetPoint("LEFT", specBtn, "RIGHT", 6, 0)
     raceBtn:SetText("Race")
     ApplyDropShadow(raceBtn:GetFontString())
 
-    -- Profession Selector Button
+    -- 4. Profession Selector Button
     local profBtn = CreateFrame("Button", "FTG_ProfDropdownBtn", bar, "UIPanelButtonTemplate")
-    profBtn:SetSize(140, 20)
+    profBtn:SetSize(125, 20)
     profBtn:SetPoint("LEFT", raceBtn, "RIGHT", 6, 0)
     profBtn:SetText("Profession")
     ApplyDropShadow(profBtn:GetFontString())
 
-    -- Auto-Detect / Reset Button
+    -- 5. Active Role Badge Indicator
+    local roleBadge = bar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    roleBadge:SetPoint("LEFT", profBtn, "RIGHT", 10, 0)
+    roleBadge:SetText("|cff33aaff[TANK]|r")
+    ApplyDropShadow(roleBadge)
+    parent.RoleBadgeText = roleBadge
+
+    -- 6. Auto-Detect / Reset Button
     local resetBtn = CreateFrame("Button", nil, bar, "UIPanelButtonTemplate")
-    resetBtn:SetSize(110, 20)
+    resetBtn:SetSize(105, 20)
     resetBtn:SetPoint("RIGHT", bar, "RIGHT", -6, 0)
     resetBtn:SetText("Detect Player")
     ApplyDropShadow(resetBtn:GetFontString())
@@ -196,6 +215,7 @@ function FTG.UI:CreateProfileBar(parent)
             info.value = c.token
             info.func = function()
                 FTG_CharDB.overrideClass = c.token
+                FTG_CharDB.overrideSpec = nil -- Reset spec to class default on class change
                 FTG.UI:UpdateView()
             end
             UIDropDownMenu_AddButton(info, level)
@@ -203,6 +223,25 @@ function FTG.UI:CreateProfileBar(parent)
     end)
     classBtn:SetScript("OnClick", function()
         ToggleDropDownMenu(1, nil, classDrop, classBtn, 0, 0)
+    end)
+
+    local specDrop = CreateFrame("Frame", "FTG_SpecDropDown", bar, "UIDropDownMenuTemplate")
+    UIDropDownMenu_Initialize(specDrop, function(self, level)
+        local activeClass = (FTG_CharDB and FTG_CharDB.overrideClass) or FTG:GetPlayerClass()
+        local specs = FTG:GetRegisteredSpecsForClass(activeClass)
+        for _, s in ipairs(specs) do
+            local info = UIDropDownMenu_CreateInfo()
+            info.text = string.format("%s %s", FormatRoleBadge(s.role), s.name)
+            info.value = s.token
+            info.func = function()
+                FTG_CharDB.overrideSpec = s.token
+                FTG.UI:UpdateView()
+            end
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end)
+    specBtn:SetScript("OnClick", function()
+        ToggleDropDownMenu(1, nil, specDrop, specBtn, 0, 0)
     end)
 
     local raceDrop = CreateFrame("Frame", "FTG_RaceDropDown", bar, "UIDropDownMenuTemplate")
@@ -243,8 +282,9 @@ function FTG.UI:CreateProfileBar(parent)
     end)
 
     parent.ClassDropdownBtn = classBtn
-    parent.RaceDropdownBtn = raceBtn
-    parent.ProfDropdownBtn = profBtn
+    parent.SpecDropdownBtn  = specBtn
+    parent.RaceDropdownBtn  = raceBtn
+    parent.ProfDropdownBtn  = profBtn
     parent.ProfileBar = bar
 end
 
@@ -266,7 +306,7 @@ function FTG.UI:CreateTopBar(parent)
     local prevBtn = nil
     for idx, t in ipairs(tabs) do
         local btn = CreateFrame("Button", nil, bar, "UIPanelButtonTemplate")
-        btn:SetSize(135, 24)
+        btn:SetSize(140, 24)
         if prevBtn then
             btn:SetPoint("LEFT", prevBtn, "RIGHT", 8, 0)
         else
@@ -287,7 +327,7 @@ function FTG.UI:CreateTopBar(parent)
 end
 
 function FTG.UI:CreateSideMenu(parent)
-    local menu = CreateFrame("Frame", nil, parent)
+    local menu = CreateFrame("Frame", nil, parent, BACKDROP_TEMPLATE)
     menu:SetPoint("TOPLEFT", parent, "TOPLEFT", 12, -82)
     menu:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 12, 12)
     menu:SetWidth(160)
@@ -329,10 +369,10 @@ function FTG.UI:CreateSideMenu(parent)
     end
 
     -- Bottom status widget
-    local statusBox = CreateFrame("Frame", nil, menu)
+    local statusBox = CreateFrame("Frame", nil, menu, BACKDROP_TEMPLATE)
     statusBox:SetPoint("BOTTOMLEFT", menu, "BOTTOMLEFT", 6, 6)
     statusBox:SetPoint("BOTTOMRIGHT", menu, "BOTTOMRIGHT", -6, 6)
-    statusBox:SetHeight(85)
+    statusBox:SetHeight(95)
     if statusBox.SetBackdrop then
         statusBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
         statusBox:SetBackdropColor(0.02, 0.02, 0.02, 0.85)
@@ -343,7 +383,7 @@ function FTG.UI:CreateSideMenu(parent)
     statusText:SetPoint("BOTTOMRIGHT", statusBox, "BOTTOMRIGHT", -6, 6)
     statusText:SetJustifyH("LEFT")
     statusText:SetJustifyV("TOP")
-    statusText:SetText("|cffffcc00Modular Engine:|r\nActive\n|cffccccccUse profile bar above to preview other classes/races.|r")
+    statusText:SetText("|cffffcc00All-Role Engine:|r\nTank / Heal / DPS\n|cffccccccSelect Class, Spec, Race, or Profession above.|r")
     ApplyDropShadow(statusText)
     parent.StatusBoxText = statusText
 
@@ -351,7 +391,7 @@ function FTG.UI:CreateSideMenu(parent)
 end
 
 function FTG.UI:CreateContentArea(parent)
-    local content = CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate" or nil)
+    local content = CreateFrame("Frame", nil, parent, BACKDROP_TEMPLATE)
     content:SetPoint("TOPLEFT", parent, "TOPLEFT", 180, -116)
     content:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -14, 14)
 
@@ -377,10 +417,10 @@ function FTG.UI:CreateContentArea(parent)
     scrollFrame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT", -26, 8)
 
     local scrollChild = CreateFrame("Frame", "FTG_ContentScrollChild", scrollFrame)
-    scrollChild:SetSize(580, 600)
+    scrollChild:SetSize(600, 600)
     scrollFrame:SetScrollChild(scrollChild)
 
-    local slider = CreateFrame("Slider", "FTG_ContentSlider", content)
+    local slider = CreateFrame("Slider", "FTG_ContentSlider", content, BACKDROP_TEMPLATE)
     slider:SetPoint("TOPRIGHT", content, "TOPRIGHT", -8, -24)
     slider:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT", -8, 24)
     slider:SetWidth(14)
@@ -432,12 +472,14 @@ function FTG.UI:UpdateView()
 
     -- Update Dropdown Button Titles
     f.ClassDropdownBtn:SetText(profile.className)
+    f.SpecDropdownBtn:SetText(profile.specName)
     f.RaceDropdownBtn:SetText(profile.raceName)
     f.ProfDropdownBtn:SetText(profile.profName)
+    f.RoleBadgeText:SetText(FormatRoleBadge(profile.role))
 
-    -- Update Top Title / Level
+    -- Update Top Title / Level / Role Badge
     local playerLevel = UnitLevel("player") or 1
-    f.LevelText:SetText(string.format("Player Lvl: |cff40ff40%d|r | Active: |cffffd200%s %s|r", playerLevel, profile.raceName, profile.className))
+    f.LevelText:SetText(string.format("Lvl |cff40ff40%d|r | %s |cffffd200%s %s|r", playerLevel, FormatRoleBadge(profile.role), profile.raceName, profile.specName))
 
     -- Highlight Bracket Buttons
     for id, btn in pairs(f.BracketButtons) do
@@ -474,7 +516,7 @@ function FTG.UI:UpdateView()
     elseif currentView == "profession" then
         totalHeight = self:RenderProfession(child, bracketData, profile)
     elseif currentView == "dungeons" then
-        totalHeight = self:RenderDungeons(child, bracketData)
+        totalHeight = self:RenderDungeons(child, bracketData, profile)
     elseif currentView == "macros" then
         totalHeight = self:RenderMacros(child, profile)
     end
@@ -491,13 +533,25 @@ function FTG.UI:RenderOverview(child, bracket, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
 
-    -- Section Title
+    -- Section Title with Role Badge
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
-    title:SetText(string.format("|cffffcc00%s|r - |cffffffff%s %s|r", bracket.name or "Phase", profile.raceName, profile.className))
+    title:SetText(string.format("%s |cffffcc00%s|r - |cffffffff%s %s|r", FormatRoleBadge(profile.role), bracket.name or "Phase", profile.raceName, profile.specName))
     ApplyDropShadow(title)
     table.insert(child.elements, title)
-    yOffset = yOffset - 24
+    yOffset = yOffset - 22
+
+    -- Stat Priority Banner
+    if profile.statPriority then
+        local statLine = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        statLine:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        statLine:SetWidth(width)
+        statLine:SetJustifyH("LEFT")
+        statLine:SetText(string.format("|cffffd200Stat Priority:|r |cff40ff40%s|r", profile.statPriority))
+        ApplyDropShadow(statLine)
+        table.insert(child.elements, statLine)
+        yOffset = yOffset - (statLine:GetStringHeight() + 8)
+    end
 
     -- Summary
     if bracket.summary then
@@ -541,7 +595,7 @@ function FTG.UI:RenderOverview(child, bracket, profile)
         local abHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         abHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
         abHeader:SetTextColor(0.3, 1.0, 0.3, 1) -- Bright lime green
-        abHeader:SetText(string.format("Abilities & Racials (%s)", profile.className))
+        abHeader:SetText(string.format("Abilities, Talents & Racials (%s)", profile.specName))
         ApplyDropShadow(abHeader)
         table.insert(child.elements, abHeader)
         yOffset = yOffset - 18
@@ -560,12 +614,16 @@ function FTG.UI:RenderOverview(child, bracket, profile)
         yOffset = yOffset - 10
     end
 
-    -- Section: Core Tank Rules
+    -- Section: Tactical Role Rules
     if bracket.tankRules and #bracket.tankRules > 0 then
+        local roleTitle = (profile.role == "TANK" and "Tactical Tanking Rules")
+                       or (profile.role == "HEALER" and "Tactical Healing & Mana Rules")
+                       or "Tactical Rotation & DPS Rules"
+
         local tankHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         tankHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
         tankHeader:SetTextColor(1.0, 0.8, 0.2, 1) -- Bright amber / gold
-        tankHeader:SetText(string.format("Tactical Tanking Rules (%s)", profile.className))
+        tankHeader:SetText(string.format("%s (%s)", roleTitle, profile.specName))
         ApplyDropShadow(tankHeader)
         table.insert(child.elements, tankHeader)
         yOffset = yOffset - 18
@@ -610,7 +668,7 @@ function FTG.UI:RenderProfession(child, bracket, profile)
         yOffset = yOffset - 18
 
         for _, m in ipairs(prof.milestones) do
-            local box = CreateFrame("Frame", nil, child)
+            local box = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
             box:SetPoint("TOPLEFT", child, "TOPLEFT", 15, yOffset)
             box:SetSize(width - 15, 46)
             if box.SetBackdrop then
@@ -686,15 +744,16 @@ function FTG.UI:RenderProfession(child, bracket, profile)
     return -yOffset
 end
 
--- 3. RENDER DUNGEON CHECKLIST TAB
-function FTG.UI:RenderDungeons(child, bracket)
+-- 3. RENDER DUNGEON CHECKLIST TAB (with Role Tagging & Highlighting)
+function FTG.UI:RenderDungeons(child, bracket, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
     local dungeons = bracket.dungeons or {}
+    local activeRole = profile and profile.role or "TANK"
 
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
-    title:SetText("|cffffcc00Dungeon Tanking & Gear Checklist|r")
+    title:SetText(string.format("|cffffcc00Dungeon & Gear Checklist|r — Active Role: %s", FormatRoleBadge(activeRole)))
     ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
@@ -702,13 +761,13 @@ function FTG.UI:RenderDungeons(child, bracket)
     local sub = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     sub:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
     sub:SetTextColor(0.9, 0.9, 0.9, 1)
-    sub:SetText("Check off dungeons completed and key gear acquired for this bracket:")
+    sub:SetText("Check off dungeons completed and key gear acquired (tagged by [TANK], [HEAL], [DPS]):")
     ApplyDropShadow(sub)
     table.insert(child.elements, sub)
     yOffset = yOffset - 20
 
     for _, d in ipairs(dungeons) do
-        local dungBox = CreateFrame("Frame", nil, child)
+        local dungBox = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
         dungBox:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
         dungBox:SetSize(width, 28)
         if dungBox.SetBackdrop then
@@ -739,7 +798,7 @@ function FTG.UI:RenderDungeons(child, bracket)
         noteText:SetWidth(width - 30)
         noteText:SetJustifyH("LEFT")
         noteText:SetTextColor(0.85, 0.85, 0.85, 1)
-        noteText:SetText(string.format("|cffffd200Tank Strategy:|r %s", d.notes))
+        noteText:SetText(string.format("|cffffd200Dungeon Notes:|r %s", d.notes))
         ApplyDropShadow(noteText)
         table.insert(child.elements, noteText)
         yOffset = yOffset - (noteText:GetStringHeight() + 8)
@@ -760,10 +819,11 @@ function FTG.UI:RenderDungeons(child, bracket)
                     FTG:SetTaskCompleted("loot_" .. drop.id, self:GetChecked())
                 end)
 
+                local badge = FormatRoleBadge(drop.role or "TANK")
                 local dropText = dropRow:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
                 dropText:SetPoint("LEFT", dropCheck, "RIGHT", 4, 0)
                 dropText:SetTextColor(0.9, 0.9, 0.9, 1)
-                dropText:SetText(string.format("|cff00ffff%s|r (%s) - %s |cffaaaaaa[%s]|r", drop.name, drop.slot, drop.notes, drop.boss))
+                dropText:SetText(string.format("%s |cff00ffff%s|r (%s) - %s |cffaaaaaa[%s]|r", badge, drop.name, drop.slot, drop.notes, drop.boss))
                 ApplyDropShadow(dropText)
 
                 yOffset = yOffset - 24
@@ -775,7 +835,7 @@ function FTG.UI:RenderDungeons(child, bracket)
     return -yOffset
 end
 
--- 4. RENDER MACRO VAULT TAB
+-- 4. RENDER MACRO VAULT TAB (Categorized by Role / Function)
 function FTG.UI:RenderMacros(child, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
@@ -783,7 +843,7 @@ function FTG.UI:RenderMacros(child, profile)
 
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
-    title:SetText(string.format("|cffffcc00Macro Vault (%s / %s / %s)|r", profile.className, profile.raceName, profile.profName))
+    title:SetText(string.format("|cffffcc00Macro Vault (%s - %s / %s)|r", profile.specName, profile.raceName, profile.profName))
     ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
@@ -791,64 +851,100 @@ function FTG.UI:RenderMacros(child, profile)
     local sub = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     sub:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
     sub:SetTextColor(0.9, 0.9, 0.9, 1)
-    sub:SetText("Select macro text to copy (Ctrl+C) or click 'Save to WoW' to write directly to your in-game macro book:")
+    sub:SetText("Categorized into Defensive/Tank, Healing/Mouseover, Burst/DPS, and Utility. Click 'Save to WoW' or copy:")
     ApplyDropShadow(sub)
     table.insert(child.elements, sub)
     yOffset = yOffset - 22
 
-    for idx, m in ipairs(macros) do
-        local box = CreateFrame("Frame", nil, child)
-        box:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
-        box:SetSize(width, 100)
-        if box.SetBackdrop then
-            box:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-            box:SetBackdropColor(0.06, 0.06, 0.08, 0.9)
-            box:SetBackdropBorderColor(0.5, 0.5, 0.6, 0.8)
+    -- Group macros by category order
+    local categories = {
+        "Defensive / Tank",
+        "Healing / Mouseover",
+        "Burst / DPS",
+        "Racial / Utility",
+        "Profession / Utility"
+    }
+
+    local grouped = {}
+    for _, cat in ipairs(categories) do grouped[cat] = {} end
+
+    for _, m in ipairs(macros) do
+        local cat = m.category or "Burst / DPS"
+        if not grouped[cat] then
+            grouped[cat] = {}
+            table.insert(categories, cat)
         end
-        table.insert(child.elements, box)
+        table.insert(grouped[cat], m)
+    end
 
-        local t = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        t:SetPoint("TOPLEFT", box, "TOPLEFT", 10, -8)
-        t:SetText(string.format("|cff40ff40%s|r", m.title))
-        ApplyDropShadow(t)
+    for _, cat in ipairs(categories) do
+        local list = grouped[cat]
+        if list and #list > 0 then
+            -- Category Header
+            local catHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            catHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+            catHeader:SetTextColor(1.0, 0.8, 0.2, 1)
+            catHeader:SetText(string.format("=== %s ===", cat))
+            ApplyDropShadow(catHeader)
+            table.insert(child.elements, catHeader)
+            yOffset = yOffset - 20
 
-        local d = box:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        d:SetPoint("TOPLEFT", box, "TOPLEFT", 10, -24)
-        d:SetWidth(width - 150)
-        d:SetJustifyH("LEFT")
-        d:SetTextColor(0.85, 0.85, 0.85, 1)
-        d:SetText(m.desc)
-        ApplyDropShadow(d)
+            for _, m in ipairs(list) do
+                local box = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+                box:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+                box:SetSize(width, 100)
+                if box.SetBackdrop then
+                    box:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+                    box:SetBackdropColor(0.06, 0.06, 0.08, 0.9)
+                    box:SetBackdropBorderColor(0.5, 0.5, 0.6, 0.8)
+                end
+                table.insert(child.elements, box)
 
-        local btn = CreateFrame("Button", nil, box, "UIPanelButtonTemplate")
-        btn:SetSize(110, 22)
-        btn:SetPoint("TOPRIGHT", box, "TOPRIGHT", -10, -8)
-        btn:SetText("Save to WoW")
-        ApplyDropShadow(btn:GetFontString())
-        btn:SetScript("OnClick", function()
-            FTG:InstallMacro(m.title, m.code)
-        end)
+                local t = box:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+                t:SetPoint("TOPLEFT", box, "TOPLEFT", 10, -8)
+                t:SetText(string.format("|cff40ff40%s|r", m.title))
+                ApplyDropShadow(t)
 
-        local editBox = CreateFrame("EditBox", nil, box)
-        editBox:SetPoint("TOPLEFT", box, "TOPLEFT", 12, -44)
-        editBox:SetPoint("BOTTOMRIGHT", box, "BOTTOMRIGHT", -12, 8)
-        editBox:SetFontObject("GameFontHighlightSmall")
-        editBox:SetTextColor(0.95, 0.95, 0.95, 1)
-        editBox:SetMultiLine(true)
-        editBox:SetMaxLetters(255)
-        editBox:SetAutoFocus(false)
-        editBox:SetText(m.code)
+                local d = box:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+                d:SetPoint("TOPLEFT", box, "TOPLEFT", 10, -24)
+                d:SetWidth(width - 150)
+                d:SetJustifyH("LEFT")
+                d:SetTextColor(0.85, 0.85, 0.85, 1)
+                d:SetText(m.desc)
+                ApplyDropShadow(d)
 
-        if editBox.SetBackdrop then
-            editBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-            editBox:SetBackdropColor(0.02, 0.02, 0.02, 0.95)
-            editBox:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.9)
+                local btn = CreateFrame("Button", nil, box, "UIPanelButtonTemplate")
+                btn:SetSize(110, 22)
+                btn:SetPoint("TOPRIGHT", box, "TOPRIGHT", -10, -8)
+                btn:SetText("Save to WoW")
+                ApplyDropShadow(btn:GetFontString())
+                btn:SetScript("OnClick", function()
+                    FTG:InstallMacro(m.title, m.code)
+                end)
+
+                local editBox = CreateFrame("EditBox", nil, box, BACKDROP_TEMPLATE)
+                editBox:SetPoint("TOPLEFT", box, "TOPLEFT", 12, -44)
+                editBox:SetPoint("BOTTOMRIGHT", box, "BOTTOMRIGHT", -12, 8)
+                editBox:SetFontObject("GameFontHighlightSmall")
+                editBox:SetTextColor(0.95, 0.95, 0.95, 1)
+                editBox:SetMultiLine(true)
+                editBox:SetMaxLetters(255)
+                editBox:SetAutoFocus(false)
+                editBox:SetText(m.code)
+
+                if editBox.SetBackdrop then
+                    editBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+                    editBox:SetBackdropColor(0.02, 0.02, 0.02, 0.95)
+                    editBox:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.9)
+                end
+
+                editBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+                editBox:SetScript("OnEditFocusGained", function(self) self:HighlightText() end)
+
+                yOffset = yOffset - 108
+            end
+            yOffset = yOffset - 6
         end
-
-        editBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-        editBox:SetScript("OnEditFocusGained", function(self) self:HighlightText() end)
-
-        yOffset = yOffset - 110
     end
 
     return -yOffset
