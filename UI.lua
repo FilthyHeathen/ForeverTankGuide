@@ -7,6 +7,8 @@ local ADDON_NAME, FTG = ...
 
 FTG.UI = {}
 
+local BACKDROP_TEMPLATE = (BackdropTemplateMixin and "BackdropTemplate") or nil
+
 local BACKDROP_DIALOG_DARK = {
     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
     edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -46,20 +48,35 @@ end
 function FTG.UI:CreateMainFrame()
     if self.MainFrame then return self.MainFrame end
 
-    local f = CreateFrame("Frame", "FTG_MainFrame", UIParent)
+    local f = CreateFrame("Frame", "FTG_MainFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     f:SetSize(820, 560)
     f:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
     f:SetMovable(true)
     f:EnableMouse(true)
     f:RegisterForDrag("LeftButton")
     f:SetClampedToScreen(true)
-    f:SetFrameStrata("DIALOG")
+    f:SetFrameStrata("FULLSCREEN_DIALOG")
+    f:SetFrameLevel(500)
     f:SetToplevel(true)
 
-    -- Backing graphics: solid opaque dark charcoal with Blizzard gold border
+    -- Dedicated solid color texture on main frame to guarantee 100% zero bleed-through
+    local bg = f:CreateTexture(nil, "BACKGROUND", nil, -8)
+    bg:SetAllPoints(f)
+    if bg.SetColorTexture then
+        bg:SetColorTexture(0.05, 0.05, 0.07, 1.0)
+    else
+        bg:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background-Dark")
+        bg:SetVertexColor(0.05, 0.05, 0.07, 1.0)
+    end
+    f.solidBg = bg
+
+    -- Border outline
     if f.SetBackdrop then
-        f:SetBackdrop(BACKDROP_DIALOG_DARK)
-        f:SetBackdropColor(0.05, 0.05, 0.05, 0.95)
+        f:SetBackdrop({
+            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+            edgeSize = 16,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 },
+        })
         f:SetBackdropBorderColor(0.8, 0.7, 0.2, 1)
     end
 
@@ -334,13 +351,24 @@ function FTG.UI:CreateSideMenu(parent)
 end
 
 function FTG.UI:CreateContentArea(parent)
-    local content = CreateFrame("Frame", nil, parent)
+    local content = CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     content:SetPoint("TOPLEFT", parent, "TOPLEFT", 180, -116)
     content:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -14, 14)
 
+    -- Separate nested opaque background behind text/scroll area for ultra-dark reading surface
+    local contentBg = content:CreateTexture(nil, "BACKGROUND", nil, -7)
+    contentBg:SetAllPoints(content)
+    if contentBg.SetColorTexture then
+        contentBg:SetColorTexture(0.02, 0.02, 0.03, 1.0)
+    else
+        contentBg:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background")
+        contentBg:SetVertexColor(0.02, 0.02, 0.03, 1.0)
+    end
+    content.solidBg = contentBg
+
     if content.SetBackdrop then
         content:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
-        content:SetBackdropColor(0.03, 0.03, 0.05, 0.95)
+        content:SetBackdropColor(0.02, 0.02, 0.03, 1.0)
         content:SetBackdropBorderColor(0.6, 0.5, 0.35, 0.9)
     end
 
