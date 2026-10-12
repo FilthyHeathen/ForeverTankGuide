@@ -1,0 +1,43 @@
+## Interface: 30300
+## Title: |cffc79c6eForeverTankGuide|r
+## Notes: Dynamic Leveling, Dungeon Tanking, and Profession Progression Assistant for all Tanks, Races & Professions.
+## Author: GuideBuilder
+## Version: 1.1.0
+## SavedVariablesPerCharacter: FTG_CharDB
+
+# Core Engine & Dynamic Registry
+Engine\Registry.lua
+Engine\Profile.lua
+
+# Class Modules
+Modules\Classes\Paladin.lua
+Modules\Classes\Warrior.lua
+Modules\Classes\Druid.lua
+Modules\Classes\Shaman.lua
+Modules\Classes\Rogue.lua
+Modules\Classes\Warlock.lua
+
+# Race Modules (Horde)
+Modules\Races\Horde\Undead.lua
+Modules\Races\Horde\Tauren.lua
+Modules\Races\Horde\Orc.lua
+Modules\Races\Horde\Troll.lua
+
+# Race Modules (Alliance)
+Modules\Races\Alliance\Human.lua
+Modules\Races\Alliance\Dwarf.lua
+Modules\Races\Alliance\NightElf.lua
+Modules\Races\Alliance\Gnome.lua
+
+# Profession Modules
+Modules\Professions\Engineering.lua
+Modules\Professions\Blacksmithing.lua
+Modules\Professions\Alchemy.lua
+Modules\Professions\Leatherworking.lua
+
+# Universal Dungeons & Encounters
+Modules\Dungeons\Encounters.lua
+
+# UI and Core Controller
+UI.lua
+Core.lua

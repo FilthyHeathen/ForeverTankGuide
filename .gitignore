@@ -1,0 +1,15 @@
+# WoW Addon Git Ignore
+*.bak
+*.orig
+*.tmp
+*.lua.bak
+Thumbs.db
+.DS_Store
+
+# Editor directories
+.vscode/
+.idea/
+
+# WTF SavedVariables test mocks
+*.wtf
+*.log
