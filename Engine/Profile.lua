@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Engine/Profile.lua
+    Heathen's Forever Guide - Engine/Profile.lua
     Dynamic Character State Detection (Class, Spec, Role, Race, Profession) & Active Profile Manager
 ]]
 

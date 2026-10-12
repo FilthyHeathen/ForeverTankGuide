@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Professions/Engineering.lua
+    Heathen's Forever Guide - Modules/Professions/Engineering.lua
     Engineering Progression, Bombs, Sappers, Target Dummies, Goggles, and Commercial AH Tips
 ]]
 
@@ -11,7 +11,7 @@ local EngineeringModule = {
     description = "Undisputed champion profession for dungeon and raid tanking. Ranged pulls with dynamite, instant AoE snap threat with sappers, and clutch crowd control with target dummies.",
     brackets = {
         [1] = {
-            range = "Skill 1–100",
+            range = "Skill 1â€“100",
             milestones = {
                 { skill = 1, name = "Rough Copper Powder / Rough Dynamite", mats = "Rough Stone, Copper Bar", notes = "Quickly craft dynamite to unlock early ranged pulling." },
                 { skill = 30, name = "Handful of Copper Bolts", mats = "Copper Bar", notes = "Save at least 20-30 for future crafts." },
@@ -29,7 +29,7 @@ local EngineeringModule = {
         },
 
         [2] = {
-            range = "Skill 100–225",
+            range = "Skill 100â€“225",
             milestones = {
                 { skill = 150, name = "Green Tinted Goggles", mats = "Medium Leather, Moss Agate", notes = "Great headpiece before high level dungeon helms." },
                 { skill = 175, name = "Iron Grenades", mats = "Iron Bar x1, Heavy Blasting Powder x1, Silk Cloth x1", notes = "Cheap, lethal AoE incapacitate. Your core grouping tool for the next 20 levels!" },
@@ -45,7 +45,7 @@ local EngineeringModule = {
         },
 
         [3] = {
-            range = "Skill 200–260 (Goblin Specialization)",
+            range = "Skill 200â€“260 (Goblin Specialization)",
             milestones = {
                 { skill = 205, name = "Goblin Engineering Specialization", mats = "Gadgetzan Questline", notes = "Unlocks high-impact explosive recipes: Sapper Charges and The Big One." },
                 { skill = 215, name = "Mithril Frag Bomb", mats = "Mithril Bar x3, Dense Blasting Powder x1", notes = "Huge AoE damage + 2 sec stun on up to 5 targets." },
@@ -62,7 +62,7 @@ local EngineeringModule = {
         },
 
         [4] = {
-            range = "Skill 260–300",
+            range = "Skill 260â€“300",
             milestones = {
                 { skill = 260, name = "Thorium Grenades", mats = "Thorium Bar x2, Dense Blasting Powder x1, Runecloth x1", notes = "Peak level ranged interrupt & AoE disorient." },
                 { skill = 275, name = "Masterwork Target Dummy", mats = "Thorium Widget, Mithril Casing, Truesilver Bar", notes = "Extreme health pool dummy capable of holding raid trash packs." },

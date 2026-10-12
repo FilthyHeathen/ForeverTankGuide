@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Professions/Alchemy.lua
+    Heathen's Forever Guide - Modules/Professions/Alchemy.lua
     Alchemy Progression: Stoneshield Potions, Mana Potions, Mongoose, Greater Arcane Elixirs, and Flasks
 ]]
 
@@ -11,7 +11,7 @@ local AlchemyModule = {
     description = "Universal consumable engine for Tanks, Healers, and DPS. Craft Greater Stoneshield (+2000 Armor), Major Mana Potions, Elixir of the Mongoose, Greater Arcane Elixir, and Raid Flasks.",
     brackets = {
         [1] = {
-            range = "Skill 1–100",
+            range = "Skill 1â€“100",
             milestones = {
                 { skill = 1, name = "Minor Healing & Minor Armor Potion", mats = "Peacebloom, Silverleaf", notes = "+50 Armor for 1 hour + instant emergency HP." },
                 { skill = 50, name = "Weak Troll's Blood & Elixir of Lion's Strength", mats = "Peacebloom, Earthroot", notes = "+4 Strength and passive HP regeneration." },
@@ -27,7 +27,7 @@ local AlchemyModule = {
         },
 
         [2] = {
-            range = "Skill 100–225",
+            range = "Skill 100â€“225",
             milestones = {
                 { skill = 120, name = "Mana Potion & LesserMana Potion", mats = "Stranglekelp, Kingsblood", notes = "Essential mana sustain for dungeon Healers and Paladin tanks." },
                 { skill = 150, name = "Free Action Potion (FAP)", mats = "Blackmouth Oil x2, Stranglekelp x1", notes = "30 seconds of complete Stun and Movement Impairment immunity!" },
@@ -44,10 +44,10 @@ local AlchemyModule = {
         },
 
         [3] = {
-            range = "Skill 200–260",
+            range = "Skill 200â€“260",
             milestones = {
                 { skill = 205, name = "Limited Invulnerability Potion (LIP)", mats = "Blindweed x2, Ghost Mushroom x1", notes = "6 seconds of Physical Immunity! Saves DPS who pull aggro and Tanks on AoE pulls!" },
-                { skill = 245, name = "Elixir of the Giants & Superior Mana Potion", mats = "Sungrass, Blindweed, Gromsblood", notes = "+25 Strength (1 hr) and 900–1,500 Mana restore." },
+                { skill = 245, name = "Elixir of the Giants & Superior Mana Potion", mats = "Sungrass, Blindweed, Gromsblood", notes = "+25 Strength (1 hr) and 900â€“1,500 Mana restore." },
                 { skill = 250, name = "Elixir of Superior Defense", mats = "Stonescale Oil x2, Sungrass x1", notes = "+450 Armor for 1 hour." }
             },
             shoppingList = {
@@ -60,7 +60,7 @@ local AlchemyModule = {
         },
 
         [4] = {
-            range = "Skill 260–300",
+            range = "Skill 260â€“300",
             milestones = {
                 { skill = 275, name = "Transmute: Arcanite (48-Hour Cooldown!)", mats = "Thorium Bar x1, Arcane Crystal x1", notes = "Passive gold maker and essential for Lionheart Helm / Force Reactive Disk." },
                 { skill = 280, name = "Greater Stoneshield (+2000 Armor) & Elixir of the Mongoose", mats = "Thorium Ore / Mountain Silversage, Plaguebloom", notes = "Tank BIS (+2000 Armor) & Melee/Hunter BIS (+25 Agi, +2% Crit)!" },
@@ -77,7 +77,7 @@ local AlchemyModule = {
             },
             ahProfits = {
                 { item = "Elixir of the Mongoose & Greater Arcane Elixir", notes = "Every single melee, hunter, and caster DPS buys stacks of these every raid reset." },
-                { item = "Major Mana Potions & Mageblood Potions", notes = "Healers and Mages/Warlocks consume 10–20 Major Mana Potions per raid." },
+                { item = "Major Mana Potions & Mageblood Potions", notes = "Healers and Mages/Warlocks consume 10â€“20 Major Mana Potions per raid." },
                 { item = "Greater Stoneshield & Limited Invulnerability Potions (LIP)", notes = "High-margin tank and raid survival consumables." }
             }
         }

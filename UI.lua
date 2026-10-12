@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - UI.lua
+    Heathen's Forever Guide - UI.lua
     Dynamic Rendering Engine: All Roles (Tank/Healer/DPS), Specs, Dropdowns, Checklists & Categorized Macro Vault
 ]]
 
@@ -107,7 +107,7 @@ function FTG.UI:CreateMainFrame()
     -- Title Text
     local titleText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     titleText:SetPoint("LEFT", titleIcon, "RIGHT", 10, 0)
-    titleText:SetText("|cffffd200Forever Guide|r |cff40ff40[All-Role & Spec Edition]|r")
+    titleText:SetText("|cffffd200Heathen's Forever Guide|r |cff40ff40[All-Role & Spec Edition]|r")
     ApplyDropShadow(titleText)
     f.TitleText = titleText
 

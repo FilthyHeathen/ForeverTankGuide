@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Engine/Registry.lua
+    Heathen's Forever Guide - Engine/Registry.lua
     Data Aggregation and Dynamic Module Registration API (All Roles & Specs Edition)
 ]]
 
@@ -184,7 +184,7 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
         -- Profession & Dungeons
         local professionData = {
             name = profMod.name or profKey,
-            range = pBracket.range or "Skill 1–300",
+            range = pBracket.range or "Skill 1â€“300",
             milestones = pBracket.milestones or {},
             shoppingList = pBracket.shoppingList or {},
             ahProfits = pBracket.ahProfits or nil
@@ -194,7 +194,7 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
 
         composite.Brackets[b] = {
             id = b,
-            name = sBracket.name or (b == 1 and "Phase 1: Levels 1–20" or (b == 2 and "Phase 2: Levels 20–40" or (b == 3 and "Phase 3: Levels 40–52" or "Phase 4: Levels 52–60"))),
+            name = sBracket.name or (b == 1 and "Phase 1: Levels 1â€“20" or (b == 2 and "Phase 2: Levels 20â€“40" or (b == 3 and "Phase 3: Levels 40â€“52" or "Phase 4: Levels 52â€“60"))),
             minLevel = sBracket.minLevel or (b == 1 and 1 or (b == 2 and 20 or (b == 3 and 40 or 52))),
             maxLevel = sBracket.maxLevel or (b == 1 and 20 or (b == 2 and 40 or (b == 3 and 52 or 60))),
             summary = sBracket.summary or string.format("%s %s (%s) progression and tactical milestones.", raceMod.name or raceKey, specMod.specName or "", classMod.name or classKey),

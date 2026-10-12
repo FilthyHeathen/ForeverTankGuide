@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Classes/Hunter.lua
+    Heathen's Forever Guide - Modules/Classes/Hunter.lua
     Hunter Multi-Spec Module: Beast Mastery (Leveling & Solo King), Marksmanship (Raid Ranged DPS)
 ]]
 
@@ -17,10 +17,10 @@ local HunterModule = {
             statPriority = "Ranged Weapon DPS > Hit (to 9% Cap) > Agility > Crit > Intellect",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1–20",
+                    name = "Phase 1: Levels 1â€“20",
                     summary = "Tame Pet quest at level 10, Growl Rank 1-3 training, and Aspect of the Hawk.",
                     zones = {
-                        { name = "Durotar / Mulgore / Teldrassil / Dun Morogh / Barrens", range = "1–20", notes = "Tame a Boar (Charge) or Cat (Claw + Bite) at level 10!" }
+                        { name = "Durotar / Mulgore / Teldrassil / Dun Morogh / Barrens", range = "1â€“20", notes = "Tame a Boar (Charge) or Cat (Claw + Bite) at level 10!" }
                     },
                     abilities = {
                         { level = 10, name = "Tame Beast & Pet Growl", desc = "Unlocks your personal tank companion. Train Growl for free at any Pet Trainer." },
@@ -29,30 +29,30 @@ local HunterModule = {
                     },
                     rules = {
                         "CRITICAL DUNGEON RULE: Always right-click 'Growl' on your Pet Bar to turn OFF auto-cast inside dungeons so your pet doesn't steal aggro from the tank!",
-                        "Dismiss your pet BEFORE jumping off ledges in Wailing Caverns, Gnomeregan, or Blackrock Depths—otherwise your pet will run through the whole dungeon and pull 50 mobs!"
+                        "Dismiss your pet BEFORE jumping off ledges in Wailing Caverns, Gnomeregan, or Blackrock Depthsâ€”otherwise your pet will run through the whole dungeon and pull 50 mobs!"
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20–40",
+                    name = "Phase 2: Levels 20â€“40",
                     summary = "Aspect of the Cheetah (+30% speed) at 20, Feign Death at 30, and Bestial Wrath at 40!",
                     zones = {
-                        { name = "Hillsbrad / STV / Arathi / Badlands", range = "20–40", notes = "Tame Broken Tooth (Badlands, 1.0s attack speed cat) at level 37 or King Bangalash (STV)!" }
+                        { name = "Hillsbrad / STV / Arathi / Badlands", range = "20â€“40", notes = "Tame Broken Tooth (Badlands, 1.0s attack speed cat) at level 37 or King Bangalash (STV)!" }
                     },
                     abilities = {
-                        { level = 20, name = "Freezing Trap", desc = "Freezes 1 approaching enemy in ice for up to 20 seconds—premier dungeon CC!" },
+                        { level = 20, name = "Freezing Trap", desc = "Freezes 1 approaching enemy in ice for up to 20 secondsâ€”premier dungeon CC!" },
                         { level = 30, name = "Feign Death", desc = "100% complete threat wipe and out-of-combat reset (allows in-combat Freezing Traps!)." },
                         { level = 40, name = "Bestial Wrath (Talent)", desc = "Sends your pet into a rage dealing +50% damage and becoming immune to Fear/CC for 18 sec!" }
                     },
                     rules = {
                         "Feign Death + Freezing Trap Combo: Drop a Freezing Trap before pull; once that trap expires mid-fight, press Feign Death (drops combat) + Freezing Trap macro to instantly re-trap a mob!",
-                        "Never leave Aspect of the Cheetah or Aspect of the Pack on during combat—any hit causes a 4-second Daze!"
+                        "Never leave Aspect of the Cheetah or Aspect of the Pack on during combatâ€”any hit causes a 4-second Daze!"
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40–52",
+                    name = "Phase 3: Levels 40â€“52",
                     summary = "Frenzy (+30% Pet Attack Speed), Mail Armor at 40, and Maraudon solo farming.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Verdant Keeper's Aim (Maraudon bow) and Blackstone Ring." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Verdant Keeper's Aim (Maraudon bow) and Blackstone Ring." }
                     },
                     abilities = {
                         { level = 40, name = "Mail Armor Training", desc = "Upgrades from Leather to Mail armor." }
@@ -63,10 +63,10 @@ local HunterModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52–60",
+                    name = "Phase 4: Levels 52â€“60",
                     summary = "Dire Maul Tribute soloing, Pre-Raid BIS Agility gear, and transition to Marksmanship for Raids.",
                     zones = {
-                        { name = "Dire Maul / Winterspring / BRD / UBRS", range = "52–60", notes = "Tarnished Elven Rings (DM North), Carapace Spine Crossbow (Strat), Blackcrow (LBRS)." }
+                        { name = "Dire Maul / Winterspring / BRD / UBRS", range = "52â€“60", notes = "Tarnished Elven Rings (DM North), Carapace Spine Crossbow (Strat), Blackcrow (LBRS)." }
                     },
                     abilities = {
                         { level = 60, name = "Tranquilizing Shot (Lucifron Drop)", desc = "Removes 1 Frenzy effect from enemy raid bosses (Magmadar, Chromaggus, Princess Huhuran)." }
@@ -106,10 +106,10 @@ local HunterModule = {
             statPriority = "Hit (to 9% Cap!) > Slow Ranged Weapon (3.0s+ Crossbow/Bow) > Agility (1 Agi = 2 RAP + Crit) > Crit",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1–20",
+                    name = "Phase 1: Levels 1â€“20",
                     summary = "Lethal Shots (+5% Crit) and Aimed Shot unlock at level 20.",
                     zones = {
-                        { name = "Barrens / Westfall / Loch Modan", range = "1–20", notes = "Aimed Shot unlocks at 11 points in Marksmanship." }
+                        { name = "Barrens / Westfall / Loch Modan", range = "1â€“20", notes = "Aimed Shot unlocks at 11 points in Marksmanship." }
                     },
                     abilities = {
                         { level = 20, name = "Aimed Shot (Talent)", desc = "3.0-second windup shot that adds massive bonus damage and reduces target healing by 50%." }
@@ -119,37 +119,37 @@ local HunterModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20–40",
+                    name = "Phase 2: Levels 20â€“40",
                     summary = "Mortal Shots (+30% Ranged Crit Damage), Scatter Shot (lvl 30), and Rapid Fire.",
                     zones = {
-                        { name = "STV / Hillsbrad / Badlands", range = "20–40", notes = "Master Hunter's Bow / Rifle from Nesingwary STV quests!" }
+                        { name = "STV / Hillsbrad / Badlands", range = "20â€“40", notes = "Master Hunter's Bow / Rifle from Nesingwary STV quests!" }
                     },
                     abilities = {
                         { level = 26, name = "Rapid Fire", desc = "Increases ranged attack speed by 40% for 15 seconds." },
-                        { level = 30, name = "Scatter Shot (Talent)", desc = "Instant 4-second disorient at 15yd range—breaks enemy casts and buys time to drop a trap!" }
+                        { level = 30, name = "Scatter Shot (Talent)", desc = "Instant 4-second disorient at 15yd rangeâ€”breaks enemy casts and buys time to drop a trap!" }
                     },
                     rules = {
                         "Shot Rotation: Auto Shot lands -> immediately cast Aimed Shot -> Auto Shot lands -> immediately cast Multi-Shot -> Auto Shot."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40–52",
+                    name = "Phase 3: Levels 40â€“52",
                     summary = "Trueshot Aura (+100 AP to entire party!) at level 40, and Ranged Weapon Specialization.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Blackstone Ring (+1% Hit) from Maraudon." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Blackstone Ring (+1% Hit) from Maraudon." }
                     },
                     abilities = {
-                        { level = 40, name = "Trueshot Aura (Talent)", desc = "Increases Ranged and Melee Attack Power of all party members within 45yd by 50–100!" }
+                        { level = 40, name = "Trueshot Aura (Talent)", desc = "Increases Ranged and Melee Attack Power of all party members within 45yd by 50â€“100!" }
                     },
                     rules = {
                         "Every melee physical group wants a Marksmanship Hunter for Trueshot Aura (+100 Attack Power)!"
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52–60",
+                    name = "Phase 4: Levels 52â€“60",
                     summary = "9% Ranged Hit Cap, Rhok'delar / Ashjre'thul, and Clip-Free Auto/Aimed/Multi Rotation.",
                     zones = {
-                        { name = "Dire Maul / Strat / UBRS", range = "52–60", notes = "Carapace Spine Crossbow (Strat UD), Tarnished Elven Rings x2 (DM North)." }
+                        { name = "Dire Maul / Strat / UBRS", range = "52â€“60", notes = "Carapace Spine Crossbow (Strat UD), Tarnished Elven Rings x2 (DM North)." }
                     },
                     abilities = {
                         { level = 60, name = "Clip-Free Shot Weaving", desc = "Weaving 3.0s Aimed Shot and 0.5s Multi-Shot cleanly between Auto Shots." }
@@ -189,11 +189,11 @@ local HunterModule = {
             statPriority = "Agility (Lightning Reflexes +15% Agi!) > Hit (Surefooted +3% Hit -> 6% Gear Cap) > Crit > Stamina",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1–20",
+                    name = "Phase 1: Levels 1â€“20",
                     summary = "Savage Strikes (+20% Raptor/Mongoose Crit), Entrapment, and Wing Clip kiting.",
                     zones = {},
                     abilities = {
-                        { level = 12, name = "Wing Clip", desc = "Instant melee hamstring slowing enemy movement speed by 50–60% for 10 seconds." },
+                        { level = 12, name = "Wing Clip", desc = "Instant melee hamstring slowing enemy movement speed by 50â€“60% for 10 seconds." },
                         { level = 16, name = "Immolation & Explosive Traps", desc = "High-damage fire traps boosted by Clever Traps (+30% trap damage)." }
                     },
                     rules = {
@@ -201,11 +201,11 @@ local HunterModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20–40",
+                    name = "Phase 2: Levels 20â€“40",
                     summary = "Deterrence (+25% Dodge/Parry cooldown), Surefooted (+3% Hit & +15% Trap Resist), and Counterattack.",
                     zones = {},
                     abilities = {
-                        { level = 20, name = "Deterrence (Talent)", desc = "Increases Dodge and Parry chance by 25% for 10 seconds—turns you into an emergency melee tank!" },
+                        { level = 20, name = "Deterrence (Talent)", desc = "Increases Dodge and Parry chance by 25% for 10 secondsâ€”turns you into an emergency melee tank!" },
                         { level = 30, name = "Counterattack (Talent)", desc = "Triggered after a parry: deals damage and immobilizes the target for 5 seconds (cannot be blocked/dodged/parried)!" }
                     },
                     rules = {
@@ -213,7 +213,7 @@ local HunterModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40–52",
+                    name = "Phase 3: Levels 40â€“52",
                     summary = "Killer Instinct (+3% Crit to all attacks) and Wyvern Sting (lvl 40 CC).",
                     zones = {},
                     abilities = {
@@ -224,7 +224,7 @@ local HunterModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52–60",
+                    name = "Phase 4: Levels 52â€“60",
                     summary = "Lightning Reflexes (+15% Total Agility!) at ~450+ base Agility and Melee-Weaving mastery.",
                     zones = {},
                     abilities = {

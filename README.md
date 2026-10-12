@@ -1,16 +1,17 @@
-# ForeverTankGuide (Modular Registry Edition v1.1.0)
+# Heathen's Forever Guide (v1.3.0)
 
-**ForeverTankGuide** is an in-game progression and tanking assistant for the **World of Warcraft: Forever** client. 
+**Heathen's Forever Guide** is an all-in-one in-game progression, leveling, dungeon, and profession assistant for **World of Warcraft: Forever** (`Interface: 16001`).
 
-Originally created for Horde Forsaken Protection Paladins, this refactored edition features a **fully decoupled, registry-driven modular engine**. It automatically detects the player's active race, tank class, and primary tank profession, while providing an in-game profile switcher allowing players to preview any combination on the fly.
+Featuring a **decoupled, registry-driven modular engine**, it automatically detects the player's active **Class**, **Specialization**, **Role** (`[TANK]`, `[HEAL]`, `[DPS]`), **Race & Faction** (including the cross-faction **Skyborne** race), and **Primary Profession**, while providing an in-game profile switcher allowing players to preview any combination on the fly.
 
 ---
 
 ## Directory Architecture
 
 ```
-ForeverTankGuide/
+ForeverTankGuide/ (or HeathensForeverGuide/)
 ├── ForeverTankGuide.toc          # Load order orchestrator & saved variables
+├── HeathensForeverGuide.toc      # Alternate TOC for HeathensForeverGuide folder name
 ├── Core.lua                      # Lifecycle, event router, level-up alerts, minimap button
 ├── UI.lua                        # Dynamic UI engine with profile switcher & tabs
 ├── Engine/
@@ -18,30 +19,36 @@ ForeverTankGuide/
 │   └── Profile.lua               # Dynamic character auto-detector & override manager
 └── Modules/
     ├── Classes/
-    │   ├── Paladin.lua           # Holy Strike, Consecration, Holy Shield, Peel macros
-    │   ├── Warrior.lua           # Defensive Stance, Shield Block, Sunder, Revenge
-    │   ├── Druid.lua             # Dire Bear Form, Maul, Swipe, Faerie Fire
-    │   ├── Shaman.lua            # Way of Earth, Rockbiter, Earth Shock interrupts
-    │   ├── Rogue.lua             # Blade Dance, Evasion, Ghostly Strike, Riposte
-    │   └── Warlock.lua           # Metamorphosis, Searing Pain threat, Soul Link
+    │   ├── Paladin.lua           # Protection (Tank), Holy (Healer), Retribution (DPS)
+    │   ├── Warrior.lua           # Protection (Tank), Arms (DPS), Fury (DPS)
+    │   ├── Druid.lua             # Feral Bear (Tank), Feral Cat (DPS), Restoration (Healer), Balance (DPS)
+    │   ├── Priest.lua            # Holy/Discipline (Healer), Shadow (DPS)
+    │   ├── Shaman.lua            # Enhancement (Tank/Melee), Restoration (Healer), Elemental (DPS)
+    │   ├── Mage.lua              # Frost (AoE/Control DPS), Fire (Ignite DPS), Arcane (Burst DPS)
+    │   ├── Warlock.lua           # Metamorphosis (Tank), Affliction/Drain (Leveling), Destruction/DS-Ruin (DPS)
+    │   ├── Rogue.lua             # Blade Dance (Tank), Combat (DPS), Assassination (Seal Fate DPS)
+    │   └── Hunter.lua            # Beast Mastery (Pet/Leveling), Marksmanship (Raid DPS), Survival (Agility/Hybrid DPS)
     ├── Races/
     │   ├── Horde/
-    │   │   ├── Undead.lua        # Will of the Forsaken, Cannibalize, Shadow Resist
-    │   │   ├── Tauren.lua        # War Stomp (5-mob stun), Endurance (+5% HP)
-    │   │   ├── Orc.lua           # Hardiness (25% stun resist), Axe Spec, Blood Fury
-    │   │   └── Troll.lua         # Berserking haste, Regeneration, Beast Slaying
+    │   │   ├── Undead.lua        # Deathknell -> Brill -> Sepulcher -> Horde 20-60 Hubs
+    │   │   ├── Tauren.lua        # Camp Narache -> Bloodhoof -> Barrens -> Horde 20-60 Hubs
+    │   │   ├── Orc.lua           # Valley of Trials -> Razor Hill -> Barrens -> Horde 20-60 Hubs
+    │   │   ├── Troll.lua         # Valley of Trials -> Sen'jin -> Barrens -> Horde 20-60 Hubs
+    │   │   └── SkyborneHorde.lua # Skyborne Horde Aerie -> Barrens/Silverpine -> Horde 20-60 Hubs
     │   └── Alliance/
-    │       ├── Human.lua         # Sword/Mace Spec (+5 skill), Perception stealth detect
-    │       ├── Dwarf.lua         # Stoneform (Bleed/Poison/Disease immune + 10% armor)
-    │       ├── NightElf.lua      # Quickness (+1% dodge), Shadowmeld pulls
-    │       └── Gnome.lua         # Escape Artist root break, Engineering Spec (+15 skill)
+    │       ├── Human.lua         # Northshire -> Goldshire -> Westfall/Redridge -> Alliance 20-60 Hubs
+    │       ├── Dwarf.lua         # Coldridge -> Kharanos -> Loch Modan/Wetlands -> Alliance 20-60 Hubs
+    │       ├── NightElf.lua      # Shadowglen -> Dolanaar -> Darkshore/Ashenvale -> Alliance 20-60 Hubs
+    │       ├── Gnome.lua         # Coldridge -> Kharanos -> Loch Modan/Wetlands -> Alliance 20-60 Hubs
+    │       └── SkyborneAlliance.lua # Skyborne Alliance Aerie -> Darkshore/Westfall -> Alliance 20-60 Hubs
     ├── Professions/
     │   ├── Engineering.lua       # Bombs, Sappers, Target Dummies, Force Reactive Disk
-    │   ├── Blacksmithing.lua     # Shield Spikes (block threat), Sharpening Stones, Plate
-    │   ├── Alchemy.lua           # Greater Stoneshield (+2000 Armor), Elixirs, Flasks
-    │   └── Leatherworking.lua    # Armor Kits, Feral Bear sets, Devilsaur Threat gear
+    │   ├── Blacksmithing.lua     # Shield Spikes, Sharpening Stones, Lionheart Helm, Plate
+    │   ├── Alchemy.lua           # Greater Stoneshield, Mongoose, Greater Arcane, Mana Potions, Flasks
+    │   ├── Leatherworking.lua    # Armor Kits, Devilsaur Set, Wicked Leather, Hide of the Wild
+    │   └── Tailoring.lua         # Bags, Dreamweave, Robe of the Archmage, Truefaith, Bloodvine Set
     └── Dungeons/
-        └── Encounters.lua        # Universal dungeon brackets, loot drops, checkable tasks
+        └── Encounters.lua        # Universal dungeon brackets, role-tagged loot drops ([TANK]/[HEAL]/[DPS]), checklists
 ```
 
 ---
@@ -49,38 +56,23 @@ ForeverTankGuide/
 ## Key Features
 
 1. **Automatic Character Detection & Dynamic Registration:**
-   - Detects race, class, and profession using WoW API on login.
-   - Any third-party module or custom tank spec can register itself via:
-     - `FTG:RegisterClassModule(token, data)`
-     - `FTG:RegisterRaceModule(token, data)`
-     - `FTG:RegisterProfModule(token, data)`
-     - `FTG:RegisterDungeonData(table)`
-
-2. **In-UI Profile Switcher:**
-   - Interactive dropdown buttons in the top header let you preview any class, race, or profession (e.g. *Alliance / Dwarf / Warrior / Blacksmithing*) with a single click.
-   - Click **"Detect Player"** at any time to return to your character's live build.
-
-3. **Level-Bracket Progression (Phases 1–4):**
-   - **Phase 1 (1–20)**: Starting zones, initial survival mechanics, 30yd pulling, RFC/WC/Deadmines.
-   - **Phase 2 (20–40)**: Mid-game tank abilities (Consecration, Dire Bear, Stance dancing), SFK, RFK, SM.
-   - **Phase 3 (40–52)**: Specializations (Goblin Engineering, Armorsmithing), ZF pyramid, Maraudon.
-   - **Phase 4 (52–60)**: Pre-raid BIS gear, 440 defense cap, BRD, Stratholme, Scholomance, UBRS.
-
-4. **Interactive Dungeon & Loot Checklist:**
-   - Persistent checkboxes stored per character in `FTG_CharDB.completedTasks`.
-
-5. **Integrated Macro Vault:**
-   - Class, race, and profession-specific macros with one-click **"Save to WoW"** (`CreateMacro`) or selectable copy editboxes.
+   - Detects Class, active Specialization (via talent points or specialization API), Role, Race/Faction (including Horde vs. Alliance Skyborne), and Profession on login.
+2. **Race- & Faction-Based Quest Routing:**
+   - Recommended Leveling & Farming Zones dynamically populate based strictly on your character's Race and Faction across all 4 brackets (1–20, 20–40, 40–52, 52–60).
+3. **In-UI Profile Switcher:**
+   - Interactive dropdown buttons in the top header (`Class | Spec | Race | Profession | Detect Player`) let you preview any combination on the fly.
+4. **Role-Tagged Dungeon & Loot Checklist:**
+   - Persistent checkboxes stored per character in `FTG_CharDB.completedTasks` with `[TANK]`, `[HEAL]`, and `[DPS]` item tags.
+5. **Categorized Macro Vault:**
+   - Macros organized by **Defensive / Tank**, **Healing / Mouseover**, **Burst / DPS**, **Racial / Utility**, and **Profession / Utility** with one-click **"Save to WoW"** (`CreateMacro`).
 
 ---
 
 ## Installation & Commands
 
-1. Move the `ForeverTankGuide` folder to:
-   ```
-   World of Warcraft\Interface\AddOns\ForeverTankGuide\
-   ```
+1. Place the addon folder in `Interface\AddOns\`:
+   - Works as either `Interface\AddOns\ForeverTankGuide\` or `Interface\AddOns\HeathensForeverGuide\`.
 2. In-game commands:
-   - `/ftg` or `/tankguide` : Toggle guide window.
-   - `/ftg reset` : Re-center window on screen.
-   - Click or drag the minimap button to toggle or reposition.
+   - `/hfg`, `/foreverguide`, `/ftg`, or `/tankguide` : Toggle guide window.
+   - `/hfg reset` : Re-center window on screen.
+   - Left-click or drag the minimap button to toggle or reposition.

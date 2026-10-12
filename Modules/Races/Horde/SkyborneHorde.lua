@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Races/Horde/SkyborneHorde.lua
+    Heathen's Forever Guide - Modules/Races/Horde/SkyborneHorde.lua
     Skyborne (Horde) Cross-Faction Race Module: Racials, Faction-Routed Zones, Class Availability & Macros
 ]]
 
@@ -14,9 +14,9 @@ local SkyborneHordeModule = {
     brackets = {
         [1] = {
             zones = {
-                { name = "Skyborne Sanctuary (Horde Aerie)", range = "1–10", notes = "High-altitude starting sanctuary. Complete wind-trial rites and gather initial copper/herbs along the cliffside." },
-                { name = "The Barrens (Crossroads & Camp Taurajo)", range = "10–20", notes = "Primary Horde transit hub. Central access to Wailing Caverns, Ragefire Chasm (Orgrimmar), and open plains." },
-                { name = "Silverpine Forest (The Sepulcher)", range = "10–20", notes = "Alternative branch route. Dense undead/worggen quests and Shadowfang Keep preparation." }
+                { name = "Skyborne Sanctuary (Horde Aerie)", range = "1â€“10", notes = "High-altitude starting sanctuary. Complete wind-trial rites and gather initial copper/herbs along the cliffside." },
+                { name = "The Barrens (Crossroads & Camp Taurajo)", range = "10â€“20", notes = "Primary Horde transit hub. Central access to Wailing Caverns, Ragefire Chasm (Orgrimmar), and open plains." },
+                { name = "Silverpine Forest (The Sepulcher)", range = "10â€“20", notes = "Alternative branch route. Dense undead/worggen quests and Shadowfang Keep preparation." }
             },
             racials = {
                 { name = "Aerial Glide / Featherfall", desc = "Reduces falling speed dramatically, negating fall damage and enabling unique cliff pulls and dungeon ledge skips." },
@@ -31,10 +31,10 @@ local SkyborneHordeModule = {
         },
         [2] = {
             zones = {
-                { name = "Hillsbrad Foothills (Tarren Mill)", range = "20–30", notes = "High-density Horde quest hub. Syndicate, yeti cave, and Southshore border skirmishes." },
-                { name = "Thousand Needles (Freewind Post)", range = "25–35", notes = "Vertical mesa hub—Aerial Glide allows effortless descent from Freewind Post and Great Lift ledges!" },
-                { name = "Arathi Highlands (Hammerfall)", range = "30–40", notes = "Troll, ogre, and Syndicate quests; rich Iron and Mithril deposits." },
-                { name = "Stranglethorn Vale (Grom'gol Base Camp)", range = "30–40", notes = "Zeppelin access directly from Orgrimmar/Undercity; Nesingwary mastery quests." }
+                { name = "Hillsbrad Foothills (Tarren Mill)", range = "20â€“30", notes = "High-density Horde quest hub. Syndicate, yeti cave, and Southshore border skirmishes." },
+                { name = "Thousand Needles (Freewind Post)", range = "25â€“35", notes = "Vertical mesa hubâ€”Aerial Glide allows effortless descent from Freewind Post and Great Lift ledges!" },
+                { name = "Arathi Highlands (Hammerfall)", range = "30â€“40", notes = "Troll, ogre, and Syndicate quests; rich Iron and Mithril deposits." },
+                { name = "Stranglethorn Vale (Grom'gol Base Camp)", range = "30â€“40", notes = "Zeppelin access directly from Orgrimmar/Undercity; Nesingwary mastery quests." }
             },
             tankTips = {
                 "In Thousand Needles and Arathi Highlands, use Aerial Glide to jump directly off Freewind Post or cliffs to engage quests without elevator wait times."
@@ -42,9 +42,9 @@ local SkyborneHordeModule = {
         },
         [3] = {
             zones = {
-                { name = "Tanaris (Gadgetzan)", range = "40–48", notes = "Wastewander bandits, pirates, and Zul'Farrak dungeon runs." },
-                { name = "Feralas (Camp Mojache)", range = "42–50", notes = "Ogre ruins, yeti caves (leather/mining), and Dire Maul proximity." },
-                { name = "The Hinterlands (Revantusk Village)", range = "45–52", notes = "Horde coastal troll hub! Elite Jintha'Alor quests reward top-tier dungeon trinkets and weapons." }
+                { name = "Tanaris (Gadgetzan)", range = "40â€“48", notes = "Wastewander bandits, pirates, and Zul'Farrak dungeon runs." },
+                { name = "Feralas (Camp Mojache)", range = "42â€“50", notes = "Ogre ruins, yeti caves (leather/mining), and Dire Maul proximity." },
+                { name = "The Hinterlands (Revantusk Village)", range = "45â€“52", notes = "Horde coastal troll hub! Elite Jintha'Alor quests reward top-tier dungeon trinkets and weapons." }
             },
             tankTips = {
                 "Altitude Acclimation (+Nature/Frost resist) mitigates poison and cold damage spikes in Maraudon and Zul'Farrak."
@@ -52,10 +52,10 @@ local SkyborneHordeModule = {
         },
         [4] = {
             zones = {
-                { name = "Un'Goro Crater (Marshal's Refuge)", range = "50–55", notes = "Dense xp circuit, Devilsaur leather, and Rich Thorium Veins." },
-                { name = "Felwood (Bloodvenom Post)", range = "50–56", notes = "Horde flight hub; Timbermaw Hold reputation and corrupted satyr farming." },
-                { name = "Winterspring (Everlook)", range = "54–60", notes = "High-level Furbolg E'ko buffs and Rich Thorium routing." },
-                { name = "Eastern Plaguelands (Light's Hope Chapel)", range = "55–60", notes = "Argent Dawn reputation, Stratholme, and Scholomance endgame prep." }
+                { name = "Un'Goro Crater (Marshal's Refuge)", range = "50â€“55", notes = "Dense xp circuit, Devilsaur leather, and Rich Thorium Veins." },
+                { name = "Felwood (Bloodvenom Post)", range = "50â€“56", notes = "Horde flight hub; Timbermaw Hold reputation and corrupted satyr farming." },
+                { name = "Winterspring (Everlook)", range = "54â€“60", notes = "High-level Furbolg E'ko buffs and Rich Thorium routing." },
+                { name = "Eastern Plaguelands (Light's Hope Chapel)", range = "55â€“60", notes = "Argent Dawn reputation, Stratholme, and Scholomance endgame prep." }
             },
             tankTips = {
                 "In Blackrock Mountain and LBRS/UBRS, use Aerial Glide over lava/balcony drops for safe dungeon routing and wipe recovery."

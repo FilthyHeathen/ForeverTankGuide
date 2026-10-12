@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Core.lua
+    Heathen's Forever Guide - Core.lua
     Main Lifecycle, Event Router, Character Auto-Detector, Minimap & Slash Commands
 ]]
 
@@ -20,7 +20,7 @@ local DEFAULT_CONFIG = {
 
 -- Print helper with addon prefix
 function FTG:Print(msg)
-    DEFAULT_CHAT_FRAME:AddMessage("|cffffd200[ForeverTankGuide]|r " .. tostring(msg))
+    DEFAULT_CHAT_FRAME:AddMessage("|cffffd200[Heathen's Forever Guide]|r " .. tostring(msg))
 end
 
 -- Get bracket index corresponding to player's current level
@@ -175,7 +175,7 @@ function FTG:CreateMinimapButton()
     btn:SetScript("OnEnter", function(self)
         local prof = FTG:GetActiveProfile()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:AddLine("|cffffd200Forever Guide|r", 1, 1, 1)
+        GameTooltip:AddLine("|cffffd200Heathen's Forever Guide|r", 1, 1, 1)
         GameTooltip:AddLine(string.format("|cff40ff40[%s] %s %s|r", prof.role or "TANK", prof.raceName, prof.specName), 0.8, 0.8, 0.8)
         GameTooltip:AddLine("Left-Click: Toggle Guide Window", 0.9, 0.9, 0.9)
         GameTooltip:AddLine("Left-Click & Drag: Move Icon", 0.6, 0.6, 0.6)
@@ -213,7 +213,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 
             FTG:CreateMinimapButton()
             local prof = FTG:GetActiveProfile()
-            FTG:Print(string.format("Loaded v1.2.0 All-Role Edition. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/ftg|r or click minimap icon.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            FTG:Print(string.format("Loaded v1.3.0. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r (or |cffffd200/ftg|r) or click minimap icon.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then
@@ -230,7 +230,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             local data = prof.Brackets[newBracket] or {}
             FTG:Print(string.format("|cff00ff00*** LEVEL UP! (%d) ***|r Welcome to |cffffd200%s|r!", newLevel, data.name or ("Phase " .. newBracket)))
             if data.profession and data.profession.range then
-                FTG:Print(string.format("New %s focus: |cffffff00%s|r. Check /ftg for updated dungeon drops & tanking rules!", prof.profName, data.profession.range))
+                FTG:Print(string.format("New %s focus: |cffffff00%s|r. Check /hfg for updated dungeon drops & role tactics!", prof.profName, data.profession.range))
             end
 
             if FTG.UI and FTG.UI.MainFrame and FTG.UI.MainFrame:IsShown() then
@@ -244,10 +244,12 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 -- Slash Command Registration
-SLASH_FOREVERTANKGUIDE1 = "/ftg"
-SLASH_FOREVERTANKGUIDE2 = "/tankguide"
+SLASH_HEATHENSFOREVERGUIDE1 = "/hfg"
+SLASH_HEATHENSFOREVERGUIDE2 = "/foreverguide"
+SLASH_HEATHENSFOREVERGUIDE3 = "/ftg"
+SLASH_HEATHENSFOREVERGUIDE4 = "/tankguide"
 
-SlashCmdList["FOREVERTANKGUIDE"] = function(msg)
+SlashCmdList["HEATHENSFOREVERGUIDE"] = function(msg)
     msg = string.lower(string.trim and string.trim(msg) or msg:match("^%s*(.-)%s*$"))
     if msg == "reset" then
         if FTG.UI and FTG.UI.MainFrame then

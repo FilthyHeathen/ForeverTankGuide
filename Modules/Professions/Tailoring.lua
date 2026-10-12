@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Professions/Tailoring.lua
+    Heathen's Forever Guide - Modules/Professions/Tailoring.lua
     Tailoring Progression: Cloth Gear, Bag Upgrades, Shadoweave, Truefaith Vestments, and Bloodvine Set
 ]]
 
@@ -11,7 +11,7 @@ local TailoringModule = {
     description = "Premier cloth crafting profession for Healers and Caster DPS/Tanks. Provides 6-to-18 slot bags, Shadoweave/Dreamweave sets, Truefaith Vestments, and the +4% Spell Hit Bloodvine Set.",
     brackets = {
         [1] = {
-            range = "Skill 1–100",
+            range = "Skill 1â€“100",
             milestones = {
                 { skill = 1, name = "Bolt of Linen Cloth & Linen Bag (6-Slot)", mats = "Linen Cloth x6, Coarse Thread x3", notes = "Equip full 6-slot bags immediately for early questing." },
                 { skill = 60, name = "Red Linen Robe / Heavy Linen Gloves", mats = "Bolt of Linen Cloth, Red Dye", notes = "Early Spirit and Intellect upgrades." },
@@ -27,7 +27,7 @@ local TailoringModule = {
         },
 
         [2] = {
-            range = "Skill 100–225",
+            range = "Skill 100â€“225",
             milestones = {
                 { skill = 125, name = "Spidersilk Boots", mats = "Silk Cloth, Thick Spider's Silk x2", notes = "+4 Stamina, +4 Intellect, +7 Spirit." },
                 { skill = 150, name = "Small Silk Pack (10-Slot)", mats = "Bolt of Silk Cloth x3, Heavy Leather x2", notes = "High-demand 10-slot bag." },
@@ -43,10 +43,10 @@ local TailoringModule = {
         },
 
         [3] = {
-            range = "Skill 200–260",
+            range = "Skill 200â€“260",
             milestones = {
                 { skill = 225, name = "Mageweave Bag (12-Slot)", mats = "Bolt of Mageweave x4, Silken Thread x2", notes = "Standard mid-level inventory expansion." },
-                { skill = 225, name = "Dreamweave Vest, Gloves & Circlet", mats = "Bolt of Mageweave, Wildvine, Heart of the Wild", notes = "Massive +Spell Damage and +Healing pieces at levels 40–45!" },
+                { skill = 225, name = "Dreamweave Vest, Gloves & Circlet", mats = "Bolt of Mageweave, Wildvine, Heart of the Wild", notes = "Massive +Spell Damage and +Healing pieces at levels 40â€“45!" },
                 { skill = 250, name = "Mooncloth Transmute (4-Day Cooldown!)", mats = "Felcloth x2 (at any Moonwell)", notes = "UNLOCK AT 250 IMMEDIATELY! Passive gold generator and crafting reagent." },
                 { skill = 260, name = "Runecloth Bag (14-Slot)", mats = "Bolt of Runecloth x5, Rugged Leather x2", notes = "Best standard 14-slot inventory bag." }
             },
@@ -59,7 +59,7 @@ local TailoringModule = {
         },
 
         [4] = {
-            range = "Skill 260–300",
+            range = "Skill 260â€“300",
             milestones = {
                 { skill = 275, name = "Felcloth Pants, Hood & Shoulders", mats = "Bolt of Runecloth, Felcloth, Demonic Rune", notes = "High Shadow Spell Damage pre-raid BIS for Warlocks/Shadow Priests." },
                 { skill = 300, name = "Truefaith Vestments / Robe of the Archmage / Robe of the Void", mats = "Mooncloth, Essence of Fire/Mana/Undeath", notes = "BoP Masterpiece Chests: Pre-Raid and Tier-1 BIS for Priests, Mages, and Warlocks!" },

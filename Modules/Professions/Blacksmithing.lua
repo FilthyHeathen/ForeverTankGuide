@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Professions/Blacksmithing.lua
+    Heathen's Forever Guide - Modules/Professions/Blacksmithing.lua
     Blacksmithing Progression: Shield Spikes, Sharpening Stones, Plate Sets, and Lionheart Helm
 ]]
 
@@ -11,7 +11,7 @@ local BlacksmithingModule = {
     description = "Armorsmithing and Weaponsmithing powerhouse for Plate Tanks and Melee DPS. Craft reactive Shield Spikes, Elemental Sharpening Stones (+2% Crit), Dark Iron Plate, and the legendary Lionheart Helm.",
     brackets = {
         [1] = {
-            range = "Skill 1–100",
+            range = "Skill 1â€“100",
             milestones = {
                 { skill = 1, name = "Rough Sharpening Stone & Weightstone", mats = "Rough Stone x1, Linen Cloth", notes = "Flat +2 physical weapon damage for 30 minutes." },
                 { skill = 65, name = "Coarse Sharpening Stone", mats = "Coarse Stone x1", notes = "Flat +3 physical weapon damage." },
@@ -27,7 +27,7 @@ local BlacksmithingModule = {
         },
 
         [2] = {
-            range = "Skill 100–225",
+            range = "Skill 100â€“225",
             milestones = {
                 { skill = 125, name = "Heavy Sharpening Stone", mats = "Heavy Stone x1", notes = "+4 weapon damage buff lasting 30 minutes." },
                 { skill = 150, name = "Iron Shield Spike", mats = "Iron Bar x4, Coarse Stone x2, Silver Bar x2", notes = "Attaches to shield: inflicts 8-12 physical damage every time you block!" },
@@ -45,7 +45,7 @@ local BlacksmithingModule = {
         },
 
         [3] = {
-            range = "Skill 200–260 (Armorsmith / Weaponsmith)",
+            range = "Skill 200â€“260 (Armorsmith / Weaponsmith)",
             milestones = {
                 { skill = 210, name = "Glimmering Mithril Insignia (Armorsmith Quest)", mats = "Ornate Mithril Pants/Gloves/Shoulders", notes = "BoP Trinket: 30 seconds of complete Fear Immunity + +50 Armor!" },
                 { skill = 250, name = "Dense Sharpening Stone & Dense Weightstone", mats = "Dense Stone x1, Runecloth", notes = "+8 physical weapon damage for 30 minutes!" },
@@ -60,7 +60,7 @@ local BlacksmithingModule = {
         },
 
         [4] = {
-            range = "Skill 260–300",
+            range = "Skill 260â€“300",
             milestones = {
                 { skill = 275, name = "Imperial Plate Set & Whitesoul Helm", mats = "Thorium Bar, Star Ruby", notes = "Entry level 60 tank/DPS plate and +35 Healing plate helm for Holy Paladins!" },
                 { skill = 290, name = "Dark Iron Plate (Molten Core Fire Resist)", mats = "Dark Iron Bar, Blood of the Mountain, Fiery Core", notes = "Premier Fire Resistance plate set for Molten Core and BWL tanks." },

@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Professions/Leatherworking.lua
+    Heathen's Forever Guide - Modules/Professions/Leatherworking.lua
     Leatherworking Progression: Armor Kits, Wolfshead Helm, Devilsaur Set, and Hide of the Wild
 ]]
 
@@ -11,7 +11,7 @@ local LeatherworkingModule = {
     description = "Essential leather & mail crafting for Feral Tanks/Cats, Rogues, Hunters, and Healers. Craft Armor Kits, Wolfshead Helm, the +2% Hit Devilsaur Set, and Hide of the Wild.",
     brackets = {
         [1] = {
-            range = "Skill 1–100",
+            range = "Skill 1â€“100",
             milestones = {
                 { skill = 1, name = "Light Armor Kit", mats = "Light Leather x1", notes = "Permanently adds +8 Armor to chest, boots, gloves, or pants." },
                 { skill = 40, name = "Medium Armor Kit", mats = "Medium Leather x1", notes = "Permanently adds +16 Armor to an armor slot." },
@@ -25,7 +25,7 @@ local LeatherworkingModule = {
         },
 
         [2] = {
-            range = "Skill 100–225",
+            range = "Skill 100â€“225",
             milestones = {
                 { skill = 100, name = "Heavy Armor Kit", mats = "Heavy Leather x5, Fine Thread x1", notes = "Permanently adds +24 Armor to an armor slot." },
                 { skill = 150, name = "Thick Armor Kit", mats = "Thick Leather x5, Silken Thread x1", notes = "Permanently adds +32 Armor to an armor slot." },
@@ -41,7 +41,7 @@ local LeatherworkingModule = {
         },
 
         [3] = {
-            range = "Skill 200–260 (Tribal / Elemental / Dragonscale)",
+            range = "Skill 200â€“260 (Tribal / Elemental / Dragonscale)",
             milestones = {
                 { skill = 200, name = "Rugged Armor Kit", mats = "Rugged Leather x5", notes = "Permanently adds +40 Armor to chest, legs, hands, or feet." },
                 { skill = 225, name = "Wolfshead Helm (Tribal Specialization!)", mats = "Thick Leather x18, Wicked Claw x8, Wildvine x2", notes = "FOREVER BIS FOR FERAL DRUIDS: Grants +20 Energy every time you shift into Cat Form!" },
@@ -55,11 +55,11 @@ local LeatherworkingModule = {
         },
 
         [4] = {
-            range = "Skill 260–300",
+            range = "Skill 260â€“300",
             milestones = {
                 { skill = 290, name = "Devilsaur Gauntlets & Leggings (2pc Set)", mats = "Devilsaur Leather x22, Rugged Leather x42", notes = "GOD-TIER MELEE SET: +2% Melee Hit, +28 Crit/Agi, and +74 Attack Power! BIS for Warriors, Rogues, Ferals, Hunters!" },
                 { skill = 295, name = "Corehound Belt (Molten Core)", mats = "Corehound Leather x12, Cured Rugged Hide x2", notes = "+62 Healing & +1% Crit (Healers) or high Fire Resist." },
-                { skill = 300, name = "Hide of the Wild (Tribal)", mats = "Cured Rugged Hide x3, Larval Acid x8, Essence of Water x10", notes = "+42 Healing, +10 Int, +8 Stamina—Best-in-Slot Healer Cloak for Priests, Druids, Shamans, Paladins!" }
+                { skill = 300, name = "Hide of the Wild (Tribal)", mats = "Cured Rugged Hide x3, Larval Acid x8, Essence of Water x10", notes = "+42 Healing, +10 Int, +8 Staminaâ€”Best-in-Slot Healer Cloak for Priests, Druids, Shamans, Paladins!" }
             },
             shoppingList = {
                 "Rugged Leather x 150-200",
@@ -68,7 +68,7 @@ local LeatherworkingModule = {
                 "Essence of Water / Fire x 6-10"
             },
             ahProfits = {
-                { item = "Devilsaur Gauntlets & Leggings Set", notes = "Every physical DPS class buys this set at level 53–60." },
+                { item = "Devilsaur Gauntlets & Leggings Set", notes = "Every physical DPS class buys this set at level 53â€“60." },
                 { item = "Hide of the Wild", notes = "Highest-selling crafted Healer cloak in the game." },
                 { item = "Cured Rugged Hides (Salt Shaker Cooldown)", notes = "Passive gold every 3 days from your Salt Shaker." }
             }

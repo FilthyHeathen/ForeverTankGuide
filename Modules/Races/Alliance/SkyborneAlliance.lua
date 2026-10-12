@@ -1,5 +1,5 @@
 --[[
-    ForeverTankGuide - Modules/Races/Alliance/SkyborneAlliance.lua
+    Heathen's Forever Guide - Modules/Races/Alliance/SkyborneAlliance.lua
     Skyborne (Alliance) Cross-Faction Race Module: Racials, Faction-Routed Zones, Class Availability & Macros
 ]]
 
@@ -14,9 +14,9 @@ local SkyborneAllianceModule = {
     brackets = {
         [1] = {
             zones = {
-                { name = "Skyborne Aerie (Alliance Sanctuary)", range = "1–10", notes = "High-altitude starting aerie. Complete wind-trial rites and gather initial copper/herbs along the peaks." },
-                { name = "Darkshore (Auberdine)", range = "10–20", notes = "Primary northern Alliance coastal hub. Dense quest chains and Blackfathom Deeps preparation." },
-                { name = "Westfall (Sentinel Hill) & Redridge", range = "10–20", notes = "Eastern Kingdoms branch option. Defias Brotherhood questline leading directly into The Deadmines." }
+                { name = "Skyborne Aerie (Alliance Sanctuary)", range = "1â€“10", notes = "High-altitude starting aerie. Complete wind-trial rites and gather initial copper/herbs along the peaks." },
+                { name = "Darkshore (Auberdine)", range = "10â€“20", notes = "Primary northern Alliance coastal hub. Dense quest chains and Blackfathom Deeps preparation." },
+                { name = "Westfall (Sentinel Hill) & Redridge", range = "10â€“20", notes = "Eastern Kingdoms branch option. Defias Brotherhood questline leading directly into The Deadmines." }
             },
             racials = {
                 { name = "Aerial Glide / Featherfall", desc = "Reduces falling speed dramatically, negating fall damage and enabling unique cliff pulls and dungeon ledge skips." },
@@ -31,10 +31,10 @@ local SkyborneAllianceModule = {
         },
         [2] = {
             zones = {
-                { name = "Duskwood (Darkshire)", range = "20–30", notes = "Iconic Alliance undead/worgen storyline; Mor'Ladim and Stitches." },
-                { name = "Hillsbrad Foothills (Southshore)", range = "22–32", notes = "Alliance coastal base; Syndicate, murlocs, and Alterac yeti caves." },
-                { name = "Arathi Highlands (Refuge Pointe)", range = "30–40", notes = "Stromgarde Keep elite quests and rich Iron/Mithril mining nodes." },
-                { name = "Stranglethorn Vale (Rebel Camp)", range = "30–40", notes = "Northern STV jungle hub and Nesingwary hunting mastery." }
+                { name = "Duskwood (Darkshire)", range = "20â€“30", notes = "Iconic Alliance undead/worgen storyline; Mor'Ladim and Stitches." },
+                { name = "Hillsbrad Foothills (Southshore)", range = "22â€“32", notes = "Alliance coastal base; Syndicate, murlocs, and Alterac yeti caves." },
+                { name = "Arathi Highlands (Refuge Pointe)", range = "30â€“40", notes = "Stromgarde Keep elite quests and rich Iron/Mithril mining nodes." },
+                { name = "Stranglethorn Vale (Rebel Camp)", range = "30â€“40", notes = "Northern STV jungle hub and Nesingwary hunting mastery." }
             },
             tankTips = {
                 "Use Aerial Glide from Lumber Mill or cliff ridges in Arathi and STV to traverse terrain rapidly."
@@ -42,9 +42,9 @@ local SkyborneAllianceModule = {
         },
         [3] = {
             zones = {
-                { name = "Tanaris (Gadgetzan)", range = "40–48", notes = "Wastewander bandits, pirates, and Zul'Farrak dungeon runs." },
-                { name = "Feralas (Feathermoon Stronghold)", range = "42–50", notes = "Island stronghold hub; Naga, ogre ruins, and Maraudon/Dire Maul prep." },
-                { name = "The Hinterlands (Aerie Peak)", range = "43–52", notes = "Natural Wildhammer gryphon aerie hub—complete Troll cages and Jintha'Alor elite quests!" }
+                { name = "Tanaris (Gadgetzan)", range = "40â€“48", notes = "Wastewander bandits, pirates, and Zul'Farrak dungeon runs." },
+                { name = "Feralas (Feathermoon Stronghold)", range = "42â€“50", notes = "Island stronghold hub; Naga, ogre ruins, and Maraudon/Dire Maul prep." },
+                { name = "The Hinterlands (Aerie Peak)", range = "43â€“52", notes = "Natural Wildhammer gryphon aerie hubâ€”complete Troll cages and Jintha'Alor elite quests!" }
             },
             tankTips = {
                 "Altitude Acclimation (+Nature/Frost resist) mitigates poison and cold damage spikes in Maraudon and Zul'Farrak."
@@ -52,10 +52,10 @@ local SkyborneAllianceModule = {
         },
         [4] = {
             zones = {
-                { name = "Un'Goro Crater (Marshal's Refuge)", range = "50–55", notes = "Dense xp circuit, Devilsaur leather, and Rich Thorium Veins." },
-                { name = "Western Plaguelands (Chillwind Camp)", range = "51–58", notes = "Alliance forward base for Cauldron quests and Scholomance key chain." },
-                { name = "Winterspring (Everlook)", range = "54–60", notes = "High-level Furbolg E'ko buffs and Rich Thorium routing." },
-                { name = "Eastern Plaguelands (Light's Hope Chapel)", range = "55–60", notes = "Argent Dawn reputation, Stratholme, and Scholomance endgame prep." }
+                { name = "Un'Goro Crater (Marshal's Refuge)", range = "50â€“55", notes = "Dense xp circuit, Devilsaur leather, and Rich Thorium Veins." },
+                { name = "Western Plaguelands (Chillwind Camp)", range = "51â€“58", notes = "Alliance forward base for Cauldron quests and Scholomance key chain." },
+                { name = "Winterspring (Everlook)", range = "54â€“60", notes = "High-level Furbolg E'ko buffs and Rich Thorium routing." },
+                { name = "Eastern Plaguelands (Light's Hope Chapel)", range = "55â€“60", notes = "Argent Dawn reputation, Stratholme, and Scholomance endgame prep." }
             },
             tankTips = {
                 "In Blackrock Mountain and LBRS/UBRS, use Aerial Glide over balcony drops for safe dungeon routing and wipe recovery."
