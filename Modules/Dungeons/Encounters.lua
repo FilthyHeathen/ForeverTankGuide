@@ -12,7 +12,7 @@ local EncountersModule = {
                 {
                     key = "rfc",
                     name = "Ragefire Chasm",
-                    level = "13â€“16",
+                    level = "13–16",
                     location = "Orgrimmar",
                     notes = "Basic positioning test. Pull shamans away from packs; interrupt Healing Wave.",
                     drops = {
@@ -24,7 +24,7 @@ local EncountersModule = {
                 {
                     key = "wc",
                     name = "Wailing Caverns",
-                    level = "18â€“22",
+                    level = "18–22",
                     location = "The Barrens",
                     notes = "Watch for Druid of the Fang sleep casts. Keep mobs bundled and interrupt Naralex's Nightmare.",
                     drops = {
@@ -38,7 +38,7 @@ local EncountersModule = {
                 {
                     key = "dm",
                     name = "The Deadmines",
-                    level = "17â€“21",
+                    level = "17–21",
                     location = "Westfall",
                     notes = "Watch patrolling stealthed Defias cutthroats behind your party after clearing each room.",
                     drops = {
@@ -56,7 +56,7 @@ local EncountersModule = {
                 {
                     key = "sfk",
                     name = "Shadowfang Keep",
-                    level = "22â€“26",
+                    level = "22–26",
                     location = "Silverpine Forest",
                     notes = "Watch for Arugal Mind Control and Veil of Shadow (-75% healing reduction curse!).",
                     drops = {
@@ -68,7 +68,7 @@ local EncountersModule = {
                 {
                     key = "rfk",
                     name = "Razorfen Kraul",
-                    level = "29â€“34",
+                    level = "29–34",
                     location = "Southern Barrens",
                     notes = "Pull quilboar casters back behind corners; destroy Earthgrab and Healing totems immediately.",
                     drops = {
@@ -80,7 +80,7 @@ local EncountersModule = {
                 {
                     key = "sm",
                     name = "Scarlet Monastery (GY / Lib / Arm / Cath)",
-                    level = "32â€“42",
+                    level = "32–42",
                     location = "Tirisfal Glades",
                     notes = "Clear surrounding rooms before engaging Mograine; stun fleeing Scarlet humanoids at 15% HP.",
                     drops = {
@@ -98,7 +98,7 @@ local EncountersModule = {
                 {
                     key = "zf",
                     name = "Zul'Farrak",
-                    level = "43â€“47",
+                    level = "43–47",
                     location = "Tanaris",
                     notes = "Kill Witch Doctor Zum'rah totems immediately; use AoE control on the Pyramid stairs event.",
                     drops = {
@@ -110,7 +110,7 @@ local EncountersModule = {
                 {
                     key = "mara",
                     name = "Maraudon",
-                    level = "46â€“52",
+                    level = "46–52",
                     location = "Desolace",
                     notes = "Princess Theradras drops an AoE fear + dust field; ranged DPS and Healers must stand at max 30yd range.",
                     drops = {
@@ -128,7 +128,7 @@ local EncountersModule = {
                 {
                     key = "brd",
                     name = "Blackrock Depths (BRD)",
-                    level = "52â€“58",
+                    level = "52–58",
                     location = "Blackrock Mountain",
                     notes = "Arena, Angerforge, Golem Lord, and Emperor runs provide foundational Pre-Raid BIS for all 3 roles.",
                     drops = {
@@ -140,19 +140,19 @@ local EncountersModule = {
                 {
                     key = "strat",
                     name = "Stratholme (Live & Undead)",
-                    level = "58â€“60",
+                    level = "58–60",
                     location = "Eastern Plaguelands",
                     notes = "Line-of-Sight (LOS) pull caster gargoyles and skeleton mages around gate corners.",
                     drops = {
                         { id = "strat_1", role = "TANK", name = "Deathbone Set & Skullplate Shield", slot = "Plate / Shield", boss = "Undead Bosses / Malor", notes = "High Defense and MP5 plate tank set." },
-                        { id = "strat_2", role = "HEAL", name = "Robes of the Exalted & Tooth of Gnarr", slot = "Chest / Neck", boss = "Baron Rivendare / Balnazzar", notes = "+68 Healing chestâ€”Pre-Raid BIS for Priests, Druids, Shamans, Paladins!" },
+                        { id = "strat_2", role = "HEAL", name = "Robes of the Exalted & Tooth of Gnarr", slot = "Chest / Neck", boss = "Baron Rivendare / Balnazzar", notes = "+68 Healing chest—Pre-Raid BIS for Priests, Druids, Shamans, Paladins!" },
                         { id = "strat_3", role = "DPS", name = "Mask of the Unforgiven & Carapace Spine Crossbow", slot = "Head / Ranged", boss = "The Unforgiven / Nerub'enkan", notes = "+2% Hit/+1% Crit helm (Melee) and Pre-Raid BIS Crossbow (Hunters)!" }
                     }
                 },
                 {
                     key = "scholo",
                     name = "Scholomance",
-                    level = "58â€“60",
+                    level = "58–60",
                     location = "Western Plaguelands",
                     notes = "Silence and LOS pull Necromancers; keep tanks topped before Rattlegore thrash strikes.",
                     drops = {
@@ -164,7 +164,7 @@ local EncountersModule = {
                 {
                     key = "ubrs",
                     name = "Upper Blackrock Spire (UBRS)",
-                    level = "58â€“60",
+                    level = "58–60",
                     location = "Blackrock Mountain",
                     notes = "10-man raid dungeon. Jed Runewatcher (rare spawn!), Rend Blackhand, and General Drakkisath.",
                     drops = {

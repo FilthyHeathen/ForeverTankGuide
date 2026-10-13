@@ -12,6 +12,7 @@ local DEFAULT_CONFIG = {
     selectedBracket = 1,
     currentView = "overview",
     completedTasks = {},
+    tankGuideMode = true,
     overrideClass = nil,
     overrideSpec = nil,
     overrideRace = nil,
@@ -195,6 +196,9 @@ local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
+eventFrame:RegisterEvent("UNIT_AURA")
+eventFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
 
 eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
@@ -240,6 +244,14 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 
     elseif event == "PLAYER_ENTERING_WORLD" then
         FTG.lastNotifiedBracket = FTG:GetCurrentPlayerBracket()
+
+    elseif event == "UNIT_INVENTORY_CHANGED" or event == "UNIT_AURA" or event == "CHARACTER_POINTS_CHANGED" then
+        local unit = ...
+        if (not unit or unit == "player") and FTG_CharDB and not FTG_CharDB.overrideSpec then
+            if FTG.UI and FTG.UI.MainFrame and FTG.UI.MainFrame:IsShown() then
+                FTG.UI:UpdateView()
+            end
+        end
     end
 end)
 

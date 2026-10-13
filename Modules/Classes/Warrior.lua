@@ -17,10 +17,10 @@ local WarriorModule = {
             statPriority = "Defense (to 440 Cap) > Stamina > Block Value / Armor > Hit (6-9%) > Strength / Agility",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Learn Defensive Stance (lvl 10), Taunt, and Sunder Armor threat rotation.",
                     zones = {
-                        { name = "Silverpine / Barrens / Westfall", range = "10â€“20", notes = "Defensive Stance class quest chain at level 10." }
+                        { name = "Silverpine / Barrens / Westfall", range = "10–20", notes = "Defensive Stance class quest chain at level 10." }
                     },
                     abilities = {
                         { level = 10, name = "Defensive Stance & Taunt", desc = "Primary tank stance (-10% damage taken, +threat multiplier) and 8yd snap taunt." },
@@ -34,10 +34,10 @@ local WarriorModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Revenge high-efficiency threat, Challenging Shout group peel, and Plate Armor transition at level 40.",
                     zones = {
-                        { name = "Hillsbrad / Arathi / Thousand Needles", range = "20â€“40", notes = "Berserker Stance questline at level 30." }
+                        { name = "Hillsbrad / Arathi / Thousand Needles", range = "20–40", notes = "Berserker Stance questline at level 30." }
                     },
                     abilities = {
                         { level = 24, name = "Revenge", desc = "High-threat, low-cost strike usable after dodging, blocking, or parrying." },
@@ -45,16 +45,16 @@ local WarriorModule = {
                         { level = 40, name = "Shield Slam (Talent)", desc = "Heavy single target threat scaling with shield block value; dispels 1 magic effect." }
                     },
                     rules = {
-                        "Revenge is your highest Threat-Per-Rage buttonâ€”press it immediately every time it lights up.",
+                        "Revenge is your highest Threat-Per-Rage button—press it immediately every time it lights up.",
                         "Use Shield Block to guarantee a block and instantly activate Revenge procs.",
                         "Stance dance safely: invest 5/5 Tactical Mastery so you retain up to 25 rage when swapping stances."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Concussion Blow crowd control, Last Stand emergency health, and deeper mitigation scaling.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Feralas", range = "40â€“52", notes = "Zul'Farrak & Maraudon physical mitigation trials." }
+                        { name = "Tanaris / Hinterlands / Feralas", range = "40–52", notes = "Zul'Farrak & Maraudon physical mitigation trials." }
                     },
                     abilities = {
                         { level = 30, name = "Concussion Blow (Talent)", desc = "5-second physical stun with solid upfront threat." },
@@ -67,10 +67,10 @@ local WarriorModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Pre-raid defense cap (440 Defense skill for uncrushable/uncrittable against raid bosses).",
                     zones = {
-                        { name = "BRD / Stratholme / Scholomance / UBRS", range = "52â€“60", notes = "Acquiring Deathbone, Valor, and Draconian Deflector." }
+                        { name = "BRD / Stratholme / Scholomance / UBRS", range = "52–60", notes = "Acquiring Deathbone, Valor, and Draconian Deflector." }
                     },
                     abilities = {
                         { level = 60, name = "Max Rank Shield Slam & Revenge", desc = "Capstone physical threat ceiling." },
@@ -112,10 +112,10 @@ local WarriorModule = {
             statPriority = "Hit (to 9% Cap) > Slow 2H Weapon DPS > Crit > Strength > Attack Power",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Hamstring kiting between slow 2H swings, Overpower dodges, and Rend ticks.",
                     zones = {
-                        { name = "Barrens / Westfall / Silverpine", range = "1â€“20", notes = "Acquire slowest possible 2-handed axe, mace, or sword." }
+                        { name = "Barrens / Westfall / Silverpine", range = "1–20", notes = "Acquire slowest possible 2-handed axe, mace, or sword." }
                     },
                     abilities = {
                         { level = 4, name = "Charge", desc = "Generates initial rage and stuns target for 1 sec." },
@@ -123,14 +123,14 @@ local WarriorModule = {
                     },
                     rules = {
                         "Use the Hamstring Kite method while soloing: hit mob with slow 3.6s 2H weapon, strafe away until swing timer resets, then step in to trade 1 hit for 1 hit instead of 1 for 3.",
-                        "Avoid spamming Heroic Strike while levelingâ€”it cancels your next white swing's rage generation; use Sunder or Cleave instead."
+                        "Avoid spamming Heroic Strike while leveling—it cancels your next white swing's rage generation; use Sunder or Cleave instead."
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Sweeping Strikes cleave king, Whirlwind Axe quest at 30, and Mortal Strike at 40.",
                     zones = {
-                        { name = "Hillsbrad / Arathi / STV", range = "20â€“40", notes = "Complete Whirlwind Axe quest chain in Arathi/STV as soon as possible at level 30!" }
+                        { name = "Hillsbrad / Arathi / STV", range = "20–40", notes = "Complete Whirlwind Axe quest chain in Arathi/STV as soon as possible at level 30!" }
                     },
                     abilities = {
                         { level = 30, name = "Sweeping Strikes (Talent)", desc = "Your next 5 melee attacks strike an additional nearby opponent! Unmatched 2-target dungeon cleave." },
@@ -143,10 +143,10 @@ local WarriorModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Mortal Strike + Whirlwind rotation, Sword/Axe Specialization procs, and Execution phases.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Executioner's Cleaver, Gatorbite, or Princess 2H drops." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Executioner's Cleaver, Gatorbite, or Princess 2H drops." }
                     },
                     abilities = {
                         { level = 35, name = "Axe / Sword Specialization (Talent)", desc = "+5% Crit with Axes or 5% chance for an extra free attack with Swords." }
@@ -157,10 +157,10 @@ local WarriorModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame 2H cleave, Arcanite Reaper / Obsidian Edged Blade, and PvP Mortal Strike dominance.",
                     zones = {
-                        { name = "BRD / UBRS / AV", range = "52â€“60", notes = "Ice Barbed Spear (AV quest), Blackhand's Breadth, Hand of Justice." }
+                        { name = "BRD / UBRS / AV", range = "52–60", notes = "Ice Barbed Spear (AV quest), Blackhand's Breadth, Hand of Justice." }
                     },
                     abilities = {
                         { level = 60, name = "Recklessness", desc = "Grants 100% critical strike chance on all attacks for 15 seconds (30 min cooldown)." }
@@ -200,24 +200,24 @@ local WarriorModule = {
             statPriority = "Hit (6% w/ +5 Weapon Skill or 9% Cap) > Crit > Strength / Attack Power > Haste (Flurry)",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Cruelty (+5% Crit), early rage generation, and Dual Wield unlock at level 20.",
                     zones = {
-                        { name = "Barrens / Westfall / Silverpine", range = "1â€“20", notes = "Pick up Cruelty 5/5 first for +5% melee crit." }
+                        { name = "Barrens / Westfall / Silverpine", range = "1–20", notes = "Pick up Cruelty 5/5 first for +5% melee crit." }
                     },
                     abilities = {
                         { level = 20, name = "Dual Wield", desc = "Allows equipping a one-handed weapon in the off-hand slot." }
                     },
                     rules = {
-                        "Note that Dual Wielding incurs a 24% base white miss penaltyâ€”use a slow 2H until you acquire decent hit or green-level mobs.",
-                        "Max out Cruelty (5/5) immediately at levels 10â€“14."
+                        "Note that Dual Wielding incurs a 24% base white miss penalty—use a slow 2H until you acquire decent hit or green-level mobs.",
+                        "Max out Cruelty (5/5) immediately at levels 10–14."
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Death Wish cooldown (+20% physical damage), Flurry (+30% attack speed on crit), and Bloodthirst at 40.",
                     zones = {
-                        { name = "SM / RFK / Hillsbrad / STV", range = "20â€“40", notes = "Sword of Omen and Vanquisher's Sword quest rewards (SM & RFD)." }
+                        { name = "SM / RFK / Hillsbrad / STV", range = "20–40", notes = "Sword of Omen and Vanquisher's Sword quest rewards (SM & RFD)." }
                     },
                     abilities = {
                         { level = 30, name = "Death Wish (Talent)", desc = "Increases physical damage by 20% and grants fear immunity for 30 sec." },
@@ -225,32 +225,32 @@ local WarriorModule = {
                         { level = 40, name = "Bloodthirst (Talent)", desc = "Instant attack dealing 45% of your total Attack Power as damage and healing on next swings." }
                     },
                     rules = {
-                        "Equip a slow Main Hand (2.6â€“2.8 speed) for big Whirlwind hits, and a fast Off Hand (1.5â€“1.8 speed) to proc Flurry and Unbridled Wrath.",
+                        "Equip a slow Main Hand (2.6–2.8 speed) for big Whirlwind hits, and a fast Off Hand (1.5–1.8 speed) to proc Flurry and Unbridled Wrath.",
                         "Queue Heroic Strike or Cleave while Dual Wielding: while queued, your Off-Hand weapon does NOT suffer the dual-wield miss penalty!"
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Thrash Blade questline (Maraudon), Bloodthirst + Whirlwind cooldown alignment, and Hit rating pursuit.",
                     zones = {
-                        { name = "Tanaris / Maraudon / Hinterlands", range = "40â€“52", notes = "Complete Princess Theradras quest for Thrash Blade and Blackstone Ring (+1% Hit)." }
+                        { name = "Tanaris / Maraudon / Hinterlands", range = "40–52", notes = "Complete Princess Theradras quest for Thrash Blade and Blackstone Ring (+1% Hit)." }
                     },
                     abilities = {
                         { level = 40, name = "Bloodthirst + Whirlwind Loop", desc = "Core 6s Bloodthirst and 10s Whirlwind Berserker Stance rotation." }
                     },
                     rules = {
                         "Keep Bloodthirst and Whirlwind on cooldown; only cast Heroic Strike when Rage exceeds 55+ so you never delay Bloodthirst.",
-                        "Grab Blackstone Ring from Maraudon immediatelyâ€”your first +1% Hit ring."
+                        "Grab Blackstone Ring from Maraudon immediately—your first +1% Hit ring."
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame raid scaling titan: Lionheart Helm, Devilsaur Set, Dal'Rend's Sacred Charge, and Heroic Strike queueing.",
                     zones = {
-                        { name = "BRD / UBRS / Strat", range = "52â€“60", notes = "Dal'Rend's Swords (UBRS), Hand of Justice (BRD), Lionheart Helm (BS)." }
+                        { name = "BRD / UBRS / Strat", range = "52–60", notes = "Dal'Rend's Swords (UBRS), Hand of Justice (BRD), Lionheart Helm (BS)." }
                     },
                     abilities = {
-                        { level = 52, name = "Execute Phase (<20%)", desc = "Highest DPS phase in the gameâ€”convert all pooled rage into Execute." }
+                        { level = 52, name = "Execute Phase (<20%)", desc = "Highest DPS phase in the game—convert all pooled rage into Execute." }
                     },
                     rules = {
                         "Acquire 6% Hit (if Human with Swords/Maces or Orc with Axes) or 9% Hit so yellow attacks never miss.",

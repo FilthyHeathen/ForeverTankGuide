@@ -13,9 +13,9 @@ local NightElfModule = {
     brackets = {
         [1] = {
             zones = {
-                { name = "Shadowglen (Teldrassil)", range = "1â€“6", notes = "Night Elf starting glade: Nightsabers, Webwood Spiders, and Grellkin quests." },
-                { name = "Teldrassil / Dolanaar", range = "6â€“10", notes = "Dolanaar hub: Starbreeze Village, Ban'ethil Barrow Den, and Darnassus transition." },
-                { name = "Darkshore (Auberdine) & Ashenvale", range = "10â€“20", notes = "Auberdine long coastline quest chains, Moonkin caves, and Astranaar (Ashenvale) border." }
+                { name = "Shadowglen (Teldrassil)", range = "1–6", notes = "Night Elf starting glade: Nightsabers, Webwood Spiders, and Grellkin quests." },
+                { name = "Teldrassil / Dolanaar", range = "6–10", notes = "Dolanaar hub: Starbreeze Village, Ban'ethil Barrow Den, and Darnassus transition." },
+                { name = "Darkshore (Auberdine) & Ashenvale", range = "10–20", notes = "Auberdine long coastline quest chains, Moonkin caves, and Astranaar (Ashenvale) border." }
             },
             racials = {
                 { name = "Quickness", desc = "Increases chance to dodge melee and ranged attacks by 1% passively. Pure mitigation." },
@@ -30,10 +30,10 @@ local NightElfModule = {
         },
         [2] = {
             zones = {
-                { name = "Ashenvale (Astranaar) & Stonetalon Peak", range = "20â€“28", notes = "Astranaar Sentinel quests, Blackfathom Deeps dungeon runs, and Stonetalon Peak." },
-                { name = "Duskwood (Darkshire) & Wetlands (Menethil)", range = "24â€“32", notes = "Eastern Kingdoms crossover for dense Darkshire and Menethil Harbor quest chains." },
-                { name = "Hillsbrad Foothills (Southshore) & Arathi (Refuge Pointe)", range = "28â€“38", notes = "Southshore and Refuge Pointe Alliance hubs." },
-                { name = "Stranglethorn Vale (Rebel Camp) & Desolace (Nijel's Point)", range = "32â€“40", notes = "Nijel's Point Night Elf outpost in Desolace + STV Rebel Camp." }
+                { name = "Ashenvale (Astranaar) & Stonetalon Peak", range = "20–28", notes = "Astranaar Sentinel quests, Blackfathom Deeps dungeon runs, and Stonetalon Peak." },
+                { name = "Duskwood (Darkshire) & Wetlands (Menethil)", range = "24–32", notes = "Eastern Kingdoms crossover for dense Darkshire and Menethil Harbor quest chains." },
+                { name = "Hillsbrad Foothills (Southshore) & Arathi (Refuge Pointe)", range = "28–38", notes = "Southshore and Refuge Pointe Alliance hubs." },
+                { name = "Stranglethorn Vale (Rebel Camp) & Desolace (Nijel's Point)", range = "32–40", notes = "Nijel's Point Night Elf outpost in Desolace + STV Rebel Camp." }
             },
             tankTips = {
                 "In Blackfathom Deeps, Nature Resistance mitigates naga and hydra poison spit."
@@ -41,10 +41,10 @@ local NightElfModule = {
         },
         [3] = {
             zones = {
-                { name = "Feralas (Feathermoon Stronghold)", range = "40â€“48", notes = "Feathermoon Stronghold Night Elf sentinel fortress: Gordunni ogres, Yetis, and Maraudon." },
-                { name = "Tanaris (Gadgetzan)", range = "42â€“50", notes = "Wastewander bandits, Southsea pirates, and Zul'Farrak dungeon quest stack." },
-                { name = "The Hinterlands (Aerie Peak)", range = "43â€“50", notes = "Aerie Peak Alliance hub: Witherbark trolls and Jintha'Alor elite quests." },
-                { name = "Azshara (Talrendis Point) & Searing Gorge", range = "48â€“52", notes = "Highborne ruins in Azshara and Thorium Point in Searing Gorge." }
+                { name = "Feralas (Feathermoon Stronghold)", range = "40–48", notes = "Feathermoon Stronghold Night Elf sentinel fortress: Gordunni ogres, Yetis, and Maraudon." },
+                { name = "Tanaris (Gadgetzan)", range = "42–50", notes = "Wastewander bandits, Southsea pirates, and Zul'Farrak dungeon quest stack." },
+                { name = "The Hinterlands (Aerie Peak)", range = "43–50", notes = "Aerie Peak Alliance hub: Witherbark trolls and Jintha'Alor elite quests." },
+                { name = "Azshara (Talrendis Point) & Searing Gorge", range = "48–52", notes = "Highborne ruins in Azshara and Thorium Point in Searing Gorge." }
             },
             tankTips = {
                 "As a Night Elf Feral Druid or Rogue Tank, Quickness stacks directly with high Agility for extreme Dodge percentages."
@@ -52,10 +52,10 @@ local NightElfModule = {
         },
         [4] = {
             zones = {
-                { name = "Felwood (Emerald Sanctuary) & Un'Goro Crater", range = "50â€“55", notes = "Emerald Sanctuary Night Elf quests, Timbermaw Hold rep, and Un'Goro circuit." },
-                { name = "Western Plaguelands (Chillwind Camp)", range = "52â€“58", notes = "Chillwind Camp Alliance hub: Scourge cauldrons and Scholomance key chain." },
-                { name = "Winterspring (Everlook & Starfall Village)", range = "54â€“60", notes = "Starfall Village Night Elf hub, Winterfall furbolgs, and Frostsaber trainers." },
-                { name = "Eastern Plaguelands & Burning Steppes", range = "55â€“60", notes = "Morgan's Vigil (Onyxia attunement), Blackrock Depths, and Stratholme." }
+                { name = "Felwood (Emerald Sanctuary) & Un'Goro Crater", range = "50–55", notes = "Emerald Sanctuary Night Elf quests, Timbermaw Hold rep, and Un'Goro circuit." },
+                { name = "Western Plaguelands (Chillwind Camp)", range = "52–58", notes = "Chillwind Camp Alliance hub: Scourge cauldrons and Scholomance key chain." },
+                { name = "Winterspring (Everlook & Starfall Village)", range = "54–60", notes = "Starfall Village Night Elf hub, Winterfall furbolgs, and Frostsaber trainers." },
+                { name = "Eastern Plaguelands & Burning Steppes", range = "55–60", notes = "Morgan's Vigil (Onyxia attunement), Blackrock Depths, and Stratholme." }
             },
             tankTips = {
                 "In endgame dungeons (Strat, Scholo, BRD), +1% passive Dodge provides consistent damage avoidance across hundreds of melee swings."

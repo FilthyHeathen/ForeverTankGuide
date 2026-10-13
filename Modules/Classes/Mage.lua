@@ -17,29 +17,29 @@ local MageModule = {
             statPriority = "Spell Hit (6% w/ Elemental Precision) > Frost Spell Damage > Spell Crit (Shatter +100%) > Intellect",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Frostbolt kiting, Polymorph crowd control, Conjure Water/Food, and Frost Nova.",
                     zones = {
-                        { name = "Tirisfal / Elwynn / Dun Morogh / Barrens", range = "1â€“20", notes = "Pick up Elemental Precision (3/3) and Improved Frostbolt (5/5) first." }
+                        { name = "Tirisfal / Elwynn / Dun Morogh / Barrens", range = "1–20", notes = "Pick up Elemental Precision (3/3) and Improved Frostbolt (5/5) first." }
                     },
                     abilities = {
-                        { level = 4, name = "Frostbolt", desc = "Core Frost nuke that chills and slows enemy movement by 40â€“50%." },
-                        { level = 8, name = "Polymorph", desc = "Transforms a Beast, Humanoid, or Critter into a sheepâ€”premier dungeon crowd control!" },
+                        { level = 4, name = "Frostbolt", desc = "Core Frost nuke that chills and slows enemy movement by 40–50%." },
+                        { level = 8, name = "Polymorph", desc = "Transforms a Beast, Humanoid, or Critter into a sheep—premier dungeon crowd control!" },
                         { level = 10, name = "Frost Nova", desc = "Freezes all nearby enemies in place for 8 seconds." }
                     },
                     rules = {
-                        "Always conjure 2â€“3 stacks of water for your party's Healer and Paladin tank at the start of every dungeon!",
+                        "Always conjure 2–3 stacks of water for your party's Healer and Paladin tank at the start of every dungeon!",
                         "Keep Rank 1 Frostbolt on your bar as a 1.0-second cast emergency slow for kiting dangerous runners."
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Improved Blizzard AoE grinding (3/3), Shatter (+50% Crit on frozen targets), and Ice Block at 30.",
                     zones = {
-                        { name = "Hillsbrad / Arathi / Dustwallow / SM", range = "20â€“40", notes = "Open-world AoE farming camps (Hillsbrad Farmers, Arathi Syndicate)." }
+                        { name = "Hillsbrad / Arathi / Dustwallow / SM", range = "20–40", notes = "Open-world AoE farming camps (Hillsbrad Farmers, Arathi Syndicate)." }
                     },
                     abilities = {
-                        { level = 20, name = "Blizzard (with Improved Blizzard 3/3)", desc = "Channeled AoE frost rain that applies a 65â€“75% movement slow!" },
+                        { level = 20, name = "Blizzard (with Improved Blizzard 3/3)", desc = "Channeled AoE frost rain that applies a 65–75% movement slow!" },
                         { level = 20, name = "Evocation", desc = "Increases Spirit mana regeneration by 1500% for 8 seconds." },
                         { level = 30, name = "Ice Block (Talent)", desc = "10 seconds of complete immunity to all damage and spells; drops temporary aggro." }
                     },
@@ -49,10 +49,10 @@ local MageModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Ice Barrier at level 40, Zul'Farrak grave AoE farming, and Remove Lesser Curse.",
                     zones = {
-                        { name = "Tanaris (Zul'Farrak) / Hinterlands / Searing Gorge", range = "40â€“52", notes = "Solo/Duo Zul'Farrak zombie graves for massive XP and gold." }
+                        { name = "Tanaris (Zul'Farrak) / Hinterlands / Searing Gorge", range = "40–52", notes = "Solo/Duo Zul'Farrak zombie graves for massive XP and gold." }
                     },
                     abilities = {
                         { level = 40, name = "Ice Barrier (Talent)", desc = "Instant shield absorbing heavy physical/magic damage and preventing spell pushback." }
@@ -63,16 +63,16 @@ local MageModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Winter's Chill (+10% Frost Crit raid debuff), Bloodvine Set, and Molten Core / BWL mastery.",
                     zones = {
-                        { name = "BRD / Dire Maul / Strat / Scholo", range = "52â€“60", notes = "Briarwood Reed, Boreal Mantle, Bloodvine Set." }
+                        { name = "BRD / Dire Maul / Strat / Scholo", range = "52–60", notes = "Briarwood Reed, Boreal Mantle, Bloodvine Set." }
                     },
                     abilities = {
                         { level = 60, name = "Max Rank Frostbolt & Arcane Power", desc = "Top-tier Molten Core and BWL raid DPS where bosses are Fire-immune." }
                     },
                     rules = {
-                        "Proactively decurse party members with Remove Lesser Curseâ€”an uncursed tank or healer prevents raid wipes.",
+                        "Proactively decurse party members with Remove Lesser Curse—an uncursed tank or healer prevents raid wipes.",
                         "Keep Mana Agate, Mana Jade, Mana Citrine, and Mana Ruby conjured before boss pulls for 2,000+ free mana."
                     }
                 }
@@ -112,24 +112,24 @@ local MageModule = {
             statPriority = "Spell Hit (to 10% w/ Elemental Precision) > Spell Crit (Ignite Rolling!) > Fire Spell Damage > Intellect",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Fireball heavy nukes, Fire Blast instant finishers, and Ignite crits.",
                     zones = {
-                        { name = "Tirisfal / Elwynn / Barrens", range = "1â€“20", notes = "Impact (5/5) gives all fire spells a 10% chance to stun!" }
+                        { name = "Tirisfal / Elwynn / Barrens", range = "1–20", notes = "Impact (5/5) gives all fire spells a 10% chance to stun!" }
                     },
                     abilities = {
                         { level = 1, name = "Fireball & Fire Blast", desc = "High base damage Fire nuke and instant 20yd finisher." },
                         { level = 20, name = "Pyroblast (Talent)", desc = "6-second massive opener fireball." }
                     },
                     rules = {
-                        "Open from max 35â€“41yd range with Pyroblast -> immediately follow with Fireball -> finish with Fire Blast."
+                        "Open from max 35–41yd range with Pyroblast -> immediately follow with Fireball -> finish with Fire Blast."
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Ignite (+40% rolling crit burn), Scorch stacking (+15% Fire Damage), and Blast Wave at 30.",
                     zones = {
-                        { name = "Hillsbrad / STV / SM", range = "20â€“40", notes = "Fire Spell Damage gear (Tailoring Phoenix Gear)." }
+                        { name = "Hillsbrad / STV / SM", range = "20–40", notes = "Fire Spell Damage gear (Tailoring Phoenix Gear)." }
                     },
                     abilities = {
                         { level = 22, name = "Scorch", desc = "Fast 1.5s Fire spell that stacks Fire Vulnerability up to +15% Fire damage!" },
@@ -137,14 +137,14 @@ local MageModule = {
                     },
                     rules = {
                         "Flame Strike -> Blast Wave -> Cone of Cold is the highest instant AoE burst combo in 5-man dungeons.",
-                        "Watch your threat when Ignite crits rollâ€”keep Limited Invulnerability Potions handy."
+                        "Watch your threat when Ignite crits roll—keep Limited Invulnerability Potions handy."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Combustion cooldown (+Crit stacking until 3 crits land), Critical Mass (+6% Fire Crit).",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Feralas", range = "40â€“52", notes = "Note: Avoid Fire spec inside Blackrock Depths due to Fire-immune elementals." }
+                        { name = "Tanaris / Hinterlands / Feralas", range = "40–52", notes = "Note: Avoid Fire spec inside Blackrock Depths due to Fire-immune elementals." }
                     },
                     abilities = {
                         { level = 40, name = "Combustion (Talent)", desc = "Each Fire spell increases your Fire Crit chance by 10% until you land 3 critical strikes!" }
@@ -154,10 +154,10 @@ local MageModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
-                    summary = "AQ40 / Naxxramas / Non-MC Raid King: Rolling Ignite ticks for 3,000â€“5,000+ damage every 2 seconds!",
+                    name = "Phase 4: Levels 52–60",
+                    summary = "AQ40 / Naxxramas / Non-MC Raid King: Rolling Ignite ticks for 3,000–5,000+ damage every 2 seconds!",
                     zones = {
-                        { name = "Strat / Scholo / Dire Maul / ZG", range = "52â€“60", notes = "Bloodvine Set (+4% Hit, +2% Crit) is mandatory." }
+                        { name = "Strat / Scholo / Dire Maul / ZG", range = "52–60", notes = "Bloodvine Set (+4% Hit, +2% Crit) is mandatory." }
                     },
                     abilities = {
                         { level = 60, name = "Rolling Ignite Mastery", desc = "Shared Mage Ignite pool fed by consecutive Fireball/Scorch crits." }
@@ -185,7 +185,7 @@ local MageModule = {
             statPriority = "Spell Hit (Arcane Focus +10% Arcane Hit!) > Spell Damage & Crit > Intellect (Arcane Mind +15% Int) > MP5",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Arcane Subtlety (-40% Arcane Threat), Arcane Focus (+10% Arcane Hit), and Arcane Concentration (Clearcasting!).",
                     zones = {},
                     abilities = {
@@ -193,11 +193,11 @@ local MageModule = {
                         { level = 14, name = "Arcane Explosion", desc = "Spam-friendly instant AoE arcane blast (becomes instant with 5/5 Improved Arcane Explosion)." }
                     },
                     rules = {
-                        "Arcane Concentration (5/5) gives every damaging spell a 10% chance to proc Clearcasting (100% free next spell)â€”spend Clearcasting on high-mana Arcane Missiles or Flamestrike!"
+                        "Arcane Concentration (5/5) gives every damaging spell a 10% chance to proc Clearcasting (100% free next spell)—spend Clearcasting on high-mana Arcane Missiles or Flamestrike!"
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Arcane Meditation (15% in-combat Spirit mana regen), Presence of Mind (lvl 30 Instant Cast!).",
                     zones = {},
                     abilities = {
@@ -208,7 +208,7 @@ local MageModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Arcane Instability (+3% Damage & +3% Crit to ALL spells) and Arcane Power (+30% Spell Damage!).",
                     zones = {},
                     abilities = {
@@ -219,7 +219,7 @@ local MageModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "31/0/20 AP-Frost Raid Spec: +30% Arcane Power + Presence of Mind + Trinket Burst.",
                     zones = {},
                     abilities = {

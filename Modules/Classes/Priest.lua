@@ -17,10 +17,10 @@ local PriestModule = {
             statPriority = "Healing Power > Spirit (Meditation / Spiritual Guidance) > MP5 > Intellect > Stamina",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Wand Specialization (5/5) + Spirit Tap (5/5) leveling, Power Word: Shield triage, and Renew.",
                     zones = {
-                        { name = "Tirisfal / Elwynn / Dun Morogh / Barrens", range = "1â€“20", notes = "Buy Lesser Magic Wand at lvl 5 and Greater Magic Wand at lvl 13 (Enchanting)." }
+                        { name = "Tirisfal / Elwynn / Dun Morogh / Barrens", range = "1–20", notes = "Buy Lesser Magic Wand at lvl 5 and Greater Magic Wand at lvl 13 (Enchanting)." }
                     },
                     abilities = {
                         { level = 6, name = "Power Word: Shield", desc = "Instant absorption shield. Prevents spell pushback and saves lives." },
@@ -28,33 +28,33 @@ local PriestModule = {
                         { level = 16, name = "Lesser Heal / Heal", desc = "Slow, ultra-mana-efficient bread-and-butter single target heals." }
                     },
                     rules = {
-                        "Do NOT bubble (Power Word: Shield) a Warrior or Bear Druid tank on pull unless it is an emergencyâ€”absorbed damage prevents them from generating Rage!",
-                        "Master the 5-Second Rule (5SR): cast one big Heal + Renew, then wand for 8â€“10 seconds so your Spirit regenerates full mana in combat.",
+                        "Do NOT bubble (Power Word: Shield) a Warrior or Bear Druid tank on pull unless it is an emergency—absorbed damage prevents them from generating Rage!",
+                        "Master the 5-Second Rule (5SR): cast one big Heal + Renew, then wand for 8–10 seconds so your Spirit regenerates full mana in combat.",
                         "Use Fade immediately if healing aggro pulls loose dungeon mobs toward you."
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Flash Heal emergency triage, Prayer of Healing group recovery, and Dispel Magic.",
                     zones = {
-                        { name = "Hillsbrad / Scarlet Monastery / RFK", range = "20â€“40", notes = "Whitemane's Chapeau and Triune Amulet in Scarlet Monastery Cathedral." }
+                        { name = "Hillsbrad / Scarlet Monastery / RFK", range = "20–40", notes = "Whitemane's Chapeau and Triune Amulet in Scarlet Monastery Cathedral." }
                     },
                     abilities = {
-                        { level = 20, name = "Flash Heal", desc = "Fast 1.5s emergency heal. High mana costâ€”reserve for sudden damage spikes." },
+                        { level = 20, name = "Flash Heal", desc = "Fast 1.5s emergency heal. High mana cost—reserve for sudden damage spikes." },
                         { level = 20, name = "Inner Focus (Talent)", desc = "Makes your next spell cost 0 Mana and grants +25% Crit chance (pair with Prayer of Healing)!" },
                         { level = 30, name = "Prayer of Healing", desc = "Heals all 5 party members within 30yd simultaneously." }
                     },
                     rules = {
-                        "Use Heal Rank 2 and Greater Heal Rank 1 as your main workhorse healsâ€”Flash Heal will burn your mana bar if spammed.",
+                        "Use Heal Rank 2 and Greater Heal Rank 1 as your main workhorse heals—Flash Heal will burn your mana bar if spammed.",
                         "Pair Inner Focus + Prayer of Healing to top off the entire 5-man party for zero mana.",
                         "Use Shackle Undead in Scarlet Monastery and Razorfen Downs to crowd-control dangerous undead casters."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Greater Heal mastery, Divine Spirit / Spiritual Guidance scaling, and Abolish Disease.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Zul'Farrak and Maraudon high-Spirit and +Healing cloth." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Zul'Farrak and Maraudon high-Spirit and +Healing cloth." }
                     },
                     abilities = {
                         { level = 40, name = "Greater Heal", desc = "Massive 2.5s (talented) single-target heal." },
@@ -66,17 +66,17 @@ local PriestModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame downranking (Heal Rank 2/4, Greater Heal Rank 1, Flash Heal Rank 1/4) and Pre-Raid BIS.",
                     zones = {
-                        { name = "BRD / Dire Maul / Strat / Scholo", range = "52â€“60", notes = "Truefaith Vestments (Tailoring), Robes of the Exalted (Strat), Padre's Trousers." }
+                        { name = "BRD / Dire Maul / Strat / Scholo", range = "52–60", notes = "Truefaith Vestments (Tailoring), Robes of the Exalted (Strat), Padre's Trousers." }
                     },
                     abilities = {
                         { level = 60, name = "Prayer of Fortitude & Prayer of Spirit", desc = "Raid-wide stamina and spirit buffs." }
                     },
                     rules = {
                         "With +400 Healing Power, Heal Rank 2 becomes your infinite-mana filler spell.",
-                        "Craft Truefaith Vestments (300 Tailoring)â€”it is better than Tier 1 and Tier 2 chest pieces!",
+                        "Craft Truefaith Vestments (300 Tailoring)—it is better than Tier 1 and Tier 2 chest pieces!",
                         "Keep Mind Control ready in Blackrock Spire and Stratholme to turn powerful humanoids into party allies."
                     }
                 }
@@ -116,14 +116,14 @@ local PriestModule = {
             statPriority = "Spell Hit (16% Cap / 6% w/ Shadow Focus) > Shadow Damage > Intellect > MP5 > Spirit",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Spirit Tap (5/5) + Wand Specialization (5/5) for zero-downtime leveling.",
                     zones = {
-                        { name = "Tirisfal / Elwynn / Silverpine / Westfall", range = "1â€“20", notes = "Get Greater Magic Wand at level 13â€”it out-DPSes all spells until level 24!" }
+                        { name = "Tirisfal / Elwynn / Silverpine / Westfall", range = "1–20", notes = "Get Greater Magic Wand at level 13—it out-DPSes all spells until level 24!" }
                     },
                     abilities = {
-                        { level = 4, name = "Shadow Word: Pain", desc = "High total damage Shadow DoT over 18â€“24 seconds." },
-                        { level = 10, name = "Mind Blast", desc = "1.5s high-burst Shadow nuke (generates high threat in dungeonsâ€”use carefully)." },
+                        { level = 4, name = "Shadow Word: Pain", desc = "High total damage Shadow DoT over 18–24 seconds." },
+                        { level = 10, name = "Mind Blast", desc = "1.5s high-burst Shadow nuke (generates high threat in dungeons—use carefully)." },
                         { level = 20, name = "Mind Flay (Talent)", desc = "3-second channeled Shadow beam that slows enemy movement speed by 50%." }
                     },
                     rules = {
@@ -132,10 +132,10 @@ local PriestModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Shadow Weaving (+15% Shadow Damage debuff), Vampiric Embrace group healing, and Shadowform at 40!",
                     zones = {
-                        { name = "Hillsbrad / Arathi / STV / SM", range = "20â€“40", notes = "Hypnotic Blade + Orb of Lorica in Scarlet Monastery." }
+                        { name = "Hillsbrad / Arathi / STV / SM", range = "20–40", notes = "Hypnotic Blade + Orb of Lorica in Scarlet Monastery." }
                     },
                     abilities = {
                         { level = 30, name = "Vampiric Embrace (Talent)", desc = "Heals all party members for 20% of all Shadow spell damage you deal!" },
@@ -144,14 +144,14 @@ local PriestModule = {
                     },
                     rules = {
                         "Once you unlock Shadowform at level 40, respec out of Wand Specialization and put all 31 points straight into Shadow.",
-                        "Mind Blast has an innate 2x threat modifierâ€”wait for your tank to establish threat before casting Mind Blast in dungeons."
+                        "Mind Blast has an innate 2x threat modifier—wait for your tank to establish threat before casting Mind Blast in dungeons."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Shadowform power spike, Shadow Weaving 5-stack management, and PvP/Dungeon dominance.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Felwood", range = "40â€“52", notes = "Shadoweave Tailoring set (Boots, Pants, Robe, Shoulders, Mask)." }
+                        { name = "Tanaris / Hinterlands / Felwood", range = "40–52", notes = "Shadoweave Tailoring set (Boots, Pants, Robe, Shoulders, Mask)." }
                     },
                     abilities = {
                         { level = 40, name = "Shadow Weaving (5 Stacks)", desc = "Increases Shadow damage taken by the target by 15% (boosts Warlocks too!)." }
@@ -162,17 +162,17 @@ local PriestModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame Shadow Weaving raid amplifier, Anathema Staff, and Felcloth/Bloodvine sets.",
                     zones = {
-                        { name = "BRD / Scholo / Strat / Dire Maul", range = "52â€“60", notes = "Felcloth items, Briarwood Reed, Eye of the Beast." }
+                        { name = "BRD / Scholo / Strat / Dire Maul", range = "52–60", notes = "Felcloth items, Briarwood Reed, Eye of the Beast." }
                     },
                     abilities = {
                         { level = 60, name = "Max Rank SW:Pain & Mind Flay", desc = "Sustained Shadow DPS and Warlock raid buffing." }
                     },
                     rules = {
                         "With 5/5 Shadow Focus (+10% Hit), you only need 6% Spell Hit from gear to reach the 16% raid boss hit cap!",
-                        "Bring Major Mana Potions and Dark Runesâ€”Shadow Priests are mana-hungry on long raid encounters."
+                        "Bring Major Mana Potions and Dark Runes—Shadow Priests are mana-hungry on long raid encounters."
                     }
                 }
             },

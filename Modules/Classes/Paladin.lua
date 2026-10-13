@@ -17,10 +17,10 @@ local PaladinModule = {
             statPriority = "Stamina > Defense (to 440 Cap) > Spell Power / Block Value > Armor > MP5",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Early holy survivability, 30yd bomb pull mechanics, and learning threat peel via Judgement.",
                     zones = {
-                        { name = "Silverpine / Westfall / Northern Barrens", range = "10â€“20", notes = "Follow main quest chains; dense Copper/Tin veins for early engineering." }
+                        { name = "Silverpine / Westfall / Northern Barrens", range = "10–20", notes = "Follow main quest chains; dense Copper/Tin veins for early engineering." }
                     },
                     abilities = {
                         { level = 6, name = "Holy Strike", desc = "Primary single-target on-hit threat generator." },
@@ -33,10 +33,10 @@ local PaladinModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "The AoE tanking breakthrough with baseline Consecration, grenade grouping, and transition to Plate Armor.",
                     zones = {
-                        { name = "Hillsbrad / Arathi / STV", range = "20â€“40", notes = "Tarren Mill, Southshore, and Hammerfall quest hubs; rich Iron and Heavy Stone." }
+                        { name = "Hillsbrad / Arathi / STV", range = "20–40", notes = "Tarren Mill, Southshore, and Hammerfall quest hubs; rich Iron and Heavy Stone." }
                     },
                     abilities = {
                         { level = 20, name = "Baseline Consecration", desc = "The bread-and-butter AoE holy threat zone. Pulse tick threat locks down groups." },
@@ -44,31 +44,31 @@ local PaladinModule = {
                     },
                     rules = {
                         "Toss an Iron Grenade on casting packs to interrupt and bundle them together before dropping Consecration.",
-                        "Always drink to at least 70% mana between pullsâ€”Protection Paladin threat is completely mana-fueled.",
+                        "Always drink to at least 70% mana between pulls—Protection Paladin threat is completely mana-fueled.",
                         "Equip high block value shields: Redoubt doubles your block chance after taking a critical strike."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Goblin Engineering specialization, deep Protection talents with Holy Shield, and high-density dungeon cleave.",
                     zones = {
-                        { name = "Tanaris / Feralas / WPL", range = "40â€“52", notes = "Gadgetzan, Camp Mojache, and Caer Darrow; abundant Mithril and Mageweave." }
+                        { name = "Tanaris / Feralas / WPL", range = "40–52", notes = "Gadgetzan, Camp Mojache, and Caer Darrow; abundant Mithril and Mageweave." }
                     },
                     abilities = {
                         { level = 40, name = "Holy Shield (Talent)", desc = "Key mitigation & reactive holy threat spell. Increases block chance by 30% and reflects holy damage on block." },
                         { level = 50, name = "Cleanse", desc = "Removes 1 Poison, 1 Disease, and 1 Magic effect in a single GCD." }
                     },
                     rules = {
-                        "Keep Holy Shield active on cooldown whenever taking damage from 2+ targetsâ€”charges deplete rapidly.",
+                        "Keep Holy Shield active on cooldown whenever taking damage from 2+ targets—charges deplete rapidly.",
                         "For high-threat openers on 5+ mobs: pop Sapper Charge into Rank 1 Consecration for instant snap agro.",
                         "Position boss backs to your group and watch your own back to avoid being critically hit or parried."
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame preparation, Thorium-tier engineering, pre-raid BIS dungeon tanking, and raid blessings.",
                     zones = {
-                        { name = "Un'Goro / Winterspring / EPL", range = "52â€“60", notes = "Rich Thorium Veins, Stratholme entrance, and high-density undead camps." }
+                        { name = "Un'Goro / Winterspring / EPL", range = "52–60", notes = "Rich Thorium Veins, Stratholme entrance, and high-density undead camps." }
                     },
                     abilities = {
                         { level = 56, name = "Greater Blessings (Kings/Sanctuary)", desc = "Greater Blessing of Sanctuary provides holy damage reduction and damage reflection on block." },
@@ -116,15 +116,15 @@ local PaladinModule = {
             statPriority = "Spell Crit (Illumination Mana Refund) > Healing Power > Intellect > MP5 > Stamina",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Early Holy Light triage, Blessing of Wisdom uptime, and melee Seal of Wisdom/Crusader weaving.",
                     zones = {
-                        { name = "Tirisfal / Elwynn / Silverpine", range = "1â€“20", notes = "Group up for elite quests and early dungeon healing in RFC and Deadmines." }
+                        { name = "Tirisfal / Elwynn / Silverpine", range = "1–20", notes = "Group up for elite quests and early dungeon healing in RFC and Deadmines." }
                     },
                     abilities = {
                         { level = 1, name = "Holy Light", desc = "Large, slow 2.5 sec single-target heal. Pre-cast and cancel if tank takes no damage." },
                         { level = 14, name = "Blessing of Wisdom", desc = "Essential passive MP5 buff for yourself and all mana users." },
-                        { level = 18, name = "Blessing of Protection (BoP)", desc = "Grants physical immunity to a party member for 6â€“10 sec. Instant lifesaver for clothies!" }
+                        { level = 18, name = "Blessing of Protection (BoP)", desc = "Grants physical immunity to a party member for 6–10 sec. Instant lifesaver for clothies!" }
                     },
                     rules = {
                         "Downrank Holy Light: Use Rank 1 or Rank 2 during steady damage to conserve mana; save max rank for tank spikes.",
@@ -133,10 +133,10 @@ local PaladinModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Flash of Light efficiency breakthrough, Illumination talent 100% crit mana refunds, and Cleanse.",
                     zones = {
-                        { name = "Hillsbrad / Scarlet Monastery / STV", range = "20â€“40", notes = "Spam Scarlet Monastery Library and Cathedral for caster/healing gear." }
+                        { name = "Hillsbrad / Scarlet Monastery / STV", range = "20–40", notes = "Spam Scarlet Monastery Library and Cathedral for caster/healing gear." }
                     },
                     abilities = {
                         { level = 20, name = "Flash of Light", desc = "Fast 1.5 sec ultra-mana-efficient heal. Your primary dungeon and raid healing spell!" },
@@ -145,19 +145,19 @@ local PaladinModule = {
                     },
                     rules = {
                         "Prioritize Flash of Light over Holy Light: Flash of Light has unmatched Healing-Per-Mana and fast cast speed.",
-                        "Stack Intellect and Spell Crit gearâ€”every critical heal refunds 100% of its mana cost via Illumination.",
+                        "Stack Intellect and Spell Crit gear—every critical heal refunds 100% of its mana cost via Illumination.",
                         "Keep Blessing of Salvation on trigger-happy DPS so your tank maintains clean threat control."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Holy Shock instant burst triage, Plate/Mail intellect mixing, and Cleanse magic dispels.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Zul'Farrak and Maraudon healing trinkets and intellect shields." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Zul'Farrak and Maraudon healing trinkets and intellect shields." }
                     },
                     abilities = {
                         { level = 40, name = "Holy Shock (Talent)", desc = "Instant cast heal (or damage) on a 30 sec cooldown. Essential emergency heal while moving." },
-                        { level = 42, name = "Cleanse", desc = "Removes Poison, Disease, and Magic in a single castâ€”keep your tank free of slows and hexes." }
+                        { level = 42, name = "Cleanse", desc = "Removes Poison, Disease, and Magic in a single cast—keep your tank free of slows and hexes." }
                     },
                     rules = {
                         "Pair Divine Favor + Holy Shock or Max Rank Holy Light for an instant guaranteed critical emergency heal.",
@@ -166,10 +166,10 @@ local PaladinModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame downranking mastery (FoL Rank 1, 4, 6), Pre-Raid BIS +Healing gear, and endless mana sustain.",
                     zones = {
-                        { name = "BRD / Dire Maul / Stratholme / Scholo", range = "52â€“60", notes = "Farm Padre's Trousers, Robes of the Exalted, and Briarwood Reed." }
+                        { name = "BRD / Dire Maul / Stratholme / Scholo", range = "52–60", notes = "Farm Padre's Trousers, Robes of the Exalted, and Briarwood Reed." }
                     },
                     abilities = {
                         { level = 50, name = "Lay on Hands", desc = "Instantly heals a target for an amount equal to your maximum health." },
@@ -217,10 +217,10 @@ local PaladinModule = {
             statPriority = "Hit (to 9% Cap) >Weapon DPS (Slow 3.50+ 2H) > Crit > Strength > Agility / Spell Power",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Slow 2-handed weapon swing timer management, Seal of the Crusader, and Seal of Command unlock at 20.",
                     zones = {
-                        { name = "Tirisfal / Silverpine / Barrens", range = "1â€“20", notes = "Quest rewards with slow 2H maces and swords." }
+                        { name = "Tirisfal / Silverpine / Barrens", range = "1–20", notes = "Quest rewards with slow 2H maces and swords." }
                     },
                     abilities = {
                         { level = 6, name = "Seal of the Crusader", desc = "Increases attack speed by 40%; Judge on bosses to increase Holy damage taken." },
@@ -233,10 +233,10 @@ local PaladinModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Pursuit of Justice (+8% mount/run speed), Vengeance stacking crit damage, and Scarlet Monastery 2H weapons.",
                     zones = {
-                        { name = "Hillsbrad / Arathi / STV / SM", range = "20â€“40", notes = "Verigan's Fist / Bonebiter / Ravager in Scarlet Monastery." }
+                        { name = "Hillsbrad / Arathi / STV / SM", range = "20–40", notes = "Verigan's Fist / Bonebiter / Ravager in Scarlet Monastery." }
                     },
                     abilities = {
                         { level = 22, name = "Pursuit of Justice (Talent)", desc = "+8% movement and mounted speed passively. Huge leveling efficiency multiplier." },
@@ -250,10 +250,10 @@ local PaladinModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Repentance crowd control, Plate DPS gear, and Zul'Farrak / Maraudon 2H power spikes.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Feralas", range = "40â€“52", notes = "The Rockpounder in Zul'Farrak and Princess Theradras drops." }
+                        { name = "Tanaris / Hinterlands / Feralas", range = "40–52", notes = "The Rockpounder in Zul'Farrak and Princess Theradras drops." }
                     },
                     abilities = {
                         { level = 40, name = "Repentance (Talent)", desc = "Puts humanoid target in meditation for up to 6 seconds. Great CC and PvP gap closer." },
@@ -266,10 +266,10 @@ local PaladinModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "9% Melee Hit cap, Lionheart Helm / Devilsaur sets, and Seal Twisting (Command into Righteousness).",
                     zones = {
-                        { name = "Un'Goro / EPL / BRD / UBRS", range = "52â€“60", notes = "Blackhand's Breadth, Hand of Justice, and Demise / Arcanite Reaper." }
+                        { name = "Un'Goro / EPL / BRD / UBRS", range = "52–60", notes = "Blackhand's Breadth, Hand of Justice, and Demise / Arcanite Reaper." }
                     },
                     abilities = {
                         { level = 60, name = "Seal Twisting Technique", desc = "Cast Seal of Righteousness 0.4s before weapon swing to trigger BOTH Seal of Command and Righteousness on one swing!" }

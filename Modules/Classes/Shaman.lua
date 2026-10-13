@@ -17,10 +17,10 @@ local ShamanModule = {
             statPriority = "Stamina > Armor / Shield Block > Defense > Spell/Melee Hit > Agility / Strength",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Rockbiter Weapon imbues (+threat), Earth Shock ranged peels, and Stoneskin Totem physical reduction.",
                     zones = {
-                        { name = "Durotar / Mulgore / Barrens", range = "1â€“20", notes = "Totem questlines (Earth, Fire, Water) and RFC/WC runs." }
+                        { name = "Durotar / Mulgore / Barrens", range = "1–20", notes = "Totem questlines (Earth, Fire, Water) and RFC/WC runs." }
                     },
                     abilities = {
                         { level = 1, name = "Rockbiter Weapon", desc = "Imbues your melee weapon with bonus attack power and extreme threat generation." },
@@ -34,15 +34,15 @@ local ShamanModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Shield Specialization block value, Parry talent unlock, and Ghost Wolf repositioning.",
                     zones = {
-                        { name = "Thousand Needles / Hillsbrad / RFK / SM", range = "20â€“40", notes = "Enhancement talent tree push down to Parry and Shield spec." }
+                        { name = "Thousand Needles / Hillsbrad / RFK / SM", range = "20–40", notes = "Enhancement talent tree push down to Parry and Shield spec." }
                     },
                     abilities = {
                         { level = 20, name = "Ghost Wolf", desc = "40% movement speed for quick positioning." },
                         { level = 28, name = "Grounding Totem", desc = "Absorbs one harmful spell targeted at nearby party members every 15 seconds." },
-                        { level = 30, name = "Parry (Talent)", desc = "Unlocks the ability to parry enemy melee attacksâ€”mandatory defensive milestone." }
+                        { level = 30, name = "Parry (Talent)", desc = "Unlocks the ability to parry enemy melee attacks—mandatory defensive milestone." }
                     },
                     rules = {
                         "Drop Grounding Totem on caster packs to absorb shadow bolts and fireballs meant for your healer.",
@@ -51,10 +51,10 @@ local ShamanModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Mail Armor transition at 40, Chain Lightning multi-target pull openers, and Zul'Farrak / Maraudon.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Mail armor upgrades and Mark of the Chosen trinket." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Mail armor upgrades and Mark of the Chosen trinket." }
                     },
                     abilities = {
                         { level = 32, name = "Chain Lightning", desc = "Tri-target nature damage burst opener." },
@@ -67,10 +67,10 @@ local ShamanModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame elemental warding, high resistance totem swapping, and BRD/Stratholme/Scholo tanking.",
                     zones = {
-                        { name = "Eastern Plaguelands / BRD / Scholo", range = "52â€“60", notes = "Draconian Deflector, Force of Will, and defense mail." }
+                        { name = "Eastern Plaguelands / BRD / Scholo", range = "52–60", notes = "Draconian Deflector, Force of Will, and defense mail." }
                     },
                     abilities = {
                         { level = 60, name = "Resistance Totems (Fire/Frost/Nature)", desc = "+60 Elemental Resistance to the entire party." }
@@ -105,38 +105,38 @@ local ShamanModule = {
             statPriority = "Hit (to 9% Cap) > Slow 2H Weapon DPS > Crit (Flurry) > Strength > Attack Power",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Rockbiter consistency, Flame Shock DoTs, and Searing Totem single-target pressure.",
                     zones = {
-                        { name = "Durotar / Mulgore / Barrens", range = "1â€“20", notes = "Crescent Staff (Wailing Caverns quest) at level 18." }
+                        { name = "Durotar / Mulgore / Barrens", range = "1–20", notes = "Crescent Staff (Wailing Caverns quest) at level 18." }
                     },
                     abilities = {
                         { level = 10, name = "Flame Shock & Searing Totem", desc = "Sustained fire damage over time." }
                     },
                     rules = {
-                        "Use Rockbiter Weapon until level 30â€”it gives reliable flat DPS on every swing without RNG dry spells."
+                        "Use Rockbiter Weapon until level 30—it gives reliable flat DPS on every swing without RNG dry spells."
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Windfury Weapon at level 30, Flurry (+30% attack speed on crit), and slow 2H axes/maces.",
                     zones = {
-                        { name = "Hillsbrad / STV / SM", range = "20â€“40", notes = "Ravager or Corpsemaker (RFK) for massive Windfury crits." }
+                        { name = "Hillsbrad / STV / SM", range = "20–40", notes = "Ravager or Corpsemaker (RFK) for massive Windfury crits." }
                     },
                     abilities = {
                         { level = 30, name = "Windfury Weapon", desc = "20% chance on hit to grant 2 extra attacks with bonus Attack Power!" },
                         { level = 35, name = "Flurry (Talent)", desc = "+30% attack speed for your next 3 swings after landing a critical strike." }
                     },
                     rules = {
-                        "Always use a slow (3.40â€“3.80 speed) Two-Handed Axe or Mace with Windfury Weapon.",
+                        "Always use a slow (3.40–3.80 speed) Two-Handed Axe or Mace with Windfury Weapon.",
                         "Beware Windfury threat spikes in dungeons: wait 3 seconds for the tank before swinging!"
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Stormstrike at level 40, Totem Twisting (Windfury + Grace of Air), and Mail armor.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "The Rockpounder (Zul'Farrak) or Gatorbite." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "The Rockpounder (Zul'Farrak) or Gatorbite." }
                     },
                     abilities = {
                         { level = 40, name = "Stormstrike (Talent)", desc = "Instant extra melee swing that can trigger Windfury!" }
@@ -146,10 +146,10 @@ local ShamanModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Nightfall Axe raid support, Hand of Justice + Windfury chains, and Elemental Devastation.",
                     zones = {
-                        { name = "BRD / UBRS / AV", range = "52â€“60", notes = "The Unstoppable Force (AV Exalted), Hand of Justice, Blackhand's Breadth." }
+                        { name = "BRD / UBRS / AV", range = "52–60", notes = "The Unstoppable Force (AV Exalted), Hand of Justice, Blackhand's Breadth." }
                     },
                     abilities = {
                         { level = 60, name = "Windfury + Totem Twisting", desc = "Premier melee group multiplier." }
@@ -182,10 +182,10 @@ local ShamanModule = {
             statPriority = "Spell Hit (to 16% Cap) > Nature Spell Damage > Spell Crit > Intellect > MP5",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Lightning Bolt casts, Flame Shock, and Searing Totem.",
                     zones = {
-                        { name = "Durotar / Barrens", range = "1â€“20", notes = "Leveling as Enhancement until 35-40 is faster; switch to Elemental at 39-40 when Lightning Mastery unlocks!" }
+                        { name = "Durotar / Barrens", range = "1–20", notes = "Leveling as Enhancement until 35-40 is faster; switch to Elemental at 39-40 when Lightning Mastery unlocks!" }
                     },
                     abilities = {
                         { level = 1, name = "Lightning Bolt", desc = "Primary Nature spell nuke." }
@@ -195,25 +195,25 @@ local ShamanModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Elemental Fury (+100% Crit Damage), Chain Lightning at 32, and Lightning Mastery (-1.0s cast time) at 39!",
                     zones = {
-                        { name = "SM / Arathi / STV", range = "20â€“40", notes = "Hypnotic Blade + Shield from Scarlet Monastery." }
+                        { name = "SM / Arathi / STV", range = "20–40", notes = "Hypnotic Blade + Shield from Scarlet Monastery." }
                     },
                     abilities = {
                         { level = 32, name = "Chain Lightning", desc = "1.5s cast (talented) arcing Nature nuke hitting 3 targets." },
                         { level = 39, name = "Lightning Mastery (Talent)", desc = "Reduces cast time of Lightning Bolt and Chain Lightning by a full 1.0 second!" }
                     },
                     rules = {
-                        "Level 39â€“40 is the massive Elemental power spike: 2.0s Lightning Bolts and 1.5s Chain Lightnings melt enemies before they reach you.",
-                        "Always wear a Shield for +1,500â€“2,000 bonus armor while casting."
+                        "Level 39–40 is the massive Elemental power spike: 2.0s Lightning Bolts and 1.5s Chain Lightnings melt enemies before they reach you.",
+                        "Always wear a Shield for +1,500–2,000 bonus armor while casting."
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Elemental Mastery (guaranteed free crit!), Clearcasting procs, and Nature's Guidance.",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Feralas", range = "40â€“52", notes = "Embrace of the Wind Serpent or Nature's Wrath gear." }
+                        { name = "Tanaris / Hinterlands / Feralas", range = "40–52", notes = "Embrace of the Wind Serpent or Nature's Wrath gear." }
                     },
                     abilities = {
                         { level = 40, name = "Elemental Mastery (Talent)", desc = "Guarantees your next Lightning Bolt, Chain Lightning, or Shock is a 100% Critical Strike and costs 0 Mana!" }
@@ -223,10 +223,10 @@ local ShamanModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame Nature spell crit cannon, Bloodvine Set, and Deep Earth / Coagulated Blood.",
                     zones = {
-                        { name = "BRD / UBRS / Strat / Scholo", range = "52â€“60", notes = "Briarwood Reed, Skyshroud Leggings, Bloodvine Set." }
+                        { name = "BRD / UBRS / Strat / Scholo", range = "52–60", notes = "Briarwood Reed, Skyshroud Leggings, Bloodvine Set." }
                     },
                     abilities = {
                         { level = 60, name = "Max Rank Lightning Bolt & Chain Lightning", desc = "Explosive multi-target and single-target Nature burst." }
@@ -253,10 +253,10 @@ local ShamanModule = {
             statPriority = "Healing Power > MP5 > Intellect > Spell Crit > Stamina",
             phaseGuidance = {
                 [1] = {
-                    name = "Phase 1: Levels 1â€“20",
+                    name = "Phase 1: Levels 1–20",
                     summary = "Healing Wave ranks, Cure Poison/Disease, and Healing Stream Totem.",
                     zones = {
-                        { name = "Durotar / Mulgore / Barrens", range = "1â€“20", notes = "Water Totem quest at level 20." }
+                        { name = "Durotar / Mulgore / Barrens", range = "1–20", notes = "Water Totem quest at level 20." }
                     },
                     abilities = {
                         { level = 1, name = "Healing Wave", desc = "Large single-target heal." },
@@ -267,14 +267,14 @@ local ShamanModule = {
                     }
                 },
                 [2] = {
-                    name = "Phase 2: Levels 20â€“40",
+                    name = "Phase 2: Levels 20–40",
                     summary = "Mana Spring Totem (lvl 26), Reincarnation (Ankh), and Nature's Swiftness at 30.",
                     zones = {
-                        { name = "Hillsbrad / SM / RFK", range = "20â€“40", notes = "Scarlet Monastery Cathedral healing mace and shield." }
+                        { name = "Hillsbrad / SM / RFK", range = "20–40", notes = "Scarlet Monastery Cathedral healing mace and shield." }
                     },
                     abilities = {
                         { level = 26, name = "Mana Spring Totem", desc = "Restores mana to your entire party every 2 seconds." },
-                        { level = 30, name = "Reincarnation", desc = "Self-resurrect upon death using an Ankhâ€”ultimate wipe recovery!" }
+                        { level = 30, name = "Reincarnation", desc = "Self-resurrect upon death using an Ankh—ultimate wipe recovery!" }
                     },
                     rules = {
                         "Always carry 5+ Ankhs in your bags so you can self-resurrect after a wipe and resurrect the party.",
@@ -282,10 +282,10 @@ local ShamanModule = {
                     }
                 },
                 [3] = {
-                    name = "Phase 3: Levels 40â€“52",
+                    name = "Phase 3: Levels 40–52",
                     summary = "Chain Heal unlocked at level 40! Mana Tide Totem at 40!",
                     zones = {
-                        { name = "Tanaris / Hinterlands / Maraudon", range = "40â€“52", notes = "Zul'Farrak and Maraudon +Healing mail/leather." }
+                        { name = "Tanaris / Hinterlands / Maraudon", range = "40–52", notes = "Zul'Farrak and Maraudon +Healing mail/leather." }
                     },
                     abilities = {
                         { level = 40, name = "Chain Heal", desc = "Iconic smart-bounce heal jumping across 3 friendly targets within 12.5yd!" },
@@ -297,10 +297,10 @@ local ShamanModule = {
                     }
                 },
                 [4] = {
-                    name = "Phase 4: Levels 52â€“60",
+                    name = "Phase 4: Levels 52–60",
                     summary = "Endgame Raid Healer MVP: Chain Heal Rank 1/3, Windfury Totem support, and Pre-Raid BIS.",
                     zones = {
-                        { name = "BRD / Dire Maul / Strat / Scholo", range = "52â€“60", notes = "Robes of the Exalted, Wild Growth Spaulders, Hide of the Wild." }
+                        { name = "BRD / Dire Maul / Strat / Scholo", range = "52–60", notes = "Robes of the Exalted, Wild Growth Spaulders, Hide of the Wild." }
                     },
                     abilities = {
                         { level = 60, name = "Chain Heal + Healing Way", desc = "Sustained group healing and +18% Healing Wave amplification on tanks." }

@@ -98,11 +98,29 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
     local profMod = self.Registry.Professions[profKey] or self.Registry.Professions["ENGINEERING"] or {}
     local dungMod = self.Registry.Dungeons or {}
 
-    -- Resolve active spec
-    local specKey = overrideSpec and string.upper(overrideSpec) or self:GetPlayerSpec(classKey)
+    -- Resolve active spec: manual dropdown override ALWAYS takes priority over heuristic detection
+    local specKey = nil
+    local detectedRole = nil
+    if overrideSpec and overrideSpec ~= "" then
+        specKey = string.upper(overrideSpec)
+    else
+        specKey, detectedRole = self:DetectPlayerRoleAndSpec(classKey)
+        specKey = string.upper(specKey or "PROTECTION")
+    end
+
     local specMod = nil
     if classMod.specs then
         specMod = classMod.specs[specKey]
+        if not specMod then
+            -- Try matching by specName substring (e.g., "Protection", "Retribution", "Holy")
+            for k, v in pairs(classMod.specs) do
+                if k:find(specKey, 1, true) or string.upper(v.specName or ""):find(specKey, 1, true) then
+                    specKey = k
+                    specMod = v
+                    break
+                end
+            end
+        end
         if not specMod then
             -- Fallback to default spec or first available spec
             local defKey = classMod.defaultSpec
@@ -120,7 +138,7 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
     end
     specMod = specMod or {}
 
-    local role = specMod.role or "TANK"
+    local role = specMod.role or detectedRole or "TANK"
     local statPriority = specMod.statPriority or "Stamina > Primary Stat > Mitigation / Crit"
 
     local composite = {
