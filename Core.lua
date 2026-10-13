@@ -107,32 +107,36 @@ end
 -- Minimap Button Construction
 function HFG:CreateMinimapButton()
     local btn = CreateFrame("Button", "HFG_MinimapButton", Minimap)
-    btn:SetSize(32, 32)
+    btn:SetSize(31, 31)
     btn:SetFrameStrata("MEDIUM")
     btn:SetFrameLevel(8)
     btn:EnableMouse(true)
     btn:SetMovable(true)
 
-    local icon = btn:CreateTexture(nil, "BORDER")
-    icon:ClearAllPoints()
-    icon:SetPoint("CENTER", btn, "CENTER", 0, 0)
-    icon:SetSize(20, 20)
+    -- Background (dark circular backdrop behind icon)
+    local background = btn:CreateTexture(nil, "BACKGROUND")
+    background:SetSize(20, 20)
+    background:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
+    background:SetPoint("TOPLEFT", btn, "TOPLEFT", 7, -5)
+    btn.Background = background
+
+    -- Main Icon
+    local icon = btn:CreateTexture(nil, "ARTWORK")
+    icon:SetSize(17, 17)
     icon:SetTexture("Interface\\Icons\\Spell_Holy_DevotionAura")
     icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    icon:SetPoint("TOPLEFT", btn, "TOPLEFT", 7, -6)
     btn.Icon = icon
 
-    local border = btn:CreateTexture(nil, "OVERLAY")
-    border:ClearAllPoints()
-    border:SetPoint("CENTER", btn, "CENTER", 0, 0)
-    border:SetSize(34, 34)
-    border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    -- Circular Gold Border Overlay (standard Blizzard 53x53 texture anchored at TOPLEFT)
+    local overlay = btn:CreateTexture(nil, "OVERLAY")
+    overlay:SetSize(53, 53)
+    overlay:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    overlay:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
+    btn.Overlay = overlay
 
-    local highlight = btn:CreateTexture(nil, "HIGHLIGHT")
-    highlight:ClearAllPoints()
-    highlight:SetPoint("CENTER", btn, "CENTER", 0, 0)
-    highlight:SetSize(32, 32)
-    highlight:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
-    highlight:SetBlendMode("ADD")
+    -- Mouseover Highlight
+    btn:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
 
     local isDragging = false
     local function UpdatePosition(angle)
@@ -141,6 +145,7 @@ function HFG:CreateMinimapButton()
         local sin = math.sin(rad)
         local cx = (Minimap:GetWidth() / 2) + 10
         local cy = (Minimap:GetHeight() / 2) + 10
+        btn:ClearAllPoints()
         btn:SetPoint("CENTER", Minimap, "CENTER", cos * cx, sin * cy)
     end
 
@@ -221,7 +226,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 
             HFG:CreateMinimapButton()
             local prof = HFG:GetActiveProfile()
-            HFG:Print(string.format("Loaded v1.3.0. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            HFG:Print(string.format("Loaded v1.3.1. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then
