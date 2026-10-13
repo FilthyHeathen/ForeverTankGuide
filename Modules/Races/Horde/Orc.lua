@@ -3,7 +3,7 @@
     Orc Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local OrcModule = {
     name = "Orc",
@@ -72,4 +72,4 @@ local OrcModule = {
     }
 }
 
-FTG:RegisterRaceModule("ORC", OrcModule)
+HFG:RegisterRaceModule("ORC", OrcModule)

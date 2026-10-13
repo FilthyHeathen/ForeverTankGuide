@@ -3,7 +3,7 @@
     Tailoring Progression: Cloth Gear, Bag Upgrades, Shadoweave, Truefaith Vestments, and Bloodvine Set
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local TailoringModule = {
     name = "Tailoring",
@@ -88,4 +88,4 @@ local TailoringModule = {
     }
 }
 
-FTG:RegisterProfModule("TAILORING", TailoringModule)
+HFG:RegisterProfModule("TAILORING", TailoringModule)

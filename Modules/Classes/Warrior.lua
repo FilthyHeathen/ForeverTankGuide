@@ -3,7 +3,7 @@
     Warrior Multi-Spec Module: Protection (Tank), Arms (2H Melee DPS), Fury (Dual-Wield DPS)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local WarriorModule = {
     name = "Warrior",
@@ -282,4 +282,4 @@ local WarriorModule = {
     }
 }
 
-FTG:RegisterClassModule("WARRIOR", WarriorModule)
+HFG:RegisterClassModule("WARRIOR", WarriorModule)

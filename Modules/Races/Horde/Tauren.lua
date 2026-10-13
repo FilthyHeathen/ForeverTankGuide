@@ -3,7 +3,7 @@
     Tauren Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local TaurenModule = {
     name = "Tauren",
@@ -72,4 +72,4 @@ local TaurenModule = {
     }
 }
 
-FTG:RegisterRaceModule("TAUREN", TaurenModule)
+HFG:RegisterRaceModule("TAUREN", TaurenModule)

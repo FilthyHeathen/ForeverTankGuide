@@ -3,7 +3,7 @@
     Paladin Multi-Spec Module: Protection (Tank), Holy (Healer), Retribution (Melee DPS)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local PaladinModule = {
     name = "Paladin",
@@ -305,4 +305,4 @@ local PaladinModule = {
     }
 }
 
-FTG:RegisterClassModule("PALADIN", PaladinModule)
+HFG:RegisterClassModule("PALADIN", PaladinModule)

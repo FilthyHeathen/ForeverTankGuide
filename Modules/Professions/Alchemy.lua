@@ -3,7 +3,7 @@
     Alchemy Progression: Stoneshield Potions, Mana Potions, Mongoose, Greater Arcane Elixirs, and Flasks
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local AlchemyModule = {
     name = "Alchemy",
@@ -98,4 +98,4 @@ local AlchemyModule = {
     }
 }
 
-FTG:RegisterProfModule("ALCHEMY", AlchemyModule)
+HFG:RegisterProfModule("ALCHEMY", AlchemyModule)

@@ -3,7 +3,7 @@
     Shaman Multi-Spec Module: Enhancement Tank (Way of Earth), Enhancement (Melee DPS), Elemental (Caster DPS), Restoration (Healer)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local ShamanModule = {
     name = "Shaman",
@@ -335,4 +335,4 @@ local ShamanModule = {
     }
 }
 
-FTG:RegisterClassModule("SHAMAN", ShamanModule)
+HFG:RegisterClassModule("SHAMAN", ShamanModule)

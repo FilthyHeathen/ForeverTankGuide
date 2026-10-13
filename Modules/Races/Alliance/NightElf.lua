@@ -3,7 +3,7 @@
     Night Elf Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local NightElfModule = {
     name = "Night Elf",
@@ -72,4 +72,4 @@ local NightElfModule = {
     }
 }
 
-FTG:RegisterRaceModule("NIGHTELF", NightElfModule)
+HFG:RegisterRaceModule("NIGHTELF", NightElfModule)

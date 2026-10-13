@@ -3,7 +3,7 @@
     Universal Dungeon Progression, Multi-Role Drop Tables ([Tank], [Heal], [DPS]), and Checklist Keys
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local EncountersModule = {
     brackets = {
@@ -179,4 +179,4 @@ local EncountersModule = {
     }
 }
 
-FTG:RegisterDungeonData(EncountersModule)
+HFG:RegisterDungeonData(EncountersModule)

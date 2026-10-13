@@ -3,7 +3,7 @@
     Troll Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local TrollModule = {
     name = "Troll",
@@ -72,4 +72,4 @@ local TrollModule = {
     }
 }
 
-FTG:RegisterRaceModule("TROLL", TrollModule)
+HFG:RegisterRaceModule("TROLL", TrollModule)

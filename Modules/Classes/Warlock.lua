@@ -3,7 +3,7 @@
     Warlock Multi-Spec Module: Metamorphosis (Tank), Affliction (Drain Tank / DoT DPS), Destruction (Shadowbolt Crit DPS)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local WarlockModule = {
     name = "Warlock",
@@ -257,4 +257,4 @@ local WarlockModule = {
     }
 }
 
-FTG:RegisterClassModule("WARLOCK", WarlockModule)
+HFG:RegisterClassModule("WARLOCK", WarlockModule)

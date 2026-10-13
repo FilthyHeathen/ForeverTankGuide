@@ -3,9 +3,10 @@
     Data Aggregation and Dynamic Module Registration API (All Roles & Specs Edition)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
+_G.HFG = HFG
 
-FTG.Registry = {
+HFG.Registry = {
     Classes = {},
     Races = {},
     Professions = {},
@@ -13,31 +14,31 @@ FTG.Registry = {
 }
 
 -- Module Registration Methods
-function FTG:RegisterClassModule(classToken, moduleData)
+function HFG:RegisterClassModule(classToken, moduleData)
     if not classToken or not moduleData then return end
     classToken = string.upper(classToken)
     self.Registry.Classes[classToken] = moduleData
 end
 
-function FTG:RegisterRaceModule(raceToken, moduleData)
+function HFG:RegisterRaceModule(raceToken, moduleData)
     if not raceToken or not moduleData then return end
     raceToken = string.upper(raceToken)
     self.Registry.Races[raceToken] = moduleData
 end
 
-function FTG:RegisterProfModule(profName, moduleData)
+function HFG:RegisterProfModule(profName, moduleData)
     if not profName or not moduleData then return end
     profName = string.upper(profName)
     self.Registry.Professions[profName] = moduleData
 end
 
-function FTG:RegisterDungeonData(dungeonTable)
+function HFG:RegisterDungeonData(dungeonTable)
     if not dungeonTable then return end
     self.Registry.Dungeons = dungeonTable
 end
 
 -- Helper: Retrieve Registered Lists for UI Selectors
-function FTG:GetRegisteredClasses()
+function HFG:GetRegisteredClasses()
     local list = {}
     for k, v in pairs(self.Registry.Classes) do
         table.insert(list, { token = k, name = v.name or k })
@@ -46,7 +47,7 @@ function FTG:GetRegisteredClasses()
     return list
 end
 
-function FTG:GetRegisteredSpecsForClass(classToken)
+function HFG:GetRegisteredSpecsForClass(classToken)
     classToken = string.upper(classToken or "PALADIN")
     local classMod = self.Registry.Classes[classToken]
     local list = {}
@@ -67,7 +68,7 @@ function FTG:GetRegisteredSpecsForClass(classToken)
     return list
 end
 
-function FTG:GetRegisteredRaces()
+function HFG:GetRegisteredRaces()
     local list = {}
     for k, v in pairs(self.Registry.Races) do
         if k ~= "SCOURGE" and k ~= "SKYBORNE" then -- prevent duplicate alias entries in dropdown
@@ -78,7 +79,7 @@ function FTG:GetRegisteredRaces()
     return list
 end
 
-function FTG:GetRegisteredProfessions()
+function HFG:GetRegisteredProfessions()
     local list = {}
     for k, v in pairs(self.Registry.Professions) do
         table.insert(list, { token = k, name = v.name or k })
@@ -88,7 +89,7 @@ function FTG:GetRegisteredProfessions()
 end
 
 -- Composite Profile Construction (Class + Spec + Race + Profession + Dungeons)
-function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, overrideProf)
+function HFG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, overrideProf)
     local classKey = string.upper(overrideClass or self:GetPlayerClass())
     local raceKey = string.upper(overrideRace or self:GetPlayerRace())
     local profKey = string.upper(overrideProf or self:GetPlayerProfession())
@@ -202,7 +203,7 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
         -- Profession & Dungeons
         local professionData = {
             name = profMod.name or profKey,
-            range = pBracket.range or "Skill 1â€“300",
+            range = pBracket.range or "Skill 1–300",
             milestones = pBracket.milestones or {},
             shoppingList = pBracket.shoppingList or {},
             ahProfits = pBracket.ahProfits or nil
@@ -212,7 +213,7 @@ function FTG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
 
         composite.Brackets[b] = {
             id = b,
-            name = sBracket.name or (b == 1 and "Phase 1: Levels 1â€“20" or (b == 2 and "Phase 2: Levels 20â€“40" or (b == 3 and "Phase 3: Levels 40â€“52" or "Phase 4: Levels 52â€“60"))),
+            name = sBracket.name or (b == 1 and "Phase 1: Levels 1–20" or (b == 2 and "Phase 2: Levels 20–40" or (b == 3 and "Phase 3: Levels 40–52" or "Phase 4: Levels 52–60"))),
             minLevel = sBracket.minLevel or (b == 1 and 1 or (b == 2 and 20 or (b == 3 and 40 or 52))),
             maxLevel = sBracket.maxLevel or (b == 1 and 20 or (b == 2 and 40 or (b == 3 and 52 or 60))),
             summary = sBracket.summary or string.format("%s %s (%s) progression and tactical milestones.", raceMod.name or raceKey, specMod.specName or "", classMod.name or classKey),

@@ -3,9 +3,9 @@
     Dynamic Character State Detection, Classic Heuristic Role/Spec Resolver & Active Profile Manager
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
-FTG.Profile = {}
+HFG.Profile = {}
 
 -- Helper: Check if a specific buff/aura is active on the player (supports Modern AuraUtil & Classic UnitBuff)
 local function HasPlayerAura(auraName)
@@ -100,7 +100,6 @@ local function GetHighestTalentTree()
         local numTabs = GetNumTalentTabs() or 3
         for t = 1, numTabs do
             local name, _, pointsSpent = GetTalentTabInfo(t)
-            -- Handle different client return signatures where pointsSpent may be arg 3 or arg 5
             if type(pointsSpent) ~= "number" then
                 local _, _, _, _, altPoints = GetTalentTabInfo(t)
                 pointsSpent = tonumber(altPoints) or 0
@@ -120,7 +119,7 @@ local function GetHighestTalentTree()
 end
 
 -- Auto-detect player class token (PALADIN, WARRIOR, DRUID, PRIEST, SHAMAN, MAGE, WARLOCK, ROGUE, HUNTER)
-function FTG:GetPlayerClass()
+function HFG:GetPlayerClass()
     local _, classToken = UnitClass("player")
     return classToken or "PALADIN"
 end
@@ -130,11 +129,11 @@ end
     Returns: specKey, role
     Priority Order:
     1. Active Signature Class Auras (e.g., Righteous Fury, Sanctity Aura, Bear/Cat/Moonkin Form, Shadowform, Metamorphosis)
-    2. Talent Tree Point Distribution (Tabs 1, 2, 3 via GetTalentTabInfo) combined with Equipped Gear (2H vs Shield)
-    3. Equipped Gear Heuristics (Slot 16 & Slot 17 via GetInventoryItemID: 2H -> DPS, Shield -> Tank/Buff check)
+    2. Equipped Gear Heuristics (Slot 16 & Slot 17 via GetInventoryItemID: 2H -> DPS, Shield -> Tank/Buff check)
+    3. Talent Tree Point Distribution (Tabs 1, 2, 3 via GetTalentTabInfo)
     4. Low-Level Tiebreakers (Levels 1-9: Paladin defaults to Protection (Tank) if tankGuideMode enabled)
 ]]
-function FTG:DetectPlayerRoleAndSpec(classToken)
+function HFG:DetectPlayerRoleAndSpec(classToken)
     classToken = string.upper(classToken or self:GetPlayerClass())
     local classMod = self.Registry.Classes[classToken]
     if not classMod or not classMod.specs then
@@ -152,7 +151,7 @@ function FTG:DetectPlayerRoleAndSpec(classToken)
     local gear = GetEquippedWeaponState()
     local bestTabIndex, bestTabName, maxTalentPoints = GetHighestTalentTree()
     local playerLevel = UnitLevel and UnitLevel("player") or 1
-    local tankGuideMode = (not FTG_CharDB) or (FTG_CharDB.tankGuideMode ~= false)
+    local tankGuideMode = (not HFG_CharDB) or (HFG_CharDB.tankGuideMode ~= false)
 
     -- =========================================================================
     -- PALADIN HEURISTICS
@@ -219,7 +218,7 @@ function FTG:DetectPlayerRoleAndSpec(classToken)
             return "FURY", "DPS"
         end
 
-        -- 3. Shield equipped -> Protection Tank (unless deep Arms/Fury leveling with temporary shield)
+        -- 3. Shield equipped -> Protection Tank
         if gear.hasShield then
             return "PROTECTION", "TANK"
         end
@@ -410,13 +409,13 @@ function FTG:DetectPlayerRoleAndSpec(classToken)
 end
 
 -- Auto-detect active specialization (wraps DetectPlayerRoleAndSpec for Registry compatibility)
-function FTG:GetPlayerSpec(classToken)
+function HFG:GetPlayerSpec(classToken)
     local specKey = self:DetectPlayerRoleAndSpec(classToken)
     return specKey
 end
 
 -- Auto-detect player race token (including cross-faction Skyborne detection)
-function FTG:GetPlayerRace()
+function HFG:GetPlayerRace()
     local raceName, raceToken = UnitRace("player")
     local token = string.upper(raceToken or raceName or "UNDEAD")
     if token == "SCOURGE" then
@@ -434,7 +433,7 @@ function FTG:GetPlayerRace()
 end
 
 -- Auto-detect primary profession (Engineering, Blacksmithing, Alchemy, Leatherworking, Tailoring)
-function FTG:GetPlayerProfession()
+function HFG:GetPlayerProfession()
     local function matchProf(name)
         if not name then return nil end
         local n = string.upper(name)
@@ -471,21 +470,21 @@ function FTG:GetPlayerProfession()
 end
 
 -- Active selection states: manual top-bar dropdowns ALWAYS override automatic detection until "Detect Player" is clicked
-function FTG:GetActiveProfile()
-    local overrideClass = FTG_CharDB and FTG_CharDB.overrideClass
-    local overrideSpec  = FTG_CharDB and FTG_CharDB.overrideSpec
-    local overrideRace  = FTG_CharDB and FTG_CharDB.overrideRace
-    local overrideProf  = FTG_CharDB and FTG_CharDB.overrideProf
+function HFG:GetActiveProfile()
+    local overrideClass = HFG_CharDB and HFG_CharDB.overrideClass
+    local overrideSpec  = HFG_CharDB and HFG_CharDB.overrideSpec
+    local overrideRace  = HFG_CharDB and HFG_CharDB.overrideRace
+    local overrideProf  = HFG_CharDB and HFG_CharDB.overrideProf
 
     return self:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, overrideProf)
 end
 
-function FTG:SetProfileOverrides(overrideClass, overrideSpec, overrideRace, overrideProf)
-    if not FTG_CharDB then FTG_CharDB = {} end
-    FTG_CharDB.overrideClass = overrideClass
-    FTG_CharDB.overrideSpec  = overrideSpec
-    FTG_CharDB.overrideRace  = overrideRace
-    FTG_CharDB.overrideProf  = overrideProf
+function HFG:SetProfileOverrides(overrideClass, overrideSpec, overrideRace, overrideProf)
+    if not HFG_CharDB then HFG_CharDB = {} end
+    HFG_CharDB.overrideClass = overrideClass
+    HFG_CharDB.overrideSpec  = overrideSpec
+    HFG_CharDB.overrideRace  = overrideRace
+    HFG_CharDB.overrideProf  = overrideProf
 
     if self.UI and self.UI.MainFrame and self.UI.MainFrame:IsShown() then
         self.UI:UpdateView()
@@ -493,12 +492,12 @@ function FTG:SetProfileOverrides(overrideClass, overrideSpec, overrideRace, over
 end
 
 -- "Detect Player" button handler: clears manual overrides and runs live heuristic detection
-function FTG:ResetProfileToPlayer()
-    if not FTG_CharDB then FTG_CharDB = {} end
-    FTG_CharDB.overrideClass = nil
-    FTG_CharDB.overrideSpec  = nil
-    FTG_CharDB.overrideRace  = nil
-    FTG_CharDB.overrideProf  = nil
+function HFG:ResetProfileToPlayer()
+    if not HFG_CharDB then HFG_CharDB = {} end
+    HFG_CharDB.overrideClass = nil
+    HFG_CharDB.overrideSpec  = nil
+    HFG_CharDB.overrideRace  = nil
+    HFG_CharDB.overrideProf  = nil
 
     local detectedSpec, detectedRole = self:DetectPlayerRoleAndSpec()
     if self.UI and self.UI.MainFrame and self.UI.MainFrame:IsShown() then

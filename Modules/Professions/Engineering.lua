@@ -3,7 +3,7 @@
     Engineering Progression, Bombs, Sappers, Target Dummies, Goggles, and Commercial AH Tips
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local EngineeringModule = {
     name = "Engineering",
@@ -97,4 +97,4 @@ local EngineeringModule = {
     }
 }
 
-FTG:RegisterProfModule("ENGINEERING", EngineeringModule)
+HFG:RegisterProfModule("ENGINEERING", EngineeringModule)

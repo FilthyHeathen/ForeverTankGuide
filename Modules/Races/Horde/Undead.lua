@@ -3,7 +3,7 @@
     Forsaken (Undead) Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local UndeadModule = {
     name = "Undead (Forsaken)",
@@ -78,5 +78,5 @@ local UndeadModule = {
     }
 }
 
-FTG:RegisterRaceModule("UNDEAD", UndeadModule)
-FTG:RegisterRaceModule("SCOURGE", UndeadModule)
+HFG:RegisterRaceModule("UNDEAD", UndeadModule)
+HFG:RegisterRaceModule("SCOURGE", UndeadModule)

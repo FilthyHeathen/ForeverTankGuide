@@ -3,7 +3,7 @@
     Blacksmithing Progression: Shield Spikes, Sharpening Stones, Plate Sets, and Lionheart Helm
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local BlacksmithingModule = {
     name = "Blacksmithing",
@@ -90,4 +90,4 @@ local BlacksmithingModule = {
     }
 }
 
-FTG:RegisterProfModule("BLACKSMITHING", BlacksmithingModule)
+HFG:RegisterProfModule("BLACKSMITHING", BlacksmithingModule)

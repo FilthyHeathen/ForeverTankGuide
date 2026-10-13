@@ -3,7 +3,7 @@
     Leatherworking Progression: Armor Kits, Wolfshead Helm, Devilsaur Set, and Hide of the Wild
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local LeatherworkingModule = {
     name = "Leatherworking",
@@ -84,4 +84,4 @@ local LeatherworkingModule = {
     }
 }
 
-FTG:RegisterProfModule("LEATHERWORKING", LeatherworkingModule)
+HFG:RegisterProfModule("LEATHERWORKING", LeatherworkingModule)

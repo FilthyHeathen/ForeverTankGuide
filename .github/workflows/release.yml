@@ -1,0 +1,33 @@
+name: Package & Release Addon
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Package Addon
+        run: |
+          mkdir -p package/HeathensForeverGuide
+          # Copy addon files into correctly named folder, excluding git and dev files
+          rsync -av --progress ./ package/HeathensForeverGuide --exclude package --exclude .git --exclude .github --exclude .gitignore
+          cd package
+          zip -r HeathensForeverGuide.zip HeathensForeverGuide
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: package/HeathensForeverGuide.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

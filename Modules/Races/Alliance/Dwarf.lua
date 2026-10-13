@@ -3,7 +3,7 @@
     Dwarf Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local DwarfModule = {
     name = "Dwarf",
@@ -72,4 +72,4 @@ local DwarfModule = {
     }
 }
 
-FTG:RegisterRaceModule("DWARF", DwarfModule)
+HFG:RegisterRaceModule("DWARF", DwarfModule)

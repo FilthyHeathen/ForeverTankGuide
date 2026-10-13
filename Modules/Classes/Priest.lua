@@ -3,7 +3,7 @@
     Priest Multi-Spec Module: Holy / Discipline (Healer), Shadow (Caster DPS)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local PriestModule = {
     name = "Priest",
@@ -200,4 +200,4 @@ local PriestModule = {
     }
 }
 
-FTG:RegisterClassModule("PRIEST", PriestModule)
+HFG:RegisterClassModule("PRIEST", PriestModule)

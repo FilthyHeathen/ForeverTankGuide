@@ -3,9 +3,10 @@
     Main Lifecycle, Event Router, Character Auto-Detector, Minimap & Slash Commands
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
+_G.HFG = HFG
 
-FTG_CharDB = FTG_CharDB or {}
+HFG_CharDB = HFG_CharDB or {}
 
 local DEFAULT_CONFIG = {
     minimapPos = 45,
@@ -20,12 +21,12 @@ local DEFAULT_CONFIG = {
 }
 
 -- Print helper with addon prefix
-function FTG:Print(msg)
+function HFG:Print(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|cffffd200[Heathen's Forever Guide]|r " .. tostring(msg))
 end
 
 -- Get bracket index corresponding to player's current level
-function FTG:GetCurrentPlayerBracket()
+function HFG:GetCurrentPlayerBracket()
     local level = UnitLevel("player") or 1
     if level < 20 then
         return 1
@@ -39,36 +40,36 @@ function FTG:GetCurrentPlayerBracket()
 end
 
 -- Task completion tracking (per character)
-function FTG:IsTaskCompleted(taskKey)
-    if not FTG_CharDB or not FTG_CharDB.completedTasks then return false end
-    return FTG_CharDB.completedTasks[taskKey] == true
+function HFG:IsTaskCompleted(taskKey)
+    if not HFG_CharDB or not HFG_CharDB.completedTasks then return false end
+    return HFG_CharDB.completedTasks[taskKey] == true
 end
 
-function FTG:SetTaskCompleted(taskKey, isDone)
-    if not FTG_CharDB then FTG_CharDB = {} end
-    if not FTG_CharDB.completedTasks then FTG_CharDB.completedTasks = {} end
-    FTG_CharDB.completedTasks[taskKey] = (isDone == true or isDone == 1)
+function HFG:SetTaskCompleted(taskKey, isDone)
+    if not HFG_CharDB then HFG_CharDB = {} end
+    if not HFG_CharDB.completedTasks then HFG_CharDB.completedTasks = {} end
+    HFG_CharDB.completedTasks[taskKey] = (isDone == true or isDone == 1)
 end
 
 -- Tab & View Switching Handlers
-function FTG:SetSelectedBracket(bracketId)
+function HFG:SetSelectedBracket(bracketId)
     self.selectedBracket = bracketId
-    if FTG_CharDB then FTG_CharDB.selectedBracket = bracketId end
+    if HFG_CharDB then HFG_CharDB.selectedBracket = bracketId end
     if self.UI and self.UI.MainFrame and self.UI.MainFrame:IsShown() then
         self.UI:UpdateView()
     end
 end
 
-function FTG:SetViewTab(tabId)
+function HFG:SetViewTab(tabId)
     self.currentView = tabId
-    if FTG_CharDB then FTG_CharDB.currentView = tabId end
+    if HFG_CharDB then HFG_CharDB.currentView = tabId end
     if self.UI and self.UI.MainFrame and self.UI.MainFrame:IsShown() then
         self.UI:UpdateView()
     end
 end
 
 -- Toggle Main UI Window
-function FTG:ToggleUI()
+function HFG:ToggleUI()
     local frame = self.UI:CreateMainFrame()
     if frame:IsShown() then
         frame:Hide()
@@ -79,7 +80,7 @@ function FTG:ToggleUI()
 end
 
 -- Safe in-game Macro Creation Helper
-function FTG:InstallMacro(name, body)
+function HFG:InstallMacro(name, body)
     if InCombatLockdown and InCombatLockdown() then
         self:Print("|cffff2020Cannot create macro while in combat!|r")
         return
@@ -104,8 +105,8 @@ function FTG:InstallMacro(name, body)
 end
 
 -- Minimap Button Construction
-function FTG:CreateMinimapButton()
-    local btn = CreateFrame("Button", "FTG_MinimapButton", Minimap)
+function HFG:CreateMinimapButton()
+    local btn = CreateFrame("Button", "HFG_MinimapButton", Minimap)
     btn:SetSize(32, 32)
     btn:SetFrameStrata("MEDIUM")
     btn:SetFrameLevel(8)
@@ -156,7 +157,7 @@ function FTG:CreateMinimapButton()
             px, py = px / scale, py / scale
             local angle = math.deg(math.atan2(py - my, px - mx))
             if angle < 0 then angle = angle + 360 end
-            FTG_CharDB.minimapPos = angle
+            HFG_CharDB.minimapPos = angle
             UpdatePosition(angle)
         end)
     end)
@@ -169,16 +170,16 @@ function FTG:CreateMinimapButton()
 
     btn:SetScript("OnClick", function(self, button)
         if not isDragging then
-            FTG:ToggleUI()
+            HFG:ToggleUI()
         end
     end)
 
     btn:SetScript("OnEnter", function(self)
-        local prof = FTG:GetActiveProfile()
+        local prof = HFG:GetActiveProfile()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:AddLine("|cffffd200Heathen's Forever Guide|r", 1, 1, 1)
         GameTooltip:AddLine(string.format("|cff40ff40[%s] %s %s|r", prof.role or "TANK", prof.raceName, prof.specName), 0.8, 0.8, 0.8)
-        GameTooltip:AddLine("Left-Click: Toggle Guide Window", 0.9, 0.9, 0.9)
+        GameTooltip:AddLine("Left-Click: Toggle Heathen's Forever Guide", 0.9, 0.9, 0.9)
         GameTooltip:AddLine("Left-Click & Drag: Move Icon", 0.6, 0.6, 0.6)
         GameTooltip:Show()
     end)
@@ -187,7 +188,7 @@ function FTG:CreateMinimapButton()
         GameTooltip:Hide()
     end)
 
-    UpdatePosition(FTG_CharDB.minimapPos or 45)
+    UpdatePosition(HFG_CharDB.minimapPos or 45)
     self.MinimapButton = btn
 end
 
@@ -204,52 +205,55 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
         local addon = ...
         if addon == ADDON_NAME then
-            -- Initialize SavedVariables Database
-            if not FTG_CharDB then FTG_CharDB = {} end
+            -- Migrate legacy FTG_CharDB if present
+            if not HFG_CharDB and type(_G.FTG_CharDB) == "table" then
+                HFG_CharDB = _G.FTG_CharDB
+            end
+            if not HFG_CharDB then HFG_CharDB = {} end
             for k, v in pairs(DEFAULT_CONFIG) do
-                if FTG_CharDB[k] == nil then
-                    FTG_CharDB[k] = v
+                if HFG_CharDB[k] == nil then
+                    HFG_CharDB[k] = v
                 end
             end
 
-            FTG.selectedBracket = FTG_CharDB.selectedBracket or FTG:GetCurrentPlayerBracket()
-            FTG.currentView = FTG_CharDB.currentView or "overview"
+            HFG.selectedBracket = HFG_CharDB.selectedBracket or HFG:GetCurrentPlayerBracket()
+            HFG.currentView = HFG_CharDB.currentView or "overview"
 
-            FTG:CreateMinimapButton()
-            local prof = FTG:GetActiveProfile()
-            FTG:Print(string.format("Loaded v1.3.0. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r (or |cffffd200/ftg|r) or click minimap icon.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            HFG:CreateMinimapButton()
+            local prof = HFG:GetActiveProfile()
+            HFG:Print(string.format("Loaded v1.3.0. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then
         local newLevel = ...
-        local newBracket = FTG:GetCurrentPlayerBracket()
-        local previousBracket = FTG.lastNotifiedBracket or FTG_CharDB.selectedBracket
+        local newBracket = HFG:GetCurrentPlayerBracket()
+        local previousBracket = HFG.lastNotifiedBracket or HFG_CharDB.selectedBracket
 
         if newBracket ~= previousBracket then
-            FTG.lastNotifiedBracket = newBracket
-            FTG.selectedBracket = newBracket
-            FTG_CharDB.selectedBracket = newBracket
+            HFG.lastNotifiedBracket = newBracket
+            HFG.selectedBracket = newBracket
+            HFG_CharDB.selectedBracket = newBracket
 
-            local prof = FTG:GetActiveProfile()
+            local prof = HFG:GetActiveProfile()
             local data = prof.Brackets[newBracket] or {}
-            FTG:Print(string.format("|cff00ff00*** LEVEL UP! (%d) ***|r Welcome to |cffffd200%s|r!", newLevel, data.name or ("Phase " .. newBracket)))
+            HFG:Print(string.format("|cff00ff00*** LEVEL UP! (%d) ***|r Welcome to |cffffd200%s|r!", newLevel, data.name or ("Phase " .. newBracket)))
             if data.profession and data.profession.range then
-                FTG:Print(string.format("New %s focus: |cffffff00%s|r. Check /hfg for updated dungeon drops & role tactics!", prof.profName, data.profession.range))
+                HFG:Print(string.format("New %s focus: |cffffff00%s|r. Type /hfg to toggle Heathen's Forever Guide.", prof.profName, data.profession.range))
             end
 
-            if FTG.UI and FTG.UI.MainFrame and FTG.UI.MainFrame:IsShown() then
-                FTG.UI:UpdateView()
+            if HFG.UI and HFG.UI.MainFrame and HFG.UI.MainFrame:IsShown() then
+                HFG.UI:UpdateView()
             end
         end
 
     elseif event == "PLAYER_ENTERING_WORLD" then
-        FTG.lastNotifiedBracket = FTG:GetCurrentPlayerBracket()
+        HFG.lastNotifiedBracket = HFG:GetCurrentPlayerBracket()
 
     elseif event == "UNIT_INVENTORY_CHANGED" or event == "UNIT_AURA" or event == "CHARACTER_POINTS_CHANGED" then
         local unit = ...
-        if (not unit or unit == "player") and FTG_CharDB and not FTG_CharDB.overrideSpec then
-            if FTG.UI and FTG.UI.MainFrame and FTG.UI.MainFrame:IsShown() then
-                FTG.UI:UpdateView()
+        if (not unit or unit == "player") and HFG_CharDB and not HFG_CharDB.overrideSpec then
+            if HFG.UI and HFG.UI.MainFrame and HFG.UI.MainFrame:IsShown() then
+                HFG.UI:UpdateView()
             end
         end
     end
@@ -257,19 +261,20 @@ end)
 
 -- Slash Command Registration
 SLASH_HEATHENSFOREVERGUIDE1 = "/hfg"
-SLASH_HEATHENSFOREVERGUIDE2 = "/foreverguide"
-SLASH_HEATHENSFOREVERGUIDE3 = "/ftg"
-SLASH_HEATHENSFOREVERGUIDE4 = "/tankguide"
+SLASH_HEATHENSFOREVERGUIDE2 = "/heathen"
+SLASH_HEATHENSFOREVERGUIDE3 = "/foreverguide"
 
 SlashCmdList["HEATHENSFOREVERGUIDE"] = function(msg)
     msg = string.lower(string.trim and string.trim(msg) or msg:match("^%s*(.-)%s*$"))
     if msg == "reset" then
-        if FTG.UI and FTG.UI.MainFrame then
-            FTG.UI.MainFrame:ClearAllPoints()
-            FTG.UI.MainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
-            FTG:Print("Window position reset to center.")
+        if HFG.UI and HFG.UI.MainFrame then
+            HFG.UI.MainFrame:ClearAllPoints()
+            HFG.UI.MainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
+            HFG:Print("Window position reset to center.")
         end
+    elseif msg == "help" then
+        HFG:Print("Type /hfg to toggle Heathen's Forever Guide.")
     else
-        FTG:ToggleUI()
+        HFG:ToggleUI()
     end
 end

@@ -3,9 +3,9 @@
     Dynamic Rendering Engine: All Roles (Tank/Healer/DPS), Specs, Dropdowns, Checklists & Categorized Macro Vault
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
-FTG.UI = {}
+HFG.UI = {}
 
 local BACKDROP_TEMPLATE = (BackdropTemplateMixin and "BackdropTemplate") or nil
 
@@ -50,10 +50,10 @@ local function FormatRoleBadge(role)
     end
 end
 
-function FTG.UI:CreateMainFrame()
+function HFG.UI:CreateMainFrame()
     if self.MainFrame then return self.MainFrame end
 
-    local f = CreateFrame("Frame", "FTG_MainFrame", UIParent, BACKDROP_TEMPLATE)
+    local f = CreateFrame("Frame", "HFG_MainFrame", UIParent, BACKDROP_TEMPLATE)
     f:SetSize(840, 560)
     f:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
     f:SetMovable(true)
@@ -107,7 +107,7 @@ function FTG.UI:CreateMainFrame()
     -- Title Text
     local titleText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     titleText:SetPoint("LEFT", titleIcon, "RIGHT", 10, 0)
-    titleText:SetText("|cffffd200Heathen's Forever Guide|r |cff40ff40[All-Role & Spec Edition]|r")
+    titleText:SetText("|cffffd200Heathen's Forever Guide|r")
     ApplyDropShadow(titleText)
     f.TitleText = titleText
 
@@ -141,7 +141,7 @@ function FTG.UI:CreateMainFrame()
 end
 
 -- Profile Bar with Interactive Selectors (Class, Spec, Race, Profession, Detect Player)
-function FTG.UI:CreateProfileBar(parent)
+function HFG.UI:CreateProfileBar(parent)
     local bar = CreateFrame("Frame", nil, parent, BACKDROP_TEMPLATE)
     bar:SetPoint("TOPLEFT", parent, "TOPLEFT", 14, -48)
     bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -14, -48)
@@ -159,28 +159,28 @@ function FTG.UI:CreateProfileBar(parent)
     ApplyDropShadow(label)
 
     -- 1. Class Selector Button
-    local classBtn = CreateFrame("Button", "FTG_ClassDropdownBtn", bar, "UIPanelButtonTemplate")
+    local classBtn = CreateFrame("Button", "HFG_ClassDropdownBtn", bar, "UIPanelButtonTemplate")
     classBtn:SetSize(110, 20)
     classBtn:SetPoint("LEFT", label, "RIGHT", 6, 0)
     classBtn:SetText("Class")
     ApplyDropShadow(classBtn:GetFontString())
 
     -- 2. Spec Selector Button
-    local specBtn = CreateFrame("Button", "FTG_SpecDropdownBtn", bar, "UIPanelButtonTemplate")
+    local specBtn = CreateFrame("Button", "HFG_SpecDropdownBtn", bar, "UIPanelButtonTemplate")
     specBtn:SetSize(175, 20)
     specBtn:SetPoint("LEFT", classBtn, "RIGHT", 6, 0)
     specBtn:SetText("Specialization")
     ApplyDropShadow(specBtn:GetFontString())
 
     -- 3. Race Selector Button
-    local raceBtn = CreateFrame("Button", "FTG_RaceDropdownBtn", bar, "UIPanelButtonTemplate")
+    local raceBtn = CreateFrame("Button", "HFG_RaceDropdownBtn", bar, "UIPanelButtonTemplate")
     raceBtn:SetSize(120, 20)
     raceBtn:SetPoint("LEFT", specBtn, "RIGHT", 6, 0)
     raceBtn:SetText("Race")
     ApplyDropShadow(raceBtn:GetFontString())
 
     -- 4. Profession Selector Button
-    local profBtn = CreateFrame("Button", "FTG_ProfDropdownBtn", bar, "UIPanelButtonTemplate")
+    local profBtn = CreateFrame("Button", "HFG_ProfDropdownBtn", bar, "UIPanelButtonTemplate")
     profBtn:SetSize(125, 20)
     profBtn:SetPoint("LEFT", raceBtn, "RIGHT", 6, 0)
     profBtn:SetText("Profession")
@@ -200,24 +200,24 @@ function FTG.UI:CreateProfileBar(parent)
     resetBtn:SetText("Detect Player")
     ApplyDropShadow(resetBtn:GetFontString())
     resetBtn:SetScript("OnClick", function()
-        FTG:ResetProfileToPlayer()
-        local prof = FTG:GetActiveProfile()
-        FTG:Print(string.format("Auto-detected player profile: |cff40ff40[%s] %s %s (%s)|r.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
-        FTG.UI:UpdateView()
+        HFG:ResetProfileToPlayer()
+        local prof = HFG:GetActiveProfile()
+        HFG:Print(string.format("Auto-detected player profile: |cff40ff40[%s] %s %s (%s)|r.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+        HFG.UI:UpdateView()
     end)
 
     -- Dropdown Menus Setup using UIDropDownMenu API
-    local classDrop = CreateFrame("Frame", "FTG_ClassDropDown", bar, "UIDropDownMenuTemplate")
+    local classDrop = CreateFrame("Frame", "HFG_ClassDropDown", bar, "UIDropDownMenuTemplate")
     UIDropDownMenu_Initialize(classDrop, function(self, level)
-        local classes = FTG:GetRegisteredClasses()
+        local classes = HFG:GetRegisteredClasses()
         for _, c in ipairs(classes) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = c.name
             info.value = c.token
             info.func = function()
-                FTG_CharDB.overrideClass = c.token
-                FTG_CharDB.overrideSpec = nil -- Reset spec to class default on class change
-                FTG.UI:UpdateView()
+                HFG_CharDB.overrideClass = c.token
+                HFG_CharDB.overrideSpec = nil -- Reset spec to class default on class change
+                HFG.UI:UpdateView()
             end
             UIDropDownMenu_AddButton(info, level)
         end
@@ -226,17 +226,17 @@ function FTG.UI:CreateProfileBar(parent)
         ToggleDropDownMenu(1, nil, classDrop, classBtn, 0, 0)
     end)
 
-    local specDrop = CreateFrame("Frame", "FTG_SpecDropDown", bar, "UIDropDownMenuTemplate")
+    local specDrop = CreateFrame("Frame", "HFG_SpecDropDown", bar, "UIDropDownMenuTemplate")
     UIDropDownMenu_Initialize(specDrop, function(self, level)
-        local activeClass = (FTG_CharDB and FTG_CharDB.overrideClass) or FTG:GetPlayerClass()
-        local specs = FTG:GetRegisteredSpecsForClass(activeClass)
+        local activeClass = (HFG_CharDB and HFG_CharDB.overrideClass) or HFG:GetPlayerClass()
+        local specs = HFG:GetRegisteredSpecsForClass(activeClass)
         for _, s in ipairs(specs) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = string.format("%s %s", FormatRoleBadge(s.role), s.name)
             info.value = s.token
             info.func = function()
-                FTG_CharDB.overrideSpec = s.token
-                FTG.UI:UpdateView()
+                HFG_CharDB.overrideSpec = s.token
+                HFG.UI:UpdateView()
             end
             UIDropDownMenu_AddButton(info, level)
         end
@@ -245,17 +245,17 @@ function FTG.UI:CreateProfileBar(parent)
         ToggleDropDownMenu(1, nil, specDrop, specBtn, 0, 0)
     end)
 
-    local raceDrop = CreateFrame("Frame", "FTG_RaceDropDown", bar, "UIDropDownMenuTemplate")
+    local raceDrop = CreateFrame("Frame", "HFG_RaceDropDown", bar, "UIDropDownMenuTemplate")
     UIDropDownMenu_Initialize(raceDrop, function(self, level)
-        local races = FTG:GetRegisteredRaces()
+        local races = HFG:GetRegisteredRaces()
         for _, r in ipairs(races) do
             local info = UIDropDownMenu_CreateInfo()
             local color = (r.faction == "Horde" and "|cffff3333" or "|cff3388ff")
             info.text = string.format("%s[%s]|r %s", color, r.faction:sub(1,1), r.name)
             info.value = r.token
             info.func = function()
-                FTG_CharDB.overrideRace = r.token
-                FTG.UI:UpdateView()
+                HFG_CharDB.overrideRace = r.token
+                HFG.UI:UpdateView()
             end
             UIDropDownMenu_AddButton(info, level)
         end
@@ -264,16 +264,16 @@ function FTG.UI:CreateProfileBar(parent)
         ToggleDropDownMenu(1, nil, raceDrop, raceBtn, 0, 0)
     end)
 
-    local profDrop = CreateFrame("Frame", "FTG_ProfDropDown", bar, "UIDropDownMenuTemplate")
+    local profDrop = CreateFrame("Frame", "HFG_ProfDropDown", bar, "UIDropDownMenuTemplate")
     UIDropDownMenu_Initialize(profDrop, function(self, level)
-        local profs = FTG:GetRegisteredProfessions()
+        local profs = HFG:GetRegisteredProfessions()
         for _, p in ipairs(profs) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = p.name
             info.value = p.token
             info.func = function()
-                FTG_CharDB.overrideProf = p.token
-                FTG.UI:UpdateView()
+                HFG_CharDB.overrideProf = p.token
+                HFG.UI:UpdateView()
             end
             UIDropDownMenu_AddButton(info, level)
         end
@@ -289,7 +289,7 @@ function FTG.UI:CreateProfileBar(parent)
     parent.ProfileBar = bar
 end
 
-function FTG.UI:CreateTopBar(parent)
+function HFG.UI:CreateTopBar(parent)
     local bar = CreateFrame("Frame", nil, parent)
     bar:SetPoint("TOPLEFT", parent, "TOPLEFT", 180, -82)
     bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -15, -82)
@@ -317,7 +317,7 @@ function FTG.UI:CreateTopBar(parent)
         ApplyDropShadow(btn:GetFontString())
 
         btn:SetScript("OnClick", function()
-            FTG:SetSelectedBracket(t.id)
+            HFG:SetSelectedBracket(t.id)
         end)
 
         bracketButtons[t.id] = btn
@@ -327,7 +327,7 @@ function FTG.UI:CreateTopBar(parent)
     parent.BracketButtons = bracketButtons
 end
 
-function FTG.UI:CreateSideMenu(parent)
+function HFG.UI:CreateSideMenu(parent)
     local menu = CreateFrame("Frame", nil, parent, BACKDROP_TEMPLATE)
     menu:SetPoint("TOPLEFT", parent, "TOPLEFT", 12, -82)
     menu:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 12, 12)
@@ -362,7 +362,7 @@ function FTG.UI:CreateSideMenu(parent)
         ApplyDropShadow(fs)
 
         btn:SetScript("OnClick", function()
-            FTG:SetViewTab(item.id)
+            HFG:SetViewTab(item.id)
         end)
 
         navButtons[item.id] = btn
@@ -391,7 +391,7 @@ function FTG.UI:CreateSideMenu(parent)
     parent.NavButtons = navButtons
 end
 
-function FTG.UI:CreateContentArea(parent)
+function HFG.UI:CreateContentArea(parent)
     local content = CreateFrame("Frame", nil, parent, BACKDROP_TEMPLATE)
     content:SetPoint("TOPLEFT", parent, "TOPLEFT", 180, -116)
     content:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -14, 14)
@@ -413,15 +413,15 @@ function FTG.UI:CreateContentArea(parent)
         content:SetBackdropBorderColor(0.6, 0.5, 0.35, 0.9)
     end
 
-    local scrollFrame = CreateFrame("ScrollFrame", "FTG_ContentScrollFrame", content)
+    local scrollFrame = CreateFrame("ScrollFrame", "HFG_ContentScrollFrame", content)
     scrollFrame:SetPoint("TOPLEFT", content, "TOPLEFT", 8, -8)
     scrollFrame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT", -26, 8)
 
-    local scrollChild = CreateFrame("Frame", "FTG_ContentScrollChild", scrollFrame)
+    local scrollChild = CreateFrame("Frame", "HFG_ContentScrollChild", scrollFrame)
     scrollChild:SetSize(600, 600)
     scrollFrame:SetScrollChild(scrollChild)
 
-    local slider = CreateFrame("Slider", "FTG_ContentSlider", content, BACKDROP_TEMPLATE)
+    local slider = CreateFrame("Slider", "HFG_ContentSlider", content, BACKDROP_TEMPLATE)
     slider:SetPoint("TOPRIGHT", content, "TOPRIGHT", -8, -24)
     slider:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT", -8, 24)
     slider:SetWidth(14)
@@ -462,13 +462,13 @@ function FTG.UI:CreateContentArea(parent)
 end
 
 -- Refresh UI with Current Selected Bracket & View Tab
-function FTG.UI:UpdateView()
+function HFG.UI:UpdateView()
     local f = self.MainFrame
     if not f or not f:IsShown() then return end
 
-    local profile = FTG:GetActiveProfile()
-    local currentBracketId = FTG.selectedBracket or FTG:GetCurrentPlayerBracket()
-    local currentView = FTG.currentView or "overview"
+    local profile = HFG:GetActiveProfile()
+    local currentBracketId = HFG.selectedBracket or HFG:GetCurrentPlayerBracket()
+    local currentView = HFG.currentView or "overview"
     local bracketData = profile.Brackets[currentBracketId] or {}
 
     -- Update Dropdown Button Titles
@@ -530,7 +530,7 @@ function FTG.UI:UpdateView()
 end
 
 -- 1. RENDER OVERVIEW TAB
-function FTG.UI:RenderOverview(child, bracket, profile)
+function HFG.UI:RenderOverview(child, bracket, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
 
@@ -647,7 +647,7 @@ function FTG.UI:RenderOverview(child, bracket, profile)
 end
 
 -- 2. RENDER PROFESSION ROADMAP TAB
-function FTG.UI:RenderProfession(child, bracket, profile)
+function HFG.UI:RenderProfession(child, bracket, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
     local prof = bracket.profession or {}
@@ -747,7 +747,7 @@ function FTG.UI:RenderProfession(child, bracket, profile)
 end
 
 -- 3. RENDER DUNGEON CHECKLIST TAB (with Role Tagging & Highlighting)
-function FTG.UI:RenderDungeons(child, bracket, profile)
+function HFG.UI:RenderDungeons(child, bracket, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
     local dungeons = bracket.dungeons or {}
@@ -782,10 +782,10 @@ function FTG.UI:RenderDungeons(child, bracket, profile)
         local dungCheck = CreateFrame("CheckButton", nil, dungBox, "UICheckButtonTemplate")
         dungCheck:SetPoint("LEFT", dungBox, "LEFT", 6, 0)
         dungCheck:SetSize(22, 22)
-        local dungChecked = FTG:IsTaskCompleted("dung_" .. d.key)
+        local dungChecked = HFG:IsTaskCompleted("dung_" .. d.key)
         dungCheck:SetChecked(dungChecked)
         dungCheck:SetScript("OnClick", function(self)
-            FTG:SetTaskCompleted("dung_" .. d.key, self:GetChecked())
+            HFG:SetTaskCompleted("dung_" .. d.key, self:GetChecked())
         end)
 
         local dungLabel = dungBox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -815,10 +815,10 @@ function FTG.UI:RenderDungeons(child, bracket, profile)
                 local dropCheck = CreateFrame("CheckButton", nil, dropRow, "UICheckButtonTemplate")
                 dropCheck:SetPoint("LEFT", dropRow, "LEFT", 0, 0)
                 dropCheck:SetSize(20, 20)
-                local itemChecked = FTG:IsTaskCompleted("loot_" .. drop.id)
+                local itemChecked = HFG:IsTaskCompleted("loot_" .. drop.id)
                 dropCheck:SetChecked(itemChecked)
                 dropCheck:SetScript("OnClick", function(self)
-                    FTG:SetTaskCompleted("loot_" .. drop.id, self:GetChecked())
+                    HFG:SetTaskCompleted("loot_" .. drop.id, self:GetChecked())
                 end)
 
                 local badge = FormatRoleBadge(drop.role or "TANK")
@@ -838,7 +838,7 @@ function FTG.UI:RenderDungeons(child, bracket, profile)
 end
 
 -- 4. RENDER MACRO VAULT TAB (Categorized by Role / Function)
-function FTG.UI:RenderMacros(child, profile)
+function HFG.UI:RenderMacros(child, profile)
     local yOffset = -10
     local width = child:GetWidth() - 20
     local macros = profile.Macros or {}
@@ -921,7 +921,7 @@ function FTG.UI:RenderMacros(child, profile)
                 btn:SetText("Save to WoW")
                 ApplyDropShadow(btn:GetFontString())
                 btn:SetScript("OnClick", function()
-                    FTG:InstallMacro(m.title, m.code)
+                    HFG:InstallMacro(m.title, m.code)
                 end)
 
                 local editBox = CreateFrame("EditBox", nil, box, BACKDROP_TEMPLATE)

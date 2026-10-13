@@ -3,7 +3,7 @@
     Hunter Multi-Spec Module: Beast Mastery (Leveling & Solo King), Marksmanship (Raid Ranged DPS)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local HunterModule = {
     name = "Hunter",
@@ -254,4 +254,4 @@ local HunterModule = {
     }
 }
 
-FTG:RegisterClassModule("HUNTER", HunterModule)
+HFG:RegisterClassModule("HUNTER", HunterModule)

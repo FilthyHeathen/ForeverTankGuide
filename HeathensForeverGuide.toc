@@ -1,9 +1,9 @@
 ## Interface: 16001
-## Title: |cffc79c6eHeathen's Forever Guide|r
-## Notes: Heathen's Forever Guide — Dynamic Leveling, Dungeon, and Profession Assistant for All Roles (Tank/Healer/DPS), Specs, Races (incl. Skyborne) & Professions.
+## Title: Heathen's Forever Guide
+## Notes: Leveling, Dungeon, Spec, and Profession Progression Guide for WoW Forever
 ## Author: FilthyHeathen
 ## Version: 1.3.0
-## SavedVariablesPerCharacter: FTG_CharDB
+## SavedVariablesPerCharacter: HFG_CharDB
 
 # Core Engine & Dynamic Registry
 Engine\Registry.lua

@@ -3,7 +3,7 @@
     Human Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local HumanModule = {
     name = "Human",
@@ -72,4 +72,4 @@ local HumanModule = {
     }
 }
 
-FTG:RegisterRaceModule("HUMAN", HumanModule)
+HFG:RegisterRaceModule("HUMAN", HumanModule)

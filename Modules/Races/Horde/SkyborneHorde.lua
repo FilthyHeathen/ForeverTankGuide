@@ -3,7 +3,7 @@
     Skyborne (Horde) Cross-Faction Race Module: Racials, Faction-Routed Zones, Class Availability & Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local SkyborneHordeModule = {
     name = "Skyborne (Horde)",
@@ -78,5 +78,5 @@ local SkyborneHordeModule = {
     }
 }
 
-FTG:RegisterRaceModule("SKYBORNE_HORDE", SkyborneHordeModule)
-FTG:RegisterRaceModule("SKYBORNE", SkyborneHordeModule) -- Fallback if client returns "Skyborne"
+HFG:RegisterRaceModule("SKYBORNE_HORDE", SkyborneHordeModule)
+HFG:RegisterRaceModule("SKYBORNE", SkyborneHordeModule) -- Fallback if client returns "Skyborne"

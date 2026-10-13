@@ -3,7 +3,7 @@
     Rogue Multi-Spec Module: Blade Dance (Tank), Combat (Swords/Daggers DPS), Assassination/Subtlety
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local RogueModule = {
     name = "Rogue",
@@ -249,4 +249,4 @@ local RogueModule = {
     }
 }
 
-FTG:RegisterClassModule("ROGUE", RogueModule)
+HFG:RegisterClassModule("ROGUE", RogueModule)

@@ -3,7 +3,7 @@
     Gnome Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local GnomeModule = {
     name = "Gnome",
@@ -72,4 +72,4 @@ local GnomeModule = {
     }
 }
 
-FTG:RegisterRaceModule("GNOME", GnomeModule)
+HFG:RegisterRaceModule("GNOME", GnomeModule)

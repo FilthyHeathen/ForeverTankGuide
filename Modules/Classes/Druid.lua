@@ -3,7 +3,7 @@
     Druid Multi-Spec Module: Feral Bear (Tank), Feral Cat (Melee DPS), Restoration (Healer), Balance (Caster DPS)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local DruidModule = {
     name = "Druid",
@@ -354,4 +354,4 @@ local DruidModule = {
     }
 }
 
-FTG:RegisterClassModule("DRUID", DruidModule)
+HFG:RegisterClassModule("DRUID", DruidModule)

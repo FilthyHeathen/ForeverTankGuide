@@ -3,7 +3,7 @@
     Mage Multi-Spec Module: Frost (AoE / Leveling / Dungeon DPS), Fire (Endgame Burst DPS), Arcane (Burst / Utility)
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local MageModule = {
     name = "Mage",
@@ -242,4 +242,4 @@ local MageModule = {
     }
 }
 
-FTG:RegisterClassModule("MAGE", MageModule)
+HFG:RegisterClassModule("MAGE", MageModule)

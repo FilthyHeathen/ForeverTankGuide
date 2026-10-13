@@ -3,7 +3,7 @@
     Skyborne (Alliance) Cross-Faction Race Module: Racials, Faction-Routed Zones, Class Availability & Macros
 ]]
 
-local ADDON_NAME, FTG = ...
+local ADDON_NAME, HFG = ...
 
 local SkyborneAllianceModule = {
     name = "Skyborne (Alliance)",
@@ -78,4 +78,4 @@ local SkyborneAllianceModule = {
     }
 }
 
-FTG:RegisterRaceModule("SKYBORNE_ALLIANCE", SkyborneAllianceModule)
+HFG:RegisterRaceModule("SKYBORNE_ALLIANCE", SkyborneAllianceModule)
