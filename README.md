@@ -66,9 +66,18 @@ HeathensForeverGuide/
 
 ---
 
+## Official Downloads & Documentation
+
+* **CurseForge:** [https://www.curseforge.com/wow/addons/heathens-forever-guide](https://www.curseforge.com/wow/addons/heathens-forever-guide)
+* **Wago.io:** [https://addons.wago.io/addons/heathensforeverguide](https://addons.wago.io/addons/heathensforeverguide)
+* **GitHub Releases:** [https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest](https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest)
+* **Documentation Wiki:** [https://github.com/FilthyHeathen/HeathensForeverGuide/wiki](https://github.com/FilthyHeathen/HeathensForeverGuide/wiki)
+
+---
+
 ## Installation & Slash Commands
 
-1. Download **`HeathensForeverGuide.zip`** from the latest **GitHub Release** and extract it directly into:
+1. Install via **[CurseForge](https://www.curseforge.com/wow/addons/heathens-forever-guide)**, **[Wago.io](https://addons.wago.io/addons/heathensforeverguide)**, or download **`HeathensForeverGuide.zip`** from the latest **[GitHub Release](https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest)** and extract it directly into:
    ```
    World of Warcraft\Interface\AddOns\HeathensForeverGuide\
    ```
