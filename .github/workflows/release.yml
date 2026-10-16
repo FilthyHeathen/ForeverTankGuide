@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir -p package/HeathensForeverGuide
           # Copy addon files into correctly named folder, excluding git and dev files
-          rsync -av --progress ./ package/HeathensForeverGuide --exclude package --exclude .git --exclude .github --exclude .gitignore
+          rsync -av --progress ./ package/HeathensForeverGuide --exclude package --exclude .git --exclude .github --exclude .gitignore --exclude Tools --exclude Data --exclude "*.py" --exclude "*.wdb" --exclude "*.json"
           cd package
           zip -r HeathensForeverGuide.zip HeathensForeverGuide
 

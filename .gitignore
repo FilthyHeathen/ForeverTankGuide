@@ -13,3 +13,8 @@ Thumbs.db
 # WTF SavedVariables test mocks
 *.wtf
 *.log
+
+# WDB Cache & Ingestion Data
+*.wdb
+WDB/
+!Data/*.json

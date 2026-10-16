@@ -341,6 +341,7 @@ function HFG.UI:CreateSideMenu(parent)
 
     local items = {
         { id = "overview", text = "Bracket Overview", icon = "Interface\\Icons\\Spell_Holy_AuraMastery" },
+        { id = "recommendations", text = "Quest Upgrades", icon = "Interface\\Icons\\INV_Misc_Book_07" },
         { id = "profession", text = "Prof. Roadmap", icon = "Interface\\Icons\\Trade_Engineering" },
         { id = "dungeons", text = "Dungeon Checklist", icon = "Interface\\Icons\\Spell_Holy_PurifyingPower" },
         { id = "macros", text = "Macro Vault", icon = "Interface\\Icons\\Spell_Holy_InnerFire" },
@@ -350,9 +351,9 @@ function HFG.UI:CreateSideMenu(parent)
     local prev = nil
     for idx, item in ipairs(items) do
         local btn = CreateFrame("Button", nil, menu, "UIPanelButtonTemplate")
-        btn:SetSize(144, 34)
+        btn:SetSize(144, 30)
         if prev then
-            btn:SetPoint("TOP", prev, "BOTTOM", 0, -8)
+            btn:SetPoint("TOP", prev, "BOTTOM", 0, -6)
         else
             btn:SetPoint("TOP", menu, "TOP", 0, -10)
         end
@@ -514,6 +515,8 @@ function HFG.UI:UpdateView()
     local totalHeight = 0
     if currentView == "overview" then
         totalHeight = self:RenderOverview(child, bracketData, profile)
+    elseif currentView == "recommendations" then
+        totalHeight = self:RenderQuestRecommendations(child, bracketData, profile)
     elseif currentView == "profession" then
         totalHeight = self:RenderProfession(child, bracketData, profile)
     elseif currentView == "dungeons" then
@@ -640,6 +643,99 @@ function HFG.UI:RenderOverview(child, bracket, profile)
             ApplyDropShadow(line)
             table.insert(child.elements, line)
             yOffset = yOffset - (line:GetStringHeight() + 6)
+        end
+        yOffset = yOffset - 10
+    end
+
+    -- Section: Bag Quest Progression (Relevant for current bracket & character)
+    if HFG.GetBagQuestsForProfile then
+        local bagQuests = HFG:GetBagQuestsForProfile(profile)
+        local bracketBagQuests = {}
+        local minLvl = bracket.minLevel or 1
+        local maxLvl = bracket.maxLevel or 60
+
+        for _, bq in ipairs(bagQuests) do
+            if bq.level >= minLvl and bq.level <= maxLvl then
+                table.insert(bracketBagQuests, bq)
+            end
+        end
+
+        if #bracketBagQuests > 0 then
+            local bagHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            bagHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+            bagHeader:SetTextColor(0.2, 0.8, 1.0, 1) -- Crisp cyan / teal
+            bagHeader:SetText("Essential Inventory Bag Quests")
+            ApplyDropShadow(bagHeader)
+            table.insert(child.elements, bagHeader)
+            yOffset = yOffset - 18
+
+            for _, bq in ipairs(bracketBagQuests) do
+                local line = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+                line:SetPoint("TOPLEFT", child, "TOPLEFT", 20, yOffset)
+                line:SetWidth(width - 20)
+                line:SetJustifyH("LEFT")
+                line:SetTextColor(0.9, 0.9, 0.9, 1)
+
+                local detailStr = string.format("• |cffffd200%s|r (|cff40ff40Lvl %d|r - |cffffffff%d-Slot Bag|r): |cff00ff00%s|r", bq.name, bq.level, bq.slots, bq.zone)
+                if bq.starter then
+                    detailStr = detailStr .. string.format(" (Starter: |cffffffff%s|r)", bq.starter)
+                end
+                if bq.reward then
+                    detailStr = detailStr .. string.format(" [Reward: |cff1eff00%s|r]", bq.reward)
+                end
+
+                line:SetText(detailStr)
+                ApplyDropShadow(line)
+                table.insert(child.elements, line)
+                yOffset = yOffset - (line:GetStringHeight() + 6)
+            end
+            yOffset = yOffset - 10
+        end
+    end
+
+    -- Section: Dynamic Spec-Loot & Quest Upgrades
+    if HFG.GetRecommendedQuests then
+        local recs = HFG:GetRecommendedQuests({
+            bracket = bracket.id,
+            role = profile.role,
+            sortBy = "BEST",
+            roleFilter = "SPEC",
+            onlyUnfinished = true
+        })
+
+        if recs and #recs > 0 then
+            local qHeader = child:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            qHeader:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+            qHeader:SetTextColor(1.0, 0.8, 0.2, 1) -- Golden yellow
+            qHeader:SetText(string.format("Recommended Dynamic Quest Upgrades (%s Spec)", FormatRoleBadge(profile.role)))
+            ApplyDropShadow(qHeader)
+            table.insert(child.elements, qHeader)
+            yOffset = yOffset - 18
+
+            -- Display top 3 recommendations
+            for i = 1, math.min(#recs, 3) do
+                local rec = recs[i]
+                local q = rec.quest
+                local line = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+                line:SetPoint("TOPLEFT", child, "TOPLEFT", 20, yOffset)
+                line:SetWidth(width - 20)
+                line:SetJustifyH("LEFT")
+                line:SetTextColor(0.9, 0.9, 0.9, 1)
+
+                local detailStr = string.format("• |cffffd200%s|r (|cff40ff40Lvl %d|r - |cffffffff%s|r): |cff40ff40+%s XP|r", q.title, q.level, q.zone or "World", tostring(q.xp or 0))
+                if rec.bestLoot then
+                    detailStr = detailStr .. string.format(" [Upgrade: |cff0070dd%s|r - %s]", rec.bestLoot.name, rec.bestLoot.slot)
+                end
+                if rec.isActive then
+                    detailStr = detailStr .. " |cff00ff00(In Progress)|r"
+                end
+
+                line:SetText(detailStr)
+                ApplyDropShadow(line)
+                table.insert(child.elements, line)
+                yOffset = yOffset - (line:GetStringHeight() + 6)
+            end
+            yOffset = yOffset - 10
         end
     end
 
@@ -951,3 +1047,303 @@ function HFG.UI:RenderMacros(child, profile)
 
     return -yOffset
 end
+
+-- 5. RENDER QUEST & LOOT RECOMMENDATIONS TAB
+function HFG.UI:RenderQuestRecommendations(child, bracket, profile)
+    local yOffset = -10
+    local width = child:GetWidth() - 20
+
+    local currentRole = profile.role or "TANK"
+    local roleFilter = (HFG_CharDB and HFG_CharDB.questFilterRole) or "SPEC"
+    local sortBy = (HFG_CharDB and HFG_CharDB.questSortBy) or "BEST"
+
+    -- Title
+    local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    title:SetText(string.format("%s |cffffd200Dynamic Quest & Spec-Loot Upgrades|r", FormatRoleBadge(currentRole)))
+    ApplyDropShadow(title)
+    table.insert(child.elements, title)
+    yOffset = yOffset - 22
+
+    -- Subtitle
+    local sub = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    sub:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    sub:SetWidth(width)
+    sub:SetJustifyH("LEFT")
+    sub:SetTextColor(0.85, 0.85, 0.85, 1)
+    sub:SetText("Scans native client completion flags and recommends high XP or role-appropriate gear upgrades.")
+    ApplyDropShadow(sub)
+    table.insert(child.elements, sub)
+    yOffset = yOffset - (sub:GetStringHeight() + 10)
+
+    -- Action Bar Container
+    local bar = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+    bar:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    bar:SetSize(width, 32)
+    if bar.SetBackdrop then
+        bar:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+        bar:SetBackdropColor(0.04, 0.04, 0.06, 0.95)
+        bar:SetBackdropBorderColor(0.5, 0.5, 0.6, 0.8)
+    end
+    table.insert(child.elements, bar)
+
+    -- 1. Scan Completed Quests Button
+    local scanBtn = CreateFrame("Button", nil, bar, "UIPanelButtonTemplate")
+    scanBtn:SetSize(140, 22)
+    scanBtn:SetPoint("LEFT", bar, "LEFT", 6, 0)
+    scanBtn:SetText("Scan Completed")
+    ApplyDropShadow(scanBtn:GetFontString())
+    scanBtn:SetScript("OnClick", function()
+        if HFG.ScanCompletedQuests then
+            local count = HFG:ScanCompletedQuests()
+            HFG:Print(string.format("Completed quest scan finished. Found |cff40ff40%d|r completed quests.", count))
+            HFG.UI:UpdateView()
+        end
+    end)
+
+    -- 2. Role Filter Button (SPEC vs ALL)
+    local filterBtn = CreateFrame("Button", nil, bar, "UIPanelButtonTemplate")
+    filterBtn:SetSize(130, 22)
+    filterBtn:SetPoint("LEFT", scanBtn, "RIGHT", 8, 0)
+    filterBtn:SetText(roleFilter == "SPEC" and "Filter: Spec Only" or "Filter: All Roles")
+    ApplyDropShadow(filterBtn:GetFontString())
+    filterBtn:SetScript("OnClick", function()
+        if not HFG_CharDB then HFG_CharDB = {} end
+        HFG_CharDB.questFilterRole = (roleFilter == "SPEC" and "ALL" or "SPEC")
+        HFG.UI:UpdateView()
+    end)
+
+    -- 3. Sort Order Button
+    local sortBtn = CreateFrame("Button", nil, bar, "UIPanelButtonTemplate")
+    sortBtn:SetSize(120, 22)
+    sortBtn:SetPoint("LEFT", filterBtn, "RIGHT", 8, 0)
+    local sortLabel = (sortBy == "LOOT" and "Sort: Top Loot") or (sortBy == "XP" and "Sort: High XP") or "Sort: Best Match"
+    sortBtn:SetText(sortLabel)
+    ApplyDropShadow(sortBtn:GetFontString())
+    sortBtn:SetScript("OnClick", function()
+        if not HFG_CharDB then HFG_CharDB = {} end
+        if sortBy == "BEST" then
+            HFG_CharDB.questSortBy = "LOOT"
+        elseif sortBy == "LOOT" then
+            HFG_CharDB.questSortBy = "XP"
+        else
+            HFG_CharDB.questSortBy = "BEST"
+        end
+        HFG.UI:UpdateView()
+    end)
+
+    -- Completed Count Status Text
+    local completedCount = 0
+    if HFG_CharDB and HFG_CharDB.completedQuests then
+        for _, v in pairs(HFG_CharDB.completedQuests) do
+            if v then completedCount = completedCount + 1 end
+        end
+    end
+    local countText = bar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    countText:SetPoint("RIGHT", bar, "RIGHT", -10, 0)
+    countText:SetText(string.format("Flags: |cff40ff40%d Done|r", completedCount))
+    ApplyDropShadow(countText)
+
+    yOffset = yOffset - 42
+
+    -- Fetch Recommendations
+    local recs = {}
+    if HFG.GetRecommendedQuests then
+        recs = HFG:GetRecommendedQuests({
+            bracket = bracket.id,
+            role = profile.role,
+            sortBy = sortBy,
+            roleFilter = roleFilter,
+            onlyUnfinished = true
+        })
+    end
+
+    if #recs == 0 then
+        local emptyBox = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+        emptyBox:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        emptyBox:SetSize(width, 90)
+        if emptyBox.SetBackdrop then
+            emptyBox.SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+            emptyBox:SetBackdropColor(0.04, 0.04, 0.06, 0.9)
+            emptyBox:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.8)
+        end
+        table.insert(child.elements, emptyBox)
+
+        local msg = emptyBox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        msg:SetPoint("CENTER", emptyBox, "CENTER", 0, 8)
+        msg:SetText("|cffffcc00No pending recommendations found for this phase.|r")
+        ApplyDropShadow(msg)
+
+        local subMsg = emptyBox:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        subMsg:SetPoint("TOP", msg, "BOTTOM", 0, -6)
+        subMsg:SetText("All known quests in this bracket are completed, or the filter is too restrictive. Try [Filter: All Roles].")
+        ApplyDropShadow(subMsg)
+
+        yOffset = yOffset - 100
+        return -yOffset
+    end
+
+    -- Render Quest Recommendation Cards
+    local QUALITY_COLORS = {
+        [0] = "|cff9d9d9d",
+        [1] = "|cffffffff",
+        [2] = "|cff1eff00",
+        [3] = "|cff0070dd",
+        [4] = "|cffa335ee",
+        [5] = "|cffff8000"
+    }
+
+    for _, rec in ipairs(recs) do
+        local q = rec.quest
+        local lootCount = (q.loot and #q.loot) or 0
+        local cardHeight = 85 + (lootCount * 22)
+
+        local card = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+        card:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        card:SetSize(width, cardHeight)
+        if card.SetBackdrop then
+            card:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+            card:SetBackdropColor(0.04, 0.04, 0.06, 0.95)
+            if rec.isActive then
+                card:SetBackdropBorderColor(0.2, 0.8, 0.3, 0.9) -- Green border for active
+            elseif rec.hasRoleUpgrade then
+                card:SetBackdropBorderColor(0.8, 0.7, 0.2, 0.9) -- Gold for role upgrade
+            else
+                card:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.8)
+            end
+        end
+        table.insert(child.elements, card)
+
+        -- Header: Title, Level, Zone
+        local titleLine = card:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        titleLine:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -8)
+        titleLine:SetText(string.format("|cffffd200%s|r (|cff40ff40Lvl %d|r — |cffffffff%s|r)", q.title, q.level, q.zone or "Unknown"))
+        ApplyDropShadow(titleLine)
+
+        -- Status Indicator
+        local statusText = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        statusText:SetPoint("TOPRIGHT", card, "TOPRIGHT", -12, -8)
+        if rec.isActive then
+            if rec.isObjectiveComplete then
+                statusText:SetText("|cff00ff00[Ready to Turn In]|r")
+            else
+                statusText:SetText("|cffffff00[In Progress]|r")
+            end
+        elseif rec.isCompleted then
+            statusText:SetText("|cff555555[Completed]|r")
+        else
+            statusText:SetText("|cff888888[Available]|r")
+        end
+        ApplyDropShadow(statusText)
+
+        -- XP & Role Upgrade Badges
+        local badgeLine = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        badgeLine:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -26)
+        local roleBadgeStr = ""
+        if rec.hasRoleUpgrade then
+            roleBadgeStr = FormatRoleBadge(rec.targetRole) .. " |cff00ff00UPGRADE|r  "
+        end
+        local xpStr = string.format("|cff40ff40+%s XP|r", tostring(q.xp or 0))
+        local moneyStr = ""
+        if q.money and q.money > 0 then
+            local g = math.floor(q.money / 10000)
+            local s = math.floor((q.money % 10000) / 100)
+            local c = q.money % 100
+            if g > 0 then
+                moneyStr = string.format(" |cffffd200%dg %ds %dc|r", g, s, c)
+            elseif s > 0 then
+                moneyStr = string.format(" |cffffffff%ds %dc|r", s, c)
+            else
+                moneyStr = string.format(" |cffeda55f%dc|r", c)
+            end
+        end
+        badgeLine:SetText(roleBadgeStr .. xpStr .. moneyStr)
+        ApplyDropShadow(badgeLine)
+
+        -- Objectives
+        local objLine = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        objLine:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -42)
+        objLine:SetWidth(width - 24)
+        objLine:SetJustifyH("LEFT")
+        objLine:SetTextColor(0.8, 0.8, 0.8, 1)
+        objLine:SetText(string.format("|cffaaaaaaObjectives:|r %s", q.objectives or "See questgiver for instructions."))
+        ApplyDropShadow(objLine)
+
+        -- Loot Rewards Showcase
+        local lootY = -60
+        if q.loot and #q.loot > 0 then
+            for lIdx, loot in ipairs(q.loot) do
+                local qColor = QUALITY_COLORS[loot.quality or 1] or "|cffffffff"
+                local lootFrame = CreateFrame("Button", nil, card)
+                lootFrame:SetPoint("TOPLEFT", card, "TOPLEFT", 12, lootY)
+                lootFrame:SetSize(width - 24, 20)
+                lootFrame:EnableMouse(true)
+
+                local itemText = lootFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+                itemText:SetPoint("LEFT", lootFrame, "LEFT", 0, 0)
+                itemText:SetWidth(width - 60)
+                itemText:SetJustifyH("LEFT")
+
+                -- Build stats summary string
+                local statParts = {}
+                if loot.stats then
+                    for sK, sV in pairs(loot.stats) do
+                        table.insert(statParts, string.format("+%d %s", sV, sK))
+                    end
+                end
+                if loot.armor and loot.armor > 0 then
+                    table.insert(statParts, string.format("%d Armor", loot.armor))
+                end
+                if loot.blockValue and loot.blockValue > 0 then
+                    table.insert(statParts, string.format("%d Block", loot.blockValue))
+                end
+                if loot.dps and loot.dps > 0 then
+                    table.insert(statParts, string.format("%.1f DPS", loot.dps))
+                end
+
+                local statsDesc = table.concat(statParts, ", ")
+                if statsDesc ~= "" then statsDesc = " (" .. statsDesc .. ")" end
+
+                local tag = loot.isChoice and "[Choice]" or "[Guaranteed]"
+                itemText:SetText(string.format("• %s%s %s|r - |cffffffff%s|r%s %s", qColor, tag, loot.name, loot.slot, statsDesc, FormatRoleBadge(loot.role:gsub("%[",""):gsub("%]",""))))
+                ApplyDropShadow(itemText)
+
+                -- Tooltip Handler
+                lootFrame:SetScript("OnEnter", function(self)
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:ClearLines()
+                    GameTooltip:AddLine(string.format("%s%s|r", qColor, loot.name), 1, 1, 1)
+                    GameTooltip:AddLine(string.format("%s - %s", loot.slot, loot.role), 0.8, 0.8, 0.8)
+                    if loot.itemLevel and loot.itemLevel > 0 then
+                        GameTooltip:AddLine(string.format("Item Level %d", loot.itemLevel), 0.9, 0.9, 0.5)
+                    end
+                    if loot.armor and loot.armor > 0 then
+                        GameTooltip:AddLine(string.format("%d Armor", loot.armor), 1, 1, 1)
+                    end
+                    if loot.blockValue and loot.blockValue > 0 then
+                        GameTooltip:AddLine(string.format("%d Block", loot.blockValue), 1, 1, 1)
+                    end
+                    if loot.dps and loot.dps > 0 then
+                        GameTooltip:AddLine(string.format("%.1f Damage Per Second", loot.dps), 1, 1, 1)
+                    end
+                    if loot.stats then
+                        for sName, sVal in pairs(loot.stats) do
+                            GameTooltip:AddLine(string.format("+%d %s", sVal, sName), 0.2, 1.0, 0.2)
+                        end
+                    end
+                    GameTooltip:AddLine(" ")
+                    GameTooltip:AddLine(loot.isChoice and "|cffffff00Choice Quest Reward|r" or "|cff00ff00Guaranteed Quest Reward|r", 0.7, 0.7, 0.7)
+                    GameTooltip:Show()
+                end)
+                lootFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+                lootY = lootY - 20
+            end
+        end
+
+        yOffset = yOffset - (cardHeight + 10)
+    end
+
+    return -yOffset
+end
+

@@ -2,12 +2,13 @@
 ## Title: Heathen's Forever Guide
 ## Notes: Leveling, Dungeon, Spec, and Profession Progression Guide for WoW Forever
 ## Author: FilthyHeathen
-## Version: 1.3.1
+## Version: 1.3.2
 ## SavedVariablesPerCharacter: HFG_CharDB
 
 # Core Engine & Dynamic Registry
 Engine\Registry.lua
 Engine\Profile.lua
+Engine\QuestEngine.lua
 
 # Class Modules (All Roles & Specializations)
 Modules\Classes\Paladin.lua
@@ -43,6 +44,10 @@ Modules\Professions\Tailoring.lua
 
 # Universal Dungeons & Encounters
 Modules\Dungeons\Encounters.lua
+
+# Quest Modules
+Modules\Quests\QuestData.lua
+Modules\Quests\BagQuests.lua
 
 # UI and Core Controller
 UI.lua

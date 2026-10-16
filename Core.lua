@@ -13,6 +13,9 @@ local DEFAULT_CONFIG = {
     selectedBracket = 1,
     currentView = "overview",
     completedTasks = {},
+    completedQuests = {},
+    questFilterRole = "SPEC",
+    questSortBy = "BEST",
     tankGuideMode = true,
     overrideClass = nil,
     overrideSpec = nil,
@@ -205,6 +208,9 @@ eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
 eventFrame:RegisterEvent("UNIT_AURA")
 eventFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
+eventFrame:RegisterEvent("QUEST_FINISHED")
+eventFrame:RegisterEvent("QUEST_COMPLETE")
+eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
 
 eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
@@ -224,9 +230,13 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             HFG.selectedBracket = HFG_CharDB.selectedBracket or HFG:GetCurrentPlayerBracket()
             HFG.currentView = HFG_CharDB.currentView or "overview"
 
+            if HFG.ScanCompletedQuests then
+                HFG:ScanCompletedQuests()
+            end
+
             HFG:CreateMinimapButton()
             local prof = HFG:GetActiveProfile()
-            HFG:Print(string.format("Loaded v1.3.1. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            HFG:Print(string.format("Loaded v1.3.2. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then
@@ -253,6 +263,19 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 
     elseif event == "PLAYER_ENTERING_WORLD" then
         HFG.lastNotifiedBracket = HFG:GetCurrentPlayerBracket()
+        if HFG.ScanCompletedQuests then
+            HFG:ScanCompletedQuests()
+        end
+
+    elseif event == "QUEST_FINISHED" or event == "QUEST_COMPLETE" or event == "QUEST_LOG_UPDATE" then
+        if HFG.ScanCompletedQuests then
+            HFG:ScanCompletedQuests()
+        end
+        if HFG.UI and HFG.UI.MainFrame and HFG.UI.MainFrame:IsShown() then
+            if HFG.currentView == "recommendations" or HFG.currentView == "overview" then
+                HFG.UI:UpdateView()
+            end
+        end
 
     elseif event == "UNIT_INVENTORY_CHANGED" or event == "UNIT_AURA" or event == "CHARACTER_POINTS_CHANGED" then
         local unit = ...
@@ -277,8 +300,21 @@ SlashCmdList["HEATHENSFOREVERGUIDE"] = function(msg)
             HFG.UI.MainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
             HFG:Print("Window position reset to center.")
         end
+    elseif msg == "scan" or msg == "quests" then
+        if HFG.ScanCompletedQuests then
+            local count = HFG:ScanCompletedQuests()
+            HFG:Print(string.format("Completed quest scan finished. Found |cff40ff40%d|r completed quests.", count))
+            if HFG.UI and HFG.UI.MainFrame and HFG.UI.MainFrame:IsShown() then
+                HFG.UI:UpdateView()
+            end
+        else
+            HFG:Print("Quest Engine not loaded.")
+        end
     elseif msg == "help" then
-        HFG:Print("Type /hfg to toggle Heathen's Forever Guide.")
+        HFG:Print("Commands:")
+        HFG:Print("  /hfg - Toggle Heathen's Forever Guide")
+        HFG:Print("  /hfg scan - Scan completed quests via native client API")
+        HFG:Print("  /hfg reset - Reset window position to center")
     else
         HFG:ToggleUI()
     end

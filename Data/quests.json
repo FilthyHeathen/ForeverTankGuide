@@ -1,0 +1,118 @@
+{
+  "148": {
+    "choiceRewards": [
+      {
+        "count": 1,
+        "itemId": 6802
+      }
+    ],
+    "detailsText": "Gryan Stoutmantle demands proof of the bandits' defeat.",
+    "fixedRewards": [
+      {
+        "count": 1,
+        "itemId": 1928
+      }
+    ],
+    "flags": 0,
+    "id": 148,
+    "level": 14,
+    "minLevel": 9,
+    "nextQuestId": null,
+    "objectivesText": "Defeat the Defias Brigands and protect the Sentinel Hill outpost.",
+    "rewMoney": 350,
+    "rewSpellId": null,
+    "rewXP": 1250,
+    "startItemId": null,
+    "suggestedPlayers": 1,
+    "title": "The People's Militia",
+    "zoneOrSort": 44
+  },
+  "1010": {
+    "choiceRewards": [
+      {
+        "count": 1,
+        "itemId": 2042
+      }
+    ],
+    "detailsText": "Nalpak requires fresh hides to craft durable pouches.",
+    "fixedRewards": [
+      {
+        "count": 1,
+        "itemId": 10080
+      }
+    ],
+    "flags": 0,
+    "id": 1010,
+    "level": 17,
+    "minLevel": 12,
+    "nextQuestId": null,
+    "objectivesText": "Collect 10 Deviate Hides from beasts in Wailing Caverns.",
+    "rewMoney": 450,
+    "rewSpellId": null,
+    "rewXP": 1800,
+    "startItemId": null,
+    "suggestedPlayers": 1,
+    "title": "Deviate Hides",
+    "zoneOrSort": 17
+  },
+  "1024": {
+    "choiceRewards": [
+      {
+        "count": 1,
+        "itemId": 12602
+      },
+      {
+        "count": 1,
+        "itemId": 13170
+      }
+    ],
+    "detailsText": "Fallen scholars speak of an ancient dragonkin stronghold deep within the mire.",
+    "fixedRewards": [
+      {
+        "count": 1,
+        "itemId": 11923
+      }
+    ],
+    "flags": 0,
+    "id": 1024,
+    "level": 52,
+    "minLevel": 47,
+    "nextQuestId": null,
+    "objectivesText": "Investigate the submerged temple in the Swamp of Sorrows.",
+    "rewMoney": 4500,
+    "rewSpellId": null,
+    "rewXP": 6800,
+    "startItemId": null,
+    "suggestedPlayers": 1,
+    "title": "In Search of the Temple",
+    "zoneOrSort": 141
+  },
+  "5144": {
+    "choiceRewards": [
+      {
+        "count": 1,
+        "itemId": 12602
+      }
+    ],
+    "detailsText": "Break through the ziggurats and cleanse the undead presence once and for all.",
+    "fixedRewards": [
+      {
+        "count": 1,
+        "itemId": 13340
+      }
+    ],
+    "flags": 0,
+    "id": 5144,
+    "level": 60,
+    "minLevel": 55,
+    "nextQuestId": null,
+    "objectivesText": "Slay Baron Rivendare within the Slaughter Square of Stratholme.",
+    "rewMoney": 8200,
+    "rewSpellId": null,
+    "rewXP": 10200,
+    "startItemId": null,
+    "suggestedPlayers": 1,
+    "title": "Baron Rivendare's Demise",
+    "zoneOrSort": 2017
+  }
+}

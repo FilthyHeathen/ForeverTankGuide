@@ -1,4 +1,4 @@
-# Heathen's Forever Guide (v1.3.0)
+# Heathen's Forever Guide (v1.3.2)
 
 **Heathen's Forever Guide** is an all-in-one in-game leveling, dungeon, specialization, and profession progression assistant for **World of Warcraft: Forever** (`Interface: 16001`), authored by **FilthyHeathen**.
 
@@ -15,7 +15,8 @@ HeathensForeverGuide/
 ├── UI.lua                        # Dynamic UI engine with profile switcher & tabs
 ├── Engine/
 │   ├── Registry.lua              # Module registration API & profile stitcher
-│   └── Profile.lua               # Heuristic role/spec resolver & override manager
+│   ├── Profile.lua               # Heuristic role/spec resolver & override manager
+│   └── QuestEngine.lua           # Dynamic quest recommender, native completion flag scanner
 └── Modules/
     ├── Classes/
     │   ├── Paladin.lua           # Protection (Tank), Holy (Healer), Retribution (DPS)
@@ -46,8 +47,11 @@ HeathensForeverGuide/
     │   ├── Alchemy.lua           # Greater Stoneshield, Mongoose, Greater Arcane, Mana Potions, Flasks
     │   ├── Leatherworking.lua    # Armor Kits, Devilsaur Set, Wicked Leather, Hide of the Wild
     │   └── Tailoring.lua         # Bags, Dreamweave, Robe of the Archmage, Truefaith, Bloodvine Set
-    └── Dungeons/
-        └── Encounters.lua        # Universal dungeon brackets, role-tagged loot drops ([TANK]/[HEAL]/[DPS]), checklists
+    ├── Dungeons/
+    │   └── Encounters.lua        # Universal dungeon brackets, role-tagged loot drops ([TANK]/[HEAL]/[DPS]), checklists
+    └── Quests/
+        ├── QuestData.lua         # Cross-referenced quest metadata, heuristic role tags, and loot upgrades
+        └── BagQuests.lua         # Essential inventory & bag upgrade quest progression (Levels 1–40)
 ```
 
 ---
@@ -57,12 +61,38 @@ HeathensForeverGuide/
 1. **Intelligent Classic Heuristic Role & Spec Resolver (`HFG:DetectPlayerRoleAndSpec`):**
    - Inspects equipped gear (`GetInventoryItemID` on slots 16 & 17 for 2H weapons vs. Shields), active buffs (`AuraUtil` for *Righteous Fury*, *Sanctity Aura*, *Bear/Cat/Moonkin Form*, *Shadowform*, *Metamorphosis*, *Way of Earth*), and talent tree points (`GetTalentTabInfo`).
    - Any manual selection in the top bar dropdowns overrides auto-detection until **"Detect Player"** is clicked.
-2. **Race- & Faction-Based Quest Routing:**
+2. **Dynamic Quest & Loot Recommendation Engine (`HFG.QuestEngine`):**
+   - Scans completed quest flags via the native client API (`GetQuestsCompleted` / `IsQuestFlaggedCompleted`) and active quest log.
+   - Evaluates unfinished quests and surfaces high-XP leveling opportunities and spec-appropriate gear upgrades (`[TANK]`, `[HEAL]`, `[DPS]`) tailored to your current level phase.
+   - Interactive item tooltips, quality color coding, and role filter/sort toggles ("Spec Only", "All Roles", "Top Loot", "High XP").
+3. **Race- & Faction-Based Quest Routing:**
    - Recommended Leveling & Farming Zones dynamically populate based strictly on your character's Race and Faction across all 4 brackets (1–20, 20–40, 40–52, 52–60), including full **Skyborne (Horde)** and **Skyborne (Alliance)** routes.
-3. **Role-Tagged Dungeon & Loot Checklist:**
+4. **Role-Tagged Dungeon & Loot Checklist:**
    - Persistent checkboxes stored per character in `HFG_CharDB.completedTasks` with `[TANK]`, `[HEAL]`, and `[DPS]` item tags.
-4. **Categorized Macro Vault:**
+5. **Categorized Macro Vault:**
    - Macros organized by **Defensive / Tank**, **Healing / Mouseover**, **Burst / DPS**, **Racial / Utility**, and **Profession / Utility** with one-click **"Save to WoW"** (`CreateMacro`).
+
+---
+
+## Developer Data Ingestion Pipeline
+
+Heathen's Forever Guide features an offline binary ingestion and cross-referencing pipeline for processing raw game data caches:
+
+1. **WDB Binary Cache Parser (`Tools/wdb_parser.py`):**
+   - Ingests `itemcache.wdb` and `questcache.wdb` from the client cache directory.
+   - Serializes extracted items and quests into structured, diffable JSON files stored in `Data/items.json` and `Data/quests.json`.
+   ```bash
+   python Tools/wdb_parser.py --items WDB/itemcache.wdb --quests WDB/questcache.wdb --out Data
+   ```
+2. **Heuristic Role Evaluator & Lua Sync (`Tools/update_recommendations.py`):**
+   - Cross-references quest rewards with item definitions.
+   - Evaluates heuristic role suitability (`[TANK]`, `[HEAL]`, `[DPS]`, `[ALL]`) based on armor, defense, stats, slot weights, and weapon speeds.
+   - Generates production-ready Lua lookup tables into `Modules/Quests/QuestData.lua`.
+   ```bash
+   python Tools/update_recommendations.py
+   ```
+3. **Packaging Exclusions:**
+   - `.pkgmeta` and `.gitignore` exclude `Tools/`, `Data/`, `*.py`, `*.wdb`, and `*.json` from addon distribution archives while preserving `Data/*.json` in version control.
 
 ---
 

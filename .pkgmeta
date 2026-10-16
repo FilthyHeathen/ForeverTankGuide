@@ -1,0 +1,8 @@
+package-as: HeathensForeverGuide
+
+ignore:
+  - Tools
+  - Data
+  - "*.py"
+  - "*.wdb"
+  - "*.json"
