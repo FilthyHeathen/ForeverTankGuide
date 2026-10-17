@@ -67,7 +67,21 @@ function HFG:GetAvailableGuides(profile)
         end
     end
 
+    local catWeight = {
+        ["Leveling"] = 1,
+        ["Leveling Routes"] = 1,
+        ["Keys & Attunements"] = 2,
+        ["Class Quests"] = 3,
+    }
+
     table.sort(available, function(a, b)
+        local catA = a.category or "Leveling"
+        local catB = b.category or "Leveling"
+        local wA = catWeight[catA] or 99
+        local wB = catWeight[catB] or 99
+        if wA ~= wB then
+            return wA < wB
+        end
         if a.minLevel ~= b.minLevel then
             return a.minLevel < b.minLevel
         end
@@ -225,7 +239,8 @@ function HFG:AutoSelectDefaultGuide()
         local playerLevel = (UnitLevel and UnitLevel("player")) or 1
         local bestGuide = available[1]
         for _, g in ipairs(available) do
-            if playerLevel >= g.minLevel and playerLevel <= (g.maxLevel or 60) then
+            local cat = g.category or "Leveling"
+            if (cat == "Leveling" or cat == "Leveling Routes") and playerLevel >= g.minLevel and playerLevel <= (g.maxLevel or 60) then
                 bestGuide = g
                 break
             end

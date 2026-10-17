@@ -341,7 +341,7 @@ function HFG.UI:CreateSideMenu(parent)
 
     local items = {
         { id = "overview", text = "Bracket Overview", icon = "Interface\\Icons\\Spell_Holy_AuraMastery" },
-        { id = "steps", text = "Leveling Route", icon = "Interface\\Icons\\INV_Misc_Map02" },
+        { id = "steps", text = "Guide Routes", icon = "Interface\\Icons\\INV_Misc_Map02" },
         { id = "recommendations", text = "Quest Upgrades", icon = "Interface\\Icons\\INV_Misc_Book_07" },
         { id = "bagquests", text = "Bag Quests", icon = "Interface\\Icons\\INV_Misc_Bag_08" },
         { id = "profession", text = "Prof. Roadmap", icon = "Interface\\Icons\\Trade_Engineering" },
@@ -1489,7 +1489,8 @@ function HFG.UI:RenderGuideSteps(child, profile)
         local playerLevel = (UnitLevel and UnitLevel("player")) or 1
         local bestGuide = availableGuides[1]
         for _, g in ipairs(availableGuides) do
-            if playerLevel >= g.minLevel and playerLevel <= (g.maxLevel or 60) then
+            local cat = g.category or "Leveling"
+            if (cat == "Leveling" or cat == "Leveling Routes") and playerLevel >= g.minLevel and playerLevel <= (g.maxLevel or 60) then
                 bestGuide = g
                 break
             end
@@ -1501,7 +1502,7 @@ function HFG.UI:RenderGuideSteps(child, profile)
     -- Section Title
     local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
-    title:SetText("|cffffcc00Interactive Step-by-Step Leveling Guide|r")
+    title:SetText("|cffffcc00Interactive Step-by-Step Guides & Routes|r")
     ApplyDropShadow(title)
     table.insert(child.elements, title)
     yOffset = yOffset - 24
@@ -1523,14 +1524,25 @@ function HFG.UI:RenderGuideSteps(child, profile)
     ApplyDropShadow(selLabel)
 
     local selBtn = CreateFrame("Button", "HFG_RouteDropdownBtn", routeSelectorFrame, "UIPanelButtonTemplate")
-    selBtn:SetSize(280, 22)
+    selBtn:SetSize(340, 22)
     selBtn:SetPoint("LEFT", selLabel, "RIGHT", 8, 0)
     selBtn:SetText(activeGuide and activeGuide.title or "Select Guide Route...")
     ApplyDropShadow(selBtn:GetFontString())
 
     local routeDrop = CreateFrame("Frame", "HFG_RouteDropDown", routeSelectorFrame, "UIDropDownMenuTemplate")
     UIDropDownMenu_Initialize(routeDrop, function(self, level)
+        local currentCategory = nil
         for _, g in ipairs(availableGuides) do
+            local cat = g.category or "Leveling Routes"
+            if cat ~= currentCategory then
+                currentCategory = cat
+                local catHeader = UIDropDownMenu_CreateInfo()
+                catHeader.text = string.format("|cffffd700--- %s ---|r", currentCategory)
+                catHeader.isTitle = true
+                catHeader.notCheckable = true
+                UIDropDownMenu_AddButton(catHeader, level)
+            end
+
             local info = UIDropDownMenu_CreateInfo()
             info.text = string.format("[%d–%d] %s", g.minLevel, g.maxLevel, g.title)
             info.value = g.id

@@ -2,7 +2,7 @@
 ## Title: Heathen's Forever Guide
 ## Notes: Leveling, Dungeon, Spec, and Profession Progression Guide for WoW Forever
 ## Author: FilthyHeathen
-## Version: 1.4.2
+## Version: 1.5.0
 ## SavedVariablesPerCharacter: HFG_CharDB
 
 # Core Engine & Dynamic Registry
@@ -49,21 +49,46 @@ Modules\Dungeons\Encounters.lua
 Modules\Quests\QuestData.lua
 Modules\Quests\BagQuests.lua
 
-# Step-by-Step Leveling Guide Engine & Routes
+# Step-by-Step Leveling Guide Engine & HUD
 Engine\GuideEngine\GuideEngine.lua
 Engine\GuideEngine\GuideHUD.lua
+
+# Leveling Routes (Horde 1-60)
 Modules\Guides\Horde\OrcTroll_1_12.lua
 Modules\Guides\Horde\Tauren_1_12.lua
 Modules\Guides\Horde\Forsaken_1_12.lua
 Modules\Guides\Horde\SkyborneHorde_1_12.lua
 Modules\Guides\Horde\Horde_12_20.lua
 Modules\Guides\Horde\Horde_20_30.lua
+Modules\Guides\Horde\Horde_30_40.lua
+Modules\Guides\Horde\Horde_40_50.lua
+Modules\Guides\Horde\Horde_50_60.lua
+
+# Leveling Routes (Alliance 1-60)
 Modules\Guides\Alliance\Human_1_12.lua
 Modules\Guides\Alliance\DwarfGnome_1_12.lua
 Modules\Guides\Alliance\NightElf_1_12.lua
 Modules\Guides\Alliance\SkyborneAlliance_1_12.lua
 Modules\Guides\Alliance\Alliance_12_20.lua
 Modules\Guides\Alliance\Alliance_20_30.lua
+Modules\Guides\Alliance\Alliance_30_40.lua
+Modules\Guides\Alliance\Alliance_40_50.lua
+Modules\Guides\Alliance\Alliance_50_60.lua
+
+# Dungeon Keys & Raid Attunements
+Modules\Guides\Attunements\Keys_Dungeon.lua
+Modules\Guides\Attunements\Attunement_Raid.lua
+
+# Class Progression Guides (Full 1-60 Spectrum)
+Modules\Guides\ClassQuests\Paladin.lua
+Modules\Guides\ClassQuests\Warrior.lua
+Modules\Guides\ClassQuests\Warlock.lua
+Modules\Guides\ClassQuests\Druid.lua
+Modules\Guides\ClassQuests\Shaman.lua
+Modules\Guides\ClassQuests\Hunter.lua
+Modules\Guides\ClassQuests\Priest.lua
+Modules\Guides\ClassQuests\Mage.lua
+Modules\Guides\ClassQuests\Rogue.lua
 
 # UI and Core Controller
 UI.lua

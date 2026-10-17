@@ -258,7 +258,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 
             HFG:CreateMinimapButton()
             local prof = HFG:GetActiveProfile()
-            HFG:Print(string.format("Loaded v1.4.2. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle guide, |cffffd200/hfg hud|r for floating runner.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            HFG:Print(string.format("Loaded v1.5.0. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle guide, |cffffd200/hfg hud|r for floating runner.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then

@@ -1,8 +1,8 @@
-# Heathen's Forever Guide (v1.4.2)
+# Heathen's Forever Guide (v1.5.0)
 
 **Heathen's Forever Guide** is an all-in-one in-game leveling, dungeon, specialization, and profession progression assistant for **World of Warcraft: Forever** (`Interface: 16001`), authored by **FilthyHeathen**.
 
-Featuring a **decoupled, registry-driven modular engine** (`HFG`), it automatically detects the player's active **Class**, **Specialization** (via an intelligent Classic heuristic resolver checking active auras, equipped weapons/shields, and talent points), **Role** (`[TANK]`, `[HEAL]`, `[DPS]`), **Race & Faction** (including the cross-faction **Skyborne** race), and **Primary Profession**, while providing an in-game profile switcher to preview any combination on the fly.
+Featuring a **decoupled, registry-driven modular engine** (`HFG`), it automatically detects the player's active **Class**, **Specialization** (via an intelligent Classic heuristic resolver checking active auras, equipped weapons/shields, and talent points), **Role** (`[TANK]`, `[HEAL]`, `[DPS]`), **Race & Faction** (including the cross-faction **Skyborne** race and **Forsaken**), and **Primary Profession**, while providing an in-game profile switcher to preview any combination on the fly.
 
 ---
 
@@ -28,14 +28,33 @@ HeathensForeverGuide/
     │   │   ├── Forsaken_1_12.lua       # Deathknell & Tirisfal Glades (1–12)
     │   │   ├── SkyborneHorde_1_12.lua  # Skyborne Sanctuary & Kalimdor Descent (1–12)
     │   │   ├── Horde_12_20.lua         # The Crossroads & Northern Barrens (12–20)
-    │   │   └── Horde_20_30.lua         # Southern Barrens, Thousand Needles & Hillsbrad (20–30)
-    │   └── Alliance/
-    │       ├── Human_1_12.lua          # Northshire Abbey & Elwynn Forest (1–12)
-    │       ├── DwarfGnome_1_12.lua     # Coldridge Valley & Dun Morogh (1–12)
-    │       ├── NightElf_1_12.lua       # Shadowglen & Teldrassil (1–12)
-    │       ├── SkyborneAlliance_1_12.lua # Skyborne Aerie & Darkshore Descent (1–12)
-    │       ├── Alliance_12_20.lua      # Westfall & Redridge Mountains (12–20)
-    │       └── Alliance_20_30.lua      # Duskwood, Wetlands & Southshore (20–30)
+    │   │   ├── Horde_20_30.lua         # Southern Barrens, Thousand Needles & Hillsbrad (20–30)
+    │   │   ├── Horde_30_40.lua         # Stranglethorn Vale, Arathi & Badlands (30–40)
+    │   │   ├── Horde_40_50.lua         # Tanaris, Feralas & The Hinterlands (40–50)
+    │   │   └── Horde_50_60.lua         # Un'Goro Crater, Felwood & Plaguelands (50–60)
+    │   ├── Alliance/
+    │   │   ├── Human_1_12.lua          # Northshire Abbey & Elwynn Forest (1–12)
+    │   │   ├── DwarfGnome_1_12.lua     # Coldridge Valley & Dun Morogh (1–12)
+    │   │   ├── NightElf_1_12.lua       # Shadowglen & Teldrassil (1–12)
+    │   │   ├── SkyborneAlliance_1_12.lua # Skyborne Aerie & Darkshore Descent (1–12)
+    │   │   ├── Alliance_12_20.lua      # Westfall & Redridge Mountains (12–20)
+    │   │   ├── Alliance_20_30.lua      # Duskwood, Wetlands & Southshore (20–30)
+    │   │   ├── Alliance_30_40.lua      # Stranglethorn Vale, Arathi & Badlands (30–40)
+    │   │   ├── Alliance_40_50.lua      # Tanaris, Feralas & The Hinterlands (40–50)
+    │   │   └── Alliance_50_60.lua      # Un'Goro Crater, Western & Eastern Plaguelands (50–60)
+    │   ├── Attunements/
+    │   │   ├── Keys_Dungeon.lua        # Scarlet, Mallet, Scepter, Shadowforge, Scholo, DM
+    │   │   └── Attunement_Raid.lua     # Molten Core, BWL, Onyxia (Horde & Alliance), Naxxramas
+    │   └── ClassQuests/
+    │       ├── Paladin.lua             # Redemption, Verigan's Fist, ST, Epic Charger (1–60)
+    │       ├── Warrior.lua             # Defensive Stance, Berserker, Whirlwind Axe, Diamond Flask (1–60)
+    │       ├── Warlock.lua             # Voidwalker, Succubus, Felhunter, Infernal, Dreadsteed (1–60)
+    │       ├── Druid.lua               # Bear Form, Cure Poison, Aquatic Form, ST (1–60)
+    │       ├── Shaman.lua              # Earth, Fire, Water, Air Totems, Sunken Temple (1–60)
+    │       ├── Hunter.lua              # Pet Taming, Sunken Temple, Epic Rhok'delar / Lok'delar (1–60)
+    │       ├── Priest.lua              # Racial Spells, Sunken Temple, Epic Benediction / Anathema (1–60)
+    │       ├── Mage.lua                # Early Wands, Tabetha's Robes, ST, Conjure Water R7 (1–60)
+    │       └── Rogue.lua               # Thieves' Tools, Lockpicking, Poisons, Sunken Temple (1–60)
     ├── Classes/
     │   ├── Paladin.lua           # Protection (Tank), Holy (Healer), Retribution (DPS)
     │   ├── Warrior.lua           # Protection (Tank), Arms (DPS), Fury (DPS)
@@ -76,28 +95,43 @@ HeathensForeverGuide/
 
 ## Key Features
 
-1. **Interactive Step-by-Step Leveling Guide Engine (`HFG.GuideEngine`):**
-   - Sequenced, linear quest and leveling routes tailored to your faction and starting race (e.g., Orc/Troll Durotar 1–12, Human Elwynn 1–12, Skyborne Horde 1–12, Skyborne Alliance 1–12).
+1. **Complete 1–60 Leveling Routes (`HFG.GuideEngine`):**
+   - Seamless, sequenced step-by-step quest routing spanning the entire leveling journey (1–12, 12–20, 20–30, 30–40, 40–50, 50–60) for both Horde and Alliance.
    - High-density routing integrating early starter bag acquisition quests, class trainer visits, and optimal quest turn-in loops.
-2. **Compact Floating On-Screen Guide Runner HUD (`HFG_GuideHUD`):**
+2. **Dungeon Keys & Raid Attunements Compendium:**
+   - Detailed step-by-step walkthroughs for obtaining every key and raid attunement:
+     - **Dungeon Keys:** Scarlet Key, Workshop Key, Mallet of Zul'Farrak, Scepter of Celebras, Shadowforge Key, Skeleton Key (Scholomance), Key to the City, Crescent Key.
+     - **Raid Attunements:** Molten Core (*Attunement to the Core*), Blackwing Lair (*Blackhand's Command*), Onyxia's Lair (Full Horde and Alliance chains), and Naxxramas (*The Dread Citadel*).
+3. **Comprehensive 1–60 Class Quest Progression Guides:**
+   - Dedicated guides covering every critical class milestone across all 9 classes from level 1 to 60:
+     - **Paladin:** Redemption (12), Verigan's Fist (20), Sunken Temple (50), Epic Charger Mount (60).
+     - **Warrior:** Defensive Stance & Taunt (10), Berserker Stance & The Fray (30), Whirlwind Axe (30), Diamond Flask (50).
+     - **Warlock:** Voidwalker (10), Succubus (20), Felhunter (30), Sunken Temple (50), Infernal & Doomguard (50), Epic Dreadsteed Mount (60).
+     - **Druid:** Bear Form (10), Cure Poison (14), Aquatic Form (16), Sunken Temple (50).
+     - **Shaman:** Earth (4), Fire (10), Water (20), Air (30) Totems, Sunken Temple (50).
+     - **Hunter:** Pet Taming & Training (10), Sunken Temple (50), Epic Rhok'delar / Lok'delar 4 Demons (60).
+     - **Priest:** Racial Spells (10/20), Sunken Temple (50), Epic Benediction & Anathema Solo Event (60).
+     - **Mage:** Wands (10), Tabetha's Robes & Wands (30), Sunken Temple (50), Conjure Water Rank 7 (60).
+     - **Rogue:** Thieves' Tools (10), Lockpicking (16), Poisons Quest (20), Sunken Temple (50).
+4. **Compact Floating On-Screen Guide Runner HUD (`HFG_GuideHUD`):**
    - A lightweight, draggable on-screen HUD that stays visible while questing.
    - Displays current step title, progress counter (`Step X/Y`), real-time objective checklist with status indicators (`[✓]` / `[ ]`), and fast step navigation (`<`, `Skip`, `>`).
-   - Easily toggled via `/hfg hud` or the "Toggle HUD" button in the Leveling Route tab.
-3. **Dynamic Objective Auto-Advancement:**
+   - Easily toggled via `/hfg hud` or the "Toggle HUD" button in the Guide Routes tab.
+5. **Dynamic Objective Auto-Advancement:**
    - Real-time client API evaluation (`C_QuestLog` / `IsQuestFlaggedCompleted` / `PLAYER_LEVEL_UP`) auto-detects when quest objectives, acceptances, turn-ins, and level milestones are achieved, seamlessly auto-advancing to the next route step.
-4. **Intelligent Classic Heuristic Role & Spec Resolver (`HFG:DetectPlayerRoleAndSpec`):**
+6. **Intelligent Classic Heuristic Role & Spec Resolver (`HFG:DetectPlayerRoleAndSpec`):**
    - Inspects equipped gear (`GetInventoryItemID` on slots 16 & 17 for 2H weapons vs. Shields), active buffs (`AuraUtil` for *Righteous Fury*, *Sanctity Aura*, *Bear/Cat/Moonkin Form*, *Shadowform*, *Metamorphosis*, *Way of Earth*), and talent tree points (`GetTalentTabInfo`).
    - Any manual selection in the top bar dropdowns overrides auto-detection until **"Detect Player"** is clicked.
-5. **Dynamic Quest & Loot Recommendation Engine (`HFG.QuestEngine`):**
+7. **Dynamic Quest & Loot Recommendation Engine (`HFG.QuestEngine`):**
    - Scans completed quest flags via the native client API (`GetQuestsCompleted` / `IsQuestFlaggedCompleted`) and active quest log.
    - Evaluates unfinished quests and surfaces high-XP leveling opportunities and spec-appropriate gear upgrades (`[TANK]`, `[HEAL]`, `[DPS]`) tailored to your current level phase.
    - Interactive item tooltips, quality color coding, and role filter/sort toggles ("Spec Only", "All Roles", "Top Loot", "High XP").
-6. **Race- & Faction-Based Quest Routing:**
+8. **Race- & Faction-Based Quest Routing:**
    - Recommended Leveling & Farming Zones dynamically populate based strictly on your character's Race and Faction across all 4 brackets (1–20, 20–40, 40–52, 52–60), including full **Skyborne (Horde)** and **Skyborne (Alliance)** routes.
-7. **Role-Tagged Dungeon & Loot Checklist:**
+9. **Role-Tagged Dungeon & Loot Checklist:**
    - Persistent checkboxes stored per character in `HFG_CharDB.completedTasks` with `[TANK]`, `[HEAL]`, and `[DPS]` item tags.
-8. **Categorized Macro Vault:**
-   - Macros organized by **Defensive / Tank**, **Healing / Mouseover**, **Burst / DPS**, **Racial / Utility**, and **Profession / Utility** with one-click **"Save to WoW"** (`CreateMacro`).
+10. **Categorized Macro Vault:**
+    - Macros organized by **Defensive / Tank**, **Healing / Mouseover**, **Burst / DPS**, **Racial / Utility**, and **Profession / Utility** with one-click **"Save to WoW"** (`CreateMacro`).
 
 ---
 
