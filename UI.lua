@@ -1474,9 +1474,27 @@ function HFG.UI:RenderGuideSteps(child, profile)
     local availableGuides = HFG:GetAvailableGuides(profile)
     local activeGuide = GE and GE.activeGuide
 
-    -- Auto-select first matching guide if none active
-    if not activeGuide and #availableGuides > 0 then
-        HFG:SetActiveGuide(availableGuides[1].id)
+    local isGuideValid = false
+    if activeGuide then
+        for _, g in ipairs(availableGuides) do
+            if g.id == activeGuide.id then
+                isGuideValid = true
+                break
+            end
+        end
+    end
+
+    -- Auto-select level-appropriate matching guide if none active or invalid
+    if (not activeGuide or not isGuideValid) and #availableGuides > 0 then
+        local playerLevel = (UnitLevel and UnitLevel("player")) or 1
+        local bestGuide = availableGuides[1]
+        for _, g in ipairs(availableGuides) do
+            if playerLevel >= g.minLevel and playerLevel <= (g.maxLevel or 60) then
+                bestGuide = g
+                break
+            end
+        end
+        HFG:SetActiveGuide(bestGuide.id)
         activeGuide = GE.activeGuide
     end
 

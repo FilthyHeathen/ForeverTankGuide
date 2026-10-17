@@ -58,6 +58,15 @@ function HFG:GetAvailableGuides(profile)
         end
     end
 
+    -- If no race-specific guide matches, fallback to all guides of that faction
+    if #available == 0 then
+        for _, g in ipairs(GE.guideList) do
+            if not g.faction or g.faction == "Both" or string.upper(g.faction) == string.upper(faction) then
+                table.insert(available, g)
+            end
+        end
+    end
+
     table.sort(available, function(a, b)
         if a.minLevel ~= b.minLevel then
             return a.minLevel < b.minLevel
@@ -213,6 +222,14 @@ function HFG:AutoSelectDefaultGuide()
 
     local available = self:GetAvailableGuides()
     if #available > 0 then
-        self:SetActiveGuide(available[1].id)
+        local playerLevel = (UnitLevel and UnitLevel("player")) or 1
+        local bestGuide = available[1]
+        for _, g in ipairs(available) do
+            if playerLevel >= g.minLevel and playerLevel <= (g.maxLevel or 60) then
+                bestGuide = g
+                break
+            end
+        end
+        self:SetActiveGuide(bestGuide.id)
     end
 end
