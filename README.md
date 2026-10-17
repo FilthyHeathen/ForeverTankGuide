@@ -98,19 +98,26 @@ Heathen's Forever Guide features an offline binary ingestion and cross-referenci
 
 ## Official Downloads & Documentation
 
+* **Direct Clean Zip Download (.zip without `-main`):** [Download HeathensForeverGuide.zip](https://github.com/FilthyHeathen/HeathensForeverGuide/raw/release-asset/HeathensForeverGuide.zip)
+* **GitHub Releases:** [https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest](https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest)
 * **CurseForge:** [https://www.curseforge.com/wow/addons/heathens-forever-guide](https://www.curseforge.com/wow/addons/heathens-forever-guide)
 * **Wago.io:** [https://addons.wago.io/addons/heathensforeverguide](https://addons.wago.io/addons/heathensforeverguide)
-* **GitHub Releases:** [https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest](https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest)
 * **Documentation Wiki:** [https://github.com/FilthyHeathen/HeathensForeverGuide/wiki](https://github.com/FilthyHeathen/HeathensForeverGuide/wiki)
 
 ---
 
 ## Installation & Slash Commands
 
-1. Install via **[CurseForge](https://www.curseforge.com/wow/addons/heathens-forever-guide)**, **[Wago.io](https://addons.wago.io/addons/heathensforeverguide)**, or download **`HeathensForeverGuide.zip`** from the latest **[GitHub Release](https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest)** and extract it directly into:
+> [!IMPORTANT]
+> **Avoid GitHub's green "Code -> Download ZIP" button!** GitHub's source zip automatically appends `-main` (e.g. `HeathensForeverGuide-main`), which prevents World of Warcraft from recognizing the addon folder.
+> 
+> Always download the packaged **`HeathensForeverGuide.zip`** asset from **[GitHub Releases](https://github.com/FilthyHeathen/HeathensForeverGuide/releases/latest)** or the **[Direct Download Link](https://github.com/FilthyHeathen/HeathensForeverGuide/raw/release-asset/HeathensForeverGuide.zip)**.
+
+1. Download **`HeathensForeverGuide.zip`** and extract it directly into your WoW AddOns folder:
    ```
    World of Warcraft\Interface\AddOns\HeathensForeverGuide\
    ```
+   *(Ensure the inner folder is named `HeathensForeverGuide`, NOT `HeathensForeverGuide-main`)*.
 2. In-game slash commands:
    - `/hfg` (or `/heathen`, `/foreverguide`) : Toggle **Heathen's Forever Guide** window.
    - `/hfg reset` : Reset window position to the center of the screen.
