@@ -341,6 +341,7 @@ function HFG.UI:CreateSideMenu(parent)
 
     local items = {
         { id = "overview", text = "Bracket Overview", icon = "Interface\\Icons\\Spell_Holy_AuraMastery" },
+        { id = "steps", text = "Leveling Route", icon = "Interface\\Icons\\INV_Misc_Map02" },
         { id = "recommendations", text = "Quest Upgrades", icon = "Interface\\Icons\\INV_Misc_Book_07" },
         { id = "bagquests", text = "Bag Quests", icon = "Interface\\Icons\\INV_Misc_Bag_08" },
         { id = "profession", text = "Prof. Roadmap", icon = "Interface\\Icons\\Trade_Engineering" },
@@ -352,11 +353,11 @@ function HFG.UI:CreateSideMenu(parent)
     local prev = nil
     for idx, item in ipairs(items) do
         local btn = CreateFrame("Button", nil, menu, "UIPanelButtonTemplate")
-        btn:SetSize(144, 30)
+        btn:SetSize(144, 28)
         if prev then
-            btn:SetPoint("TOP", prev, "BOTTOM", 0, -6)
+            btn:SetPoint("TOP", prev, "BOTTOM", 0, -5)
         else
-            btn:SetPoint("TOP", menu, "TOP", 0, -10)
+            btn:SetPoint("TOP", menu, "TOP", 0, -8)
         end
         btn:SetText(item.text)
         local fs = btn:GetFontString()
@@ -516,6 +517,8 @@ function HFG.UI:UpdateView()
     local totalHeight = 0
     if currentView == "overview" then
         totalHeight = self:RenderOverview(child, bracketData, profile)
+    elseif currentView == "steps" then
+        totalHeight = self:RenderGuideSteps(child, profile)
     elseif currentView == "recommendations" then
         totalHeight = self:RenderQuestRecommendations(child, bracketData, profile)
     elseif currentView == "bagquests" then
@@ -1457,6 +1460,255 @@ function HFG.UI:RenderBagQuestList(child, profile)
         ApplyDropShadow(detailLine)
 
         yOffset = yOffset - 76
+    end
+
+    return -yOffset
+end
+
+-- 7. RENDER STEP-BY-STEP LEVELING ROUTE TAB
+function HFG.UI:RenderGuideSteps(child, profile)
+    local yOffset = -10
+    local width = child:GetWidth() - 20
+
+    local GE = HFG.GuideEngine
+    local availableGuides = HFG:GetAvailableGuides(profile)
+    local activeGuide = GE and GE.activeGuide
+
+    -- Auto-select first matching guide if none active
+    if not activeGuide and #availableGuides > 0 then
+        HFG:SetActiveGuide(availableGuides[1].id)
+        activeGuide = GE.activeGuide
+    end
+
+    -- Section Title
+    local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    title:SetText("|cffffcc00Interactive Step-by-Step Leveling Guide|r")
+    ApplyDropShadow(title)
+    table.insert(child.elements, title)
+    yOffset = yOffset - 24
+
+    -- Route Selector Frame & HUD Toggle Button
+    local routeSelectorFrame = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+    routeSelectorFrame:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    routeSelectorFrame:SetSize(width, 36)
+    if routeSelectorFrame.SetBackdrop then
+        routeSelectorFrame:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+        routeSelectorFrame:SetBackdropColor(0.04, 0.04, 0.06, 0.95)
+        routeSelectorFrame:SetBackdropBorderColor(0.5, 0.5, 0.6, 0.8)
+    end
+    table.insert(child.elements, routeSelectorFrame)
+
+    local selLabel = routeSelectorFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    selLabel:SetPoint("LEFT", routeSelectorFrame, "LEFT", 10, 0)
+    selLabel:SetText("|cffffd200Active Route:|r")
+    ApplyDropShadow(selLabel)
+
+    local selBtn = CreateFrame("Button", "HFG_RouteDropdownBtn", routeSelectorFrame, "UIPanelButtonTemplate")
+    selBtn:SetSize(280, 22)
+    selBtn:SetPoint("LEFT", selLabel, "RIGHT", 8, 0)
+    selBtn:SetText(activeGuide and activeGuide.title or "Select Guide Route...")
+    ApplyDropShadow(selBtn:GetFontString())
+
+    local routeDrop = CreateFrame("Frame", "HFG_RouteDropDown", routeSelectorFrame, "UIDropDownMenuTemplate")
+    UIDropDownMenu_Initialize(routeDrop, function(self, level)
+        for _, g in ipairs(availableGuides) do
+            local info = UIDropDownMenu_CreateInfo()
+            info.text = string.format("[%d–%d] %s", g.minLevel, g.maxLevel, g.title)
+            info.value = g.id
+            info.checked = (activeGuide and activeGuide.id == g.id)
+            info.func = function()
+                HFG:SetActiveGuide(g.id)
+                HFG.UI:UpdateView()
+            end
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end)
+    selBtn:SetScript("OnClick", function()
+        ToggleDropDownMenu(1, nil, routeDrop, selBtn, 0, 0)
+    end)
+
+    -- Toggle Floating HUD Button
+    local hudBtn = CreateFrame("Button", nil, routeSelectorFrame, "UIPanelButtonTemplate")
+    hudBtn:SetSize(120, 22)
+    hudBtn:SetPoint("RIGHT", routeSelectorFrame, "RIGHT", -10, 0)
+    hudBtn:SetText("Toggle HUD")
+    ApplyDropShadow(hudBtn:GetFontString())
+    hudBtn:SetScript("OnClick", function()
+        HFG:ToggleGuideHUD()
+    end)
+
+    yOffset = yOffset - 44
+
+    if not activeGuide then
+        local noGuideText = child:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+        noGuideText:SetPoint("TOPLEFT", child, "TOPLEFT", 15, yOffset)
+        noGuideText:SetWidth(width - 30)
+        noGuideText:SetJustifyH("LEFT")
+        noGuideText:SetText("|cffff8080No route guides available for your current race and class selection.|r\nUse the Profile bar above to switch or reset to player.")
+        ApplyDropShadow(noGuideText)
+        table.insert(child.elements, noGuideText)
+        return -yOffset + 50
+    end
+
+    local currentStepIdx = GE.activeStepIndex or 1
+    local totalSteps = #activeGuide.steps
+    local progressPct = math.floor((currentStepIdx / math.max(1, totalSteps)) * 100)
+
+    -- Route Info & Navigation Control Panel
+    local controlCard = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+    controlCard:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    controlCard:SetSize(width, 42)
+    if controlCard.SetBackdrop then
+        controlCard:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+        controlCard:SetBackdropColor(0.06, 0.05, 0.08, 0.95)
+        controlCard:SetBackdropBorderColor(0.8, 0.7, 0.2, 0.9)
+    end
+    table.insert(child.elements, controlCard)
+
+    local progressText = controlCard:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    progressText:SetPoint("LEFT", controlCard, "LEFT", 12, 0)
+    progressText:SetText(string.format("|cffffd200Progress:|r Step |cff00ff00%d|r of |cffffffff%d|r (|cff40ff40%d%%|r)", currentStepIdx, totalSteps, progressPct))
+    ApplyDropShadow(progressText)
+
+    -- Prev / Skip / Next Buttons
+    local prevBtn = CreateFrame("Button", nil, controlCard, "UIPanelButtonTemplate")
+    prevBtn:SetSize(80, 22)
+    prevBtn:SetPoint("RIGHT", controlCard, "RIGHT", -170, 0)
+    prevBtn:SetText("< Previous")
+    ApplyDropShadow(prevBtn:GetFontString())
+    prevBtn:SetScript("OnClick", function()
+        HFG:PrevGuideStep()
+        HFG.UI:UpdateView()
+    end)
+    if currentStepIdx <= 1 then prevBtn:Disable() end
+
+    local skipBtn = CreateFrame("Button", nil, controlCard, "UIPanelButtonTemplate")
+    skipBtn:SetSize(75, 22)
+    skipBtn:SetPoint("LEFT", prevBtn, "RIGHT", 6, 0)
+    skipBtn:SetText("Skip Step")
+    ApplyDropShadow(skipBtn:GetFontString())
+    skipBtn:SetScript("OnClick", function()
+        HFG:SkipGuideStep()
+        HFG.UI:UpdateView()
+    end)
+
+    local nextBtn = CreateFrame("Button", nil, controlCard, "UIPanelButtonTemplate")
+    nextBtn:SetSize(75, 22)
+    nextBtn:SetPoint("LEFT", skipBtn, "RIGHT", 6, 0)
+    nextBtn:SetText("Next >")
+    ApplyDropShadow(nextBtn:GetFontString())
+    nextBtn:SetScript("OnClick", function()
+        HFG:NextGuideStep()
+        HFG.UI:UpdateView()
+    end)
+    if currentStepIdx >= totalSteps then nextBtn:Disable() end
+
+    yOffset = yOffset - 50
+
+    -- Render Step Cards
+    for sIdx, step in ipairs(activeGuide.steps) do
+        local isActive = (sIdx == currentStepIdx)
+        local isPast = (sIdx < currentStepIdx)
+
+        local goalsCount = #(step.goals or {})
+        local cardHeight = 44 + (goalsCount * 20)
+        if step.text then
+            cardHeight = cardHeight + 18
+        end
+
+        local card = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+        card:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        card:SetSize(width, cardHeight)
+        if card.SetBackdrop then
+            card:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+            if isActive then
+                card:SetBackdropColor(0.08, 0.08, 0.03, 0.98)
+                card:SetBackdropBorderColor(1.0, 0.85, 0.2, 1.0)
+            elseif isPast then
+                card:SetBackdropColor(0.03, 0.04, 0.03, 0.85)
+                card:SetBackdropBorderColor(0.2, 0.5, 0.2, 0.7)
+            else
+                card:SetBackdropColor(0.03, 0.03, 0.05, 0.85)
+                card:SetBackdropBorderColor(0.3, 0.3, 0.4, 0.7)
+            end
+        end
+        table.insert(child.elements, card)
+
+        -- Header text
+        local stepNumColor = isActive and "|cffffd200" or (isPast and "|cff00ff00" or "|cff888888")
+        local headerText = card:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        headerText:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -8)
+
+        local locStr = ""
+        if step.zone then
+            locStr = " — " .. step.zone
+            if step.coords then
+                locStr = locStr .. string.format(" (%.1f, %.1f)", step.coords.x, step.coords.y)
+            end
+        end
+        headerText:SetText(string.format("%sStep %d:|r |cffffffff%s|r |cffaaaaaa%s|r", stepNumColor, sIdx, step.title or "", locStr))
+        ApplyDropShadow(headerText)
+
+        -- Active badge or Jump button
+        if isActive then
+            local activeBadge = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            activeBadge:SetPoint("TOPRIGHT", card, "TOPRIGHT", -12, -8)
+            activeBadge:SetText("|cff00ff00[ACTIVE STEP]|r")
+            ApplyDropShadow(activeBadge)
+        else
+            local jumpBtn = CreateFrame("Button", nil, card, "UIPanelButtonTemplate")
+            jumpBtn:SetSize(72, 18)
+            jumpBtn:SetPoint("TOPRIGHT", card, "TOPRIGHT", -10, -6)
+            jumpBtn:SetText(isPast and "Revisit" or "Select")
+            ApplyDropShadow(jumpBtn:GetFontString())
+            jumpBtn:SetScript("OnClick", function()
+                HFG:SetActiveGuide(activeGuide.id, sIdx)
+                HFG.UI:UpdateView()
+            end)
+        end
+
+        local curY = -28
+        if step.text then
+            local noteText = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            noteText:SetPoint("TOPLEFT", card, "TOPLEFT", 14, curY)
+            noteText:SetWidth(width - 28)
+            noteText:SetJustifyH("LEFT")
+            noteText:SetTextColor(0.85, 0.85, 0.85, 1)
+            noteText:SetText(step.text)
+            ApplyDropShadow(noteText)
+            curY = curY - 18
+        end
+
+        -- Goals list
+        for _, goal in ipairs(step.goals or {}) do
+            local goalLine = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            goalLine:SetPoint("TOPLEFT", card, "TOPLEFT", 22, curY)
+            goalLine:SetWidth(width - 40)
+            goalLine:SetJustifyH("LEFT")
+
+            local checkStr = goal.isDone and "|cff00ff00[✓]|r " or "|cffffd200[ ]|r "
+            local tagColor = "|cffffffff"
+            if goal.type == "ACCEPT" then
+                tagColor = "|cff33ff66[ACCEPT]|r "
+            elseif goal.type == "TURNIN" then
+                tagColor = "|cffffcc00[TURN IN]|r "
+            elseif goal.type == "COMPLETE" then
+                tagColor = "|cff3399ff[OBJECTIVE]|r "
+            elseif goal.type == "LEVEL" then
+                tagColor = "|cffff33ff[LEVEL]|r "
+            elseif goal.type == "HEARTH" then
+                tagColor = "|cff00ffff[HEARTH]|r "
+            end
+
+            local goalTextColor = goal.isDone and "|cff666666" or "|cffffffff"
+            goalLine:SetText(checkStr .. tagColor .. goalTextColor .. (goal.text or goal.type) .. "|r")
+            ApplyDropShadow(goalLine)
+
+            curY = curY - 20
+        end
+
+        yOffset = yOffset - (cardHeight + 8)
     end
 
     return -yOffset

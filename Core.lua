@@ -20,7 +20,10 @@ local DEFAULT_CONFIG = {
     overrideClass = nil,
     overrideSpec = nil,
     overrideRace = nil,
-    overrideProf = nil
+    overrideProf = nil,
+    hideGuideHUD = false,
+    activeGuideId = nil,
+    guideProgress = {}
 }
 
 -- Print helper with addon prefix
@@ -240,15 +243,35 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
                 HFG:ScanCompletedQuests()
             end
 
+            -- Initialize Step-by-Step Leveling Guide Engine & Floating HUD
+            if HFG.AutoSelectDefaultGuide then
+                HFG:AutoSelectDefaultGuide()
+            end
+            if HFG.CreateGuideHUD then
+                local hud = HFG:CreateGuideHUD()
+                if HFG_CharDB.hideGuideHUD then
+                    hud:Hide()
+                else
+                    hud:Show()
+                end
+            end
+
             HFG:CreateMinimapButton()
             local prof = HFG:GetActiveProfile()
-            HFG:Print(string.format("Loaded v1.3.3. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            HFG:Print(string.format("Loaded v1.4.0. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle guide, |cffffd200/hfg hud|r for floating runner.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then
         local newLevel = ...
         local newBracket = HFG:GetCurrentPlayerBracket()
         local previousBracket = HFG.lastNotifiedBracket or HFG_CharDB.selectedBracket
+
+        if HFG.EvaluateStepProgress then
+            HFG:EvaluateStepProgress()
+        end
+        if HFG.UpdateGuideHUD then
+            HFG:UpdateGuideHUD()
+        end
 
         if newBracket ~= previousBracket then
             HFG.lastNotifiedBracket = newBracket
@@ -274,6 +297,12 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         elseif HFG.ScanCompletedQuests then
             HFG:ScanCompletedQuests()
         end
+        if HFG.EvaluateStepProgress then
+            HFG:EvaluateStepProgress()
+        end
+        if HFG.UpdateGuideHUD then
+            HFG:UpdateGuideHUD()
+        end
 
     elseif event == "QUEST_ACCEPTED" or event == "QUEST_TURNED_IN" or event == "QUEST_FINISHED" or event == "QUEST_COMPLETE" or event == "QUEST_LOG_UPDATE" then
         if HFG.SyncQuestProgression then
@@ -281,8 +310,14 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         elseif HFG.ScanCompletedQuests then
             HFG:ScanCompletedQuests()
         end
+        if HFG.EvaluateStepProgress then
+            HFG:EvaluateStepProgress()
+        end
+        if HFG.UpdateGuideHUD then
+            HFG:UpdateGuideHUD()
+        end
         if HFG.UI and HFG.UI.MainFrame and HFG.UI.MainFrame:IsShown() then
-            if HFG.currentView == "recommendations" or HFG.currentView == "overview" then
+            if HFG.currentView == "recommendations" or HFG.currentView == "overview" or HFG.currentView == "steps" then
                 HFG.UI:UpdateView()
             end
         end
@@ -310,6 +345,32 @@ SlashCmdList["HEATHENSFOREVERGUIDE"] = function(msg)
             HFG.UI.MainFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 20)
             HFG:Print("Window position reset to center.")
         end
+    elseif msg == "hud" then
+        if HFG.ToggleGuideHUD then
+            HFG:ToggleGuideHUD()
+            if HFG_CharDB then
+                HFG_CharDB.hideGuideHUD = not (HFG.GuideHUD and HFG.GuideHUD:IsShown())
+            end
+        else
+            HFG:Print("Guide HUD not loaded.")
+        end
+    elseif msg == "next" then
+        if HFG.NextGuideStep then
+            HFG:NextGuideStep()
+        end
+    elseif msg == "prev" then
+        if HFG.PrevGuideStep then
+            HFG:PrevGuideStep()
+        end
+    elseif msg == "skip" then
+        if HFG.SkipGuideStep then
+            HFG:SkipGuideStep()
+        end
+    elseif msg == "route" or msg == "steps" then
+        HFG:SetViewTab("steps")
+        if HFG.UI and HFG.UI.MainFrame and not HFG.UI.MainFrame:IsShown() then
+            HFG.UI.MainFrame:Show()
+        end
     elseif msg == "scan" or msg == "quests" then
         if HFG.ScanCompletedQuests then
             local count = HFG:ScanCompletedQuests()
@@ -328,7 +389,10 @@ SlashCmdList["HEATHENSFOREVERGUIDE"] = function(msg)
         end
     elseif msg == "help" then
         HFG:Print("Commands:")
-        HFG:Print("  /hfg - Toggle Heathen's Forever Guide")
+        HFG:Print("  /hfg - Toggle Heathen's Forever Guide main window")
+        HFG:Print("  /hfg hud - Toggle floating on-screen Guide Runner HUD")
+        HFG:Print("  /hfg route - Open step-by-step leveling route tab")
+        HFG:Print("  /hfg next / /hfg prev / /hfg skip - Navigate active route steps")
         HFG:Print("  /hfg bags - Open and scan available bag upgrade quests")
         HFG:Print("  /hfg scan - Scan completed quests via native client API")
         HFG:Print("  /hfg reset - Reset window position to center")
