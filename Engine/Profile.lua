@@ -505,3 +505,273 @@ function HFG:ResetProfileToPlayer()
     end
     return detectedSpec, detectedRole
 end
+
+---------------------------------------------------------------------------
+-- Live Quest Log Scanning, Position Recovery & State Synchronization
+---------------------------------------------------------------------------
+
+local logEntryCache = {}
+local activeQuestIDs = {}
+local completedQuestIDs = {}
+local trackerGeneration = 0
+local lastScanTimestamp = 0
+local SCAN_THROTTLE_SECONDS = 0.25
+
+-- Safe read wrapper for protected or secret environment values
+local function SafeVal(val)
+    if val ~= nil and issecretvalue ~= nil and issecretvalue(val) then
+        return nil
+    end
+    return val
+end
+
+-- Retrieve player's world map and subzone position
+function HFG:GetPlayerPositionInfo()
+    local zone = (GetZoneText and GetZoneText()) or (GetRealZoneText and GetRealZoneText()) or "Unknown"
+    local subzone = (GetSubZoneText and GetSubZoneText()) or ""
+    local uiMapID = nil
+
+    if C_Map and C_Map.GetBestMapForUnit then
+        local ok, mid = pcall(C_Map.GetBestMapForUnit, "player")
+        if ok and type(mid) == "number" then
+            uiMapID = mid
+        end
+    end
+
+    local x, y = 0, 0
+    if uiMapID and C_Map and C_Map.GetPlayerMapPosition then
+        local ok, pos = pcall(C_Map.GetPlayerMapPosition, uiMapID, "player")
+        if ok and pos and pos.GetXY then
+            local px, py = pos:GetXY()
+            x = (px and px * 100) or 0
+            y = (py and py * 100) or 0
+        end
+    end
+
+    return {
+        zone = zone,
+        subzone = subzone,
+        uiMapID = uiMapID,
+        x = x,
+        y = y
+    }
+end
+
+-- Refresh completed quest flags into memory using bulk API or individual checks
+function HFG:SyncCompletedQuestFlags()
+    for qid in pairs(completedQuestIDs) do
+        completedQuestIDs[qid] = nil
+    end
+
+    -- 1. Modern bulk lookup via C_QuestLog.GetAllCompletedQuestIDs
+    if C_QuestLog and C_QuestLog.GetAllCompletedQuestIDs then
+        local ok, list = pcall(C_QuestLog.GetAllCompletedQuestIDs)
+        if ok and type(list) == "table" then
+            for i = 1, #list do
+                local qid = SafeVal(list[i])
+                if type(qid) == "number" and qid > 0 then
+                    completedQuestIDs[qid] = true
+                    if HFG_CharDB and HFG_CharDB.completedQuests then
+                        HFG_CharDB.completedQuests[qid] = true
+                    end
+                end
+            end
+            return true
+        end
+    end
+
+    -- 2. Classic GetQuestsCompleted(tbl)
+    if type(GetQuestsCompleted) == "function" then
+        local nativeTable = {}
+        local ok = pcall(GetQuestsCompleted, nativeTable)
+        if ok and type(nativeTable) == "table" then
+            for qid, done in pairs(nativeTable) do
+                if done then
+                    completedQuestIDs[qid] = true
+                    if HFG_CharDB and HFG_CharDB.completedQuests then
+                        HFG_CharDB.completedQuests[qid] = true
+                    end
+                end
+            end
+            return true
+        end
+    end
+
+    -- 3. Individual verification for known quest database entries
+    if HFG.QuestDB then
+        for qid, _ in pairs(HFG.QuestDB) do
+            if self:CheckQuestFlaggedCompleted(qid) then
+                completedQuestIDs[qid] = true
+                if HFG_CharDB and HFG_CharDB.completedQuests then
+                    HFG_CharDB.completedQuests[qid] = true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+-- Check whether a specific quest ID is flagged complete by the client
+function HFG:CheckQuestFlaggedCompleted(questID)
+    if not questID or questID <= 0 then return false end
+
+    if C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
+        local ok, done = pcall(C_QuestLog.IsQuestFlaggedCompleted, questID)
+        if ok and done then return true end
+    elseif IsQuestFlaggedCompleted then
+        local ok, done = pcall(IsQuestFlaggedCompleted, questID)
+        if ok and done then return true end
+    end
+
+    if completedQuestIDs[questID] then return true end
+    if HFG_CharDB and HFG_CharDB.completedQuests and HFG_CharDB.completedQuests[questID] then
+        return true
+    end
+
+    return false
+end
+
+-- Read objectives and readiness for a single quest log entry
+local function ParseQuestProgress(questID)
+    local isComplete = false
+    local isReady = false
+    local objectives = {}
+
+    if C_QuestLog and C_QuestLog.IsComplete then
+        local ok, res = pcall(C_QuestLog.IsComplete, questID)
+        if ok and res then isComplete = true; isReady = true end
+    end
+    if not isReady and C_QuestLog and C_QuestLog.ReadyForTurnIn then
+        local ok, res = pcall(C_QuestLog.ReadyForTurnIn, questID)
+        if ok and res then isReady = true end
+    end
+
+    if C_QuestLog and C_QuestLog.GetQuestObjectives then
+        local ok, rawObjs = pcall(C_QuestLog.GetQuestObjectives, questID)
+        if ok and type(rawObjs) == "table" then
+            for i = 1, #rawObjs do
+                local o = rawObjs[i]
+                if o then
+                    local req = tonumber(o.numRequired) or 0
+                    local cur = tonumber(o.numFulfilled) or 0
+                    local finished = (o.finished == true)
+                    if req <= 0 then
+                        req = 1
+                        cur = finished and 1 or 0
+                    end
+                    table.insert(objectives, {
+                        text = o.text or "",
+                        finished = finished,
+                        current = cur,
+                        required = req
+                    })
+                end
+            end
+        end
+    end
+
+    return {
+        isComplete = isComplete,
+        isReady = isReady,
+        objectives = objectives
+    }
+end
+
+-- Scan the player's active quest log with throttling and auto-synchronization
+function HFG:ScanActiveQuestLog(force)
+    local now = (GetTime and GetTime()) or 0
+    if not force and (now - lastScanTimestamp) < SCAN_THROTTLE_SECONDS then
+        return activeQuestIDs
+    end
+    lastScanTimestamp = now
+    trackerGeneration = trackerGeneration + 1
+
+    for i = #activeQuestIDs, 1, -1 do
+        activeQuestIDs[i] = nil
+    end
+
+    -- Primary: Modern C_QuestLog traversal
+    if C_QuestLog and C_QuestLog.GetNumQuestLogEntries and C_QuestLog.GetInfo then
+        local total = C_QuestLog.GetNumQuestLogEntries() or 0
+        for i = 1, total do
+            local info = C_QuestLog.GetInfo(i)
+            if info and not info.isHeader then
+                local qid = SafeVal(info.questID)
+                if type(qid) == "number" and qid > 0 then
+                    table.insert(activeQuestIDs, qid)
+
+                    local progress = ParseQuestProgress(qid)
+                    logEntryCache[qid] = {
+                        questID = qid,
+                        title = info.title or ("Quest " .. qid),
+                        level = info.level or 1,
+                        isComplete = (info.isComplete == true) or progress.isComplete,
+                        isReady = progress.isReady,
+                        objectives = progress.objectives,
+                        generation = trackerGeneration
+                    }
+                end
+            end
+        end
+    -- Fallback: Classic GetNumQuestLogEntries & GetQuestLogTitle
+    elseif GetNumQuestLogEntries and GetQuestLogTitle then
+        local total = GetNumQuestLogEntries() or 0
+        for i = 1, total do
+            local title, level, questTag, isHeader, isCollapsed, isComplete, frequency, qid = GetQuestLogTitle(i)
+            if not isHeader and title then
+                qid = SafeVal(qid)
+                if type(qid) == "number" and qid > 0 then
+                    table.insert(activeQuestIDs, qid)
+                    logEntryCache[qid] = {
+                        questID = qid,
+                        title = title,
+                        level = level or 1,
+                        isComplete = (isComplete == 1 or isComplete == true),
+                        isReady = (isComplete == 1 or isComplete == true),
+                        objectives = {},
+                        generation = trackerGeneration
+                    }
+                end
+            end
+        end
+    end
+
+    -- Purge stale log entries no longer present
+    for qid, entry in pairs(logEntryCache) do
+        if entry.generation ~= trackerGeneration then
+            logEntryCache[qid] = nil
+        end
+    end
+
+    -- Keep QuestEngine in sync
+    if HFG.QuestEngine then
+        HFG.QuestEngine.activeQuests = {}
+        for qid, entry in pairs(logEntryCache) do
+            HFG.QuestEngine.activeQuests[qid] = entry
+            if entry.title then
+                HFG.QuestEngine.activeQuests[string.lower(entry.title)] = entry
+            end
+        end
+    end
+
+    return activeQuestIDs
+end
+
+-- Query live state of a quest in the player's active log
+function HFG:GetActiveQuestEntry(questID)
+    if not questID then return nil end
+    return logEntryCache[questID]
+end
+
+-- Refresh and auto-sync active guide view on quest events
+function HFG:SyncQuestProgression()
+    self:ScanActiveQuestLog(true)
+    self:SyncCompletedQuestFlags()
+
+    if self.UI and self.UI.MainFrame and self.UI.MainFrame:IsShown() then
+        if self.currentView == "recommendations" or self.currentView == "overview" or self.currentView == "bagquests" then
+            self.UI:UpdateView()
+        end
+    end
+end

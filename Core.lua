@@ -208,6 +208,10 @@ eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
 eventFrame:RegisterEvent("UNIT_AURA")
 eventFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
+eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+eventFrame:RegisterEvent("ZONE_CHANGED")
+eventFrame:RegisterEvent("QUEST_ACCEPTED")
+eventFrame:RegisterEvent("QUEST_TURNED_IN")
 eventFrame:RegisterEvent("QUEST_FINISHED")
 eventFrame:RegisterEvent("QUEST_COMPLETE")
 eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
@@ -230,13 +234,15 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             HFG.selectedBracket = HFG_CharDB.selectedBracket or HFG:GetCurrentPlayerBracket()
             HFG.currentView = HFG_CharDB.currentView or "overview"
 
-            if HFG.ScanCompletedQuests then
+            if HFG.SyncQuestProgression then
+                HFG:SyncQuestProgression()
+            elseif HFG.ScanCompletedQuests then
                 HFG:ScanCompletedQuests()
             end
 
             HFG:CreateMinimapButton()
             local prof = HFG:GetActiveProfile()
-            HFG:Print(string.format("Loaded v1.3.2. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
+            HFG:Print(string.format("Loaded v1.3.3. Active: |cff40ff40[%s] %s %s (%s)|r. Type |cffffd200/hfg|r to toggle Heathen's Forever Guide.", prof.role or "TANK", prof.raceName, prof.specName, prof.profName))
         end
 
     elseif event == "PLAYER_LEVEL_UP" then
@@ -261,14 +267,18 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             end
         end
 
-    elseif event == "PLAYER_ENTERING_WORLD" then
+    elseif event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED_NEW_AREA" or event == "ZONE_CHANGED" then
         HFG.lastNotifiedBracket = HFG:GetCurrentPlayerBracket()
-        if HFG.ScanCompletedQuests then
+        if HFG.SyncQuestProgression then
+            HFG:SyncQuestProgression()
+        elseif HFG.ScanCompletedQuests then
             HFG:ScanCompletedQuests()
         end
 
-    elseif event == "QUEST_FINISHED" or event == "QUEST_COMPLETE" or event == "QUEST_LOG_UPDATE" then
-        if HFG.ScanCompletedQuests then
+    elseif event == "QUEST_ACCEPTED" or event == "QUEST_TURNED_IN" or event == "QUEST_FINISHED" or event == "QUEST_COMPLETE" or event == "QUEST_LOG_UPDATE" then
+        if HFG.SyncQuestProgression then
+            HFG:SyncQuestProgression()
+        elseif HFG.ScanCompletedQuests then
             HFG:ScanCompletedQuests()
         end
         if HFG.UI and HFG.UI.MainFrame and HFG.UI.MainFrame:IsShown() then
