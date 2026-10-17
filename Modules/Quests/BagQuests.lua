@@ -73,3 +73,46 @@ function HFG:GetBagQuestsForProfile(profile)
     table.sort(list, function(a, b) return (a.level or 0) < (b.level or 0) end)
     return list
 end
+
+function HFG:GetAvailableBagQuests()
+    local playerLevel = UnitLevel("player") or 1
+    local _, playerRace = UnitRace("player")
+    local _, playerClass = UnitClass("player")
+    local playerFaction = UnitFactionGroup("player")
+    local results = {}
+
+    if not self.BagQuests then return results end
+
+    for _, q in ipairs(self.BagQuests) do
+        -- Check if quest is already completed
+        local isDone = false
+        if C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
+            isDone = C_QuestLog.IsQuestFlaggedCompleted(q.id)
+        elseif IsQuestFlaggedCompleted then
+            isDone = IsQuestFlaggedCompleted(q.id)
+        end
+
+        if not isDone then
+            -- Match Race / Class / Faction criteria
+            local matchesRace = not q.race or (type(q.race) == "table" and tContains(q.race, playerRace)) or (q.race == playerRace)
+            local matchesClass = not q.class or (q.class == playerClass)
+            local matchesFaction = not q.faction or (q.faction == "Both") or (q.faction == playerFaction)
+
+            if matchesRace and matchesClass and matchesFaction then
+                table.insert(results, {
+                    id = q.id,
+                    name = q.name,
+                    slots = q.slots,
+                    zone = q.zone,
+                    reward = q.reward or (q.slots .. "-Slot Starting Bag"),
+                    level = q.level,
+                    isRelevantNow = (playerLevel >= q.level and playerLevel <= (q.level + 15))
+                })
+            end
+        end
+    end
+
+    -- Sort by level requirement
+    table.sort(results, function(a, b) return a.level < b.level end)
+    return results
+end

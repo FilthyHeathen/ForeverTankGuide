@@ -676,6 +676,23 @@ function HFG.UI:RenderOverview(child, bracket, profile)
                 line:SetJustifyH("LEFT")
                 line:SetTextColor(0.9, 0.9, 0.9, 1)
 
+                local isDone = false
+                if C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
+                    isDone = C_QuestLog.IsQuestFlaggedCompleted(bq.id)
+                elseif IsQuestFlaggedCompleted then
+                    isDone = IsQuestFlaggedCompleted(bq.id)
+                end
+
+                local statusStr = ""
+                if isDone then
+                    statusStr = " |cff555555[Completed]|r"
+                else
+                    local playerLvl = UnitLevel("player") or 1
+                    if playerLvl >= bq.level and playerLvl <= (bq.level + 15) then
+                        statusStr = " |cff00ff00[Available Now]|r"
+                    end
+                end
+
                 local detailStr = string.format("• |cffffd200%s|r (|cff40ff40Lvl %d|r - |cffffffff%d-Slot Bag|r): |cff00ff00%s|r", bq.name, bq.level, bq.slots, bq.zone)
                 if bq.starter then
                     detailStr = detailStr .. string.format(" (Starter: |cffffffff%s|r)", bq.starter)
@@ -683,6 +700,7 @@ function HFG.UI:RenderOverview(child, bracket, profile)
                 if bq.reward then
                     detailStr = detailStr .. string.format(" [Reward: |cff1eff00%s|r]", bq.reward)
                 end
+                detailStr = detailStr .. statusStr
 
                 line:SetText(detailStr)
                 ApplyDropShadow(line)
