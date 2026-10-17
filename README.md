@@ -1,4 +1,4 @@
-# Heathen's Forever Guide (v1.5.0)
+# Heathen's Forever Guide (v1.5.1)
 
 **Heathen's Forever Guide** is an all-in-one in-game leveling, dungeon, specialization, and profession progression assistant for **World of Warcraft: Forever** (`Interface: 16001`), authored by **FilthyHeathen**.
 
