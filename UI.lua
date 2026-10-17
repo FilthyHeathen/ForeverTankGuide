@@ -342,6 +342,7 @@ function HFG.UI:CreateSideMenu(parent)
     local items = {
         { id = "overview", text = "Bracket Overview", icon = "Interface\\Icons\\Spell_Holy_AuraMastery" },
         { id = "recommendations", text = "Quest Upgrades", icon = "Interface\\Icons\\INV_Misc_Book_07" },
+        { id = "bagquests", text = "Bag Quests", icon = "Interface\\Icons\\INV_Misc_Bag_08" },
         { id = "profession", text = "Prof. Roadmap", icon = "Interface\\Icons\\Trade_Engineering" },
         { id = "dungeons", text = "Dungeon Checklist", icon = "Interface\\Icons\\Spell_Holy_PurifyingPower" },
         { id = "macros", text = "Macro Vault", icon = "Interface\\Icons\\Spell_Holy_InnerFire" },
@@ -517,6 +518,8 @@ function HFG.UI:UpdateView()
         totalHeight = self:RenderOverview(child, bracketData, profile)
     elseif currentView == "recommendations" then
         totalHeight = self:RenderQuestRecommendations(child, bracketData, profile)
+    elseif currentView == "bagquests" then
+        totalHeight = self:RenderBagQuestList(child, profile)
     elseif currentView == "profession" then
         totalHeight = self:RenderProfession(child, bracketData, profile)
     elseif currentView == "dungeons" then
@@ -1365,3 +1368,119 @@ function HFG.UI:RenderQuestRecommendations(child, bracket, profile)
     return -yOffset
 end
 
+
+-- 6. RENDER BAG QUESTS TAB
+function HFG.UI:RenderBagQuestList(child, profile)
+    local yOffset = -10
+    local width = child:GetWidth() - 20
+
+    local title = child:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    title:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    title:SetText("|cffffcc00Essential Inventory Bag Quests|r")
+    ApplyDropShadow(title)
+    table.insert(child.elements, title)
+    yOffset = yOffset - 22
+
+    local sub = child:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    sub:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+    sub:SetTextColor(0.9, 0.9, 0.9, 1)
+    sub:SetText("Available bag upgrade quests matching your character's race, class, and faction:")
+    ApplyDropShadow(sub)
+    table.insert(child.elements, sub)
+    yOffset = yOffset - 24
+
+    local quests = HFG:GetAvailableBagQuests()
+
+    if #quests == 0 then
+        local emptyBox = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+        emptyBox:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        emptyBox:SetSize(width, 70)
+        if emptyBox.SetBackdrop then
+            emptyBox:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+            emptyBox:SetBackdropColor(0.06, 0.06, 0.08, 0.9)
+            emptyBox:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.6)
+        end
+        table.insert(child.elements, emptyBox)
+
+        local msg = emptyBox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        msg:SetPoint("CENTER", emptyBox, "CENTER", 0, 0)
+        msg:SetText("|cff00ff00All relevant bag quests completed!|r")
+        ApplyDropShadow(msg)
+
+        yOffset = yOffset - 80
+        return -yOffset
+    end
+
+    for _, q in ipairs(quests) do
+        local card = CreateFrame("Frame", nil, child, BACKDROP_TEMPLATE)
+        card:SetPoint("TOPLEFT", child, "TOPLEFT", 10, yOffset)
+        card:SetSize(width, 68)
+        if card.SetBackdrop then
+            card:SetBackdrop(BACKDROP_TOOLTIP_STYLE)
+            card:SetBackdropColor(0.04, 0.04, 0.06, 0.95)
+            if q.isRelevantNow then
+                card:SetBackdropBorderColor(0.2, 0.8, 0.3, 0.9) -- Green border for active/relevant
+            else
+                card:SetBackdropBorderColor(0.4, 0.4, 0.5, 0.7)
+            end
+        end
+        table.insert(child.elements, card)
+
+        -- Title line
+        local statusColor = q.isRelevantNow and "|cffffd700" or "|cff808080"
+        local titleLine = card:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        titleLine:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -8)
+        titleLine:SetText(string.format("%s[%d Slots]|r |cffffffff%s|r (|cff40ff40Lvl %d|r — |cffffd200%s|r)", statusColor, q.slots, q.name, q.level, q.zone))
+        ApplyDropShadow(titleLine)
+
+        -- Status tag
+        local statusText = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        statusText:SetPoint("TOPRIGHT", card, "TOPRIGHT", -12, -8)
+        if q.isRelevantNow then
+            statusText:SetText("|cff00ff00[Available Now]|r")
+        else
+            statusText:SetText("|cff888888[Future / High Level]|r")
+        end
+        ApplyDropShadow(statusText)
+
+        -- Reward line
+        local rewardLine = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        rewardLine:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -28)
+        rewardLine:SetText(string.format("|cffaaaaaaReward:|r |cff1eff00%s|r", q.reward))
+        ApplyDropShadow(rewardLine)
+
+        -- Detail info
+        local detailLine = card:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        detailLine:SetPoint("TOPLEFT", card, "TOPLEFT", 12, -44)
+        detailLine:SetTextColor(0.8, 0.8, 0.8, 1)
+        detailLine:SetText(string.format("Required Level: |cffffffff%d|r | Zone: |cffffffff%s|r", q.level, q.zone))
+        ApplyDropShadow(detailLine)
+
+        yOffset = yOffset - 76
+    end
+
+    return -yOffset
+end
+
+-- Direct Trigger Helper
+function HFG:RenderBagQuestList()
+    if self.UI and self.UI.MainFrame then
+        self:SetViewTab("bagquests")
+        if not self.UI.MainFrame:IsShown() then
+            self.UI.MainFrame:Show()
+        end
+    end
+
+    DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[HFG]|r Scanning available bag upgrade quests for your character...")
+    local quests = self:GetAvailableBagQuests()
+
+    if #quests == 0 then
+        DEFAULT_CHAT_FRAME:AddMessage(" -> All relevant bag quests completed!")
+        return
+    end
+
+    for _, q in ipairs(quests) do
+        local statusColor = q.isRelevantNow and "|cffffd700" or "|cff808080"
+        DEFAULT_CHAT_FRAME:AddMessage(string.format(" • %s[%d Slots] %s (Zone: %s, Req Lvl: %d)|r", statusColor, q.slots, q.name, q.zone, q.level))
+    end
+end

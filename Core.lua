@@ -310,9 +310,16 @@ SlashCmdList["HEATHENSFOREVERGUIDE"] = function(msg)
         else
             HFG:Print("Quest Engine not loaded.")
         end
+    elseif msg == "bags" or msg == "bag" then
+        if HFG.RenderBagQuestList then
+            HFG:RenderBagQuestList()
+        else
+            HFG:Print("Bag Quests module not loaded.")
+        end
     elseif msg == "help" then
         HFG:Print("Commands:")
         HFG:Print("  /hfg - Toggle Heathen's Forever Guide")
+        HFG:Print("  /hfg bags - Open and scan available bag upgrade quests")
         HFG:Print("  /hfg scan - Scan completed quests via native client API")
         HFG:Print("  /hfg reset - Reset window position to center")
     else
