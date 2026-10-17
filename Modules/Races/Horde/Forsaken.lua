@@ -1,15 +1,15 @@
 --[[
-    Heathen's Forever Guide - Modules/Races/Horde/Undead.lua
-    Forsaken (Undead) Racials, Passives, Synergies, Quest Routing, and Macros
+    Heathen's Forever Guide - Modules/Races/Horde/Forsaken.lua
+    Forsaken Racials, Passives, Synergies, Quest Routing, and Macros
 ]]
 
 local ADDON_NAME, HFG = ...
 
-local UndeadModule = {
-    name = "Undead (Forsaken)",
-    token = "UNDEAD",
+local ForsakenModule = {
+    name = "Forsaken",
+    token = "FORSAKEN",
     faction = "Horde",
-    description = "Iconic Forsaken undead durability. Immune to fear/charm via Will of the Forsaken, out-of-combat regeneration with Cannibalize, and inherent Shadow Resistance.",
+    description = "Iconic Forsaken durability. Immune to fear/charm via Will of the Forsaken, out-of-combat regeneration with Cannibalize, and inherent Shadow Resistance.",
     brackets = {
         [1] = {
             zones = {
@@ -19,8 +19,8 @@ local UndeadModule = {
             },
             racials = {
                 { name = "Will of the Forsaken", desc = "Removes and grants 5 sec immunity to Charm, Fear, and Sleep effects (2 min cooldown)." },
-                { name = "Cannibalize", desc = "Regenerates 7% of total health every 2 sec for 10 sec by consuming a nearby humanoid or undead corpse." },
-                { name = "Shadow Resistance", desc = "+10 Shadow Resistance passively. Mitigates warlock and undead caster dungeon spikes." },
+                { name = "Cannibalize", desc = "Regenerates 7% of total health every 2 sec for 10 sec by consuming a nearby humanoid or corpse." },
+                { name = "Shadow Resistance", desc = "+10 Shadow Resistance passively. Mitigates shadow damage spikes." },
                 { name = "Underwater Breathing", desc = "Increases underwater breath duration by 300% (ideal for sunken chests and Wailing Caverns/dungeon transit)." }
             },
             tankTips = {
@@ -78,5 +78,6 @@ local UndeadModule = {
     }
 }
 
-HFG:RegisterRaceModule("UNDEAD", UndeadModule)
-HFG:RegisterRaceModule("SCOURGE", UndeadModule)
+HFG:RegisterRaceModule("FORSAKEN", ForsakenModule)
+HFG:RegisterRaceModule("UNDEAD", ForsakenModule)
+HFG:RegisterRaceModule("SCOURGE", ForsakenModule)

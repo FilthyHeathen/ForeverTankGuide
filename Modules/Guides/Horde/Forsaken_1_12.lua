@@ -1,5 +1,5 @@
 --[[
-    Heathen's Forever Guide - Modules/Guides/Horde/Undead_1_12.lua
+    Heathen's Forever Guide - Modules/Guides/Horde/Forsaken_1_12.lua
     Step-by-Step Leveling Guide: Deathknell & Tirisfal Glades (Levels 1–12)
 ]]
 
@@ -8,10 +8,10 @@ if not HFG then HFG = _G.HFG end
 if not HFG then return end
 
 HFG:RegisterGuide({
-    id = "Horde_Undead_1_12",
+    id = "Horde_Forsaken_1_12",
     title = "Deathknell & Tirisfal Glades (1–12)",
     faction = "Horde",
-    races = { "UNDEAD", "SCOURGE" },
+    races = { "Forsaken", "FORSAKEN", "Undead", "UNDEAD", "Scourge", "SCOURGE" },
     minLevel = 1,
     maxLevel = 12,
     order = 1,

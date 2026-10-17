@@ -1,4 +1,4 @@
-# Heathen's Forever Guide (v1.4.1)
+# Heathen's Forever Guide (v1.4.2)
 
 **Heathen's Forever Guide** is an all-in-one in-game leveling, dungeon, specialization, and profession progression assistant for **World of Warcraft: Forever** (`Interface: 16001`), authored by **FilthyHeathen**.
 
@@ -25,7 +25,7 @@ HeathensForeverGuide/
     │   ├── Horde/
     │   │   ├── OrcTroll_1_12.lua       # Valley of Trials & Durotar (1–12)
     │   │   ├── Tauren_1_12.lua         # Camp Narache & Mulgore (1–12)
-    │   │   ├── Undead_1_12.lua         # Deathknell & Tirisfal Glades (1–12)
+    │   │   ├── Forsaken_1_12.lua       # Deathknell & Tirisfal Glades (1–12)
     │   │   ├── SkyborneHorde_1_12.lua  # Skyborne Sanctuary & Kalimdor Descent (1–12)
     │   │   ├── Horde_12_20.lua         # The Crossroads & Northern Barrens (12–20)
     │   │   └── Horde_20_30.lua         # Southern Barrens, Thousand Needles & Hillsbrad (20–30)
@@ -48,7 +48,7 @@ HeathensForeverGuide/
     │   └── Hunter.lua            # Beast Mastery (Pet/Leveling), Marksmanship (Raid DPS), Survival (Agility/Hybrid DPS)
     ├── Races/
     │   ├── Horde/
-    │   │   ├── Undead.lua        # Deathknell -> Brill -> Sepulcher -> Horde 20-60 Hubs
+    │   │   ├── Forsaken.lua      # Deathknell -> Brill -> Sepulcher -> Horde 20-60 Hubs
     │   │   ├── Tauren.lua        # Camp Narache -> Bloodhoof -> Barrens -> Horde 20-60 Hubs
     │   │   ├── Orc.lua           # Valley of Trials -> Razor Hill -> Barrens -> Horde 20-60 Hubs
     │   │   ├── Troll.lua         # Valley of Trials -> Sen'jin -> Barrens -> Horde 20-60 Hubs

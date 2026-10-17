@@ -417,9 +417,9 @@ end
 -- Auto-detect player race token (including cross-faction Skyborne detection)
 function HFG:GetPlayerRace()
     local raceName, raceToken = UnitRace("player")
-    local token = string.upper(raceToken or raceName or "UNDEAD")
-    if token == "SCOURGE" then
-        return "UNDEAD"
+    local token = string.upper(raceToken or raceName or "FORSAKEN")
+    if token == "SCOURGE" or token == "UNDEAD" or token == "FORSAKEN" then
+        return "FORSAKEN"
     end
     if token:find("SKYBORNE") or string.upper(raceName or ""):find("SKYBORNE") then
         local faction = UnitFactionGroup and UnitFactionGroup("player") or "Horde"

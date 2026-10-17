@@ -71,7 +71,7 @@ end
 function HFG:GetRegisteredRaces()
     local list = {}
     for k, v in pairs(self.Registry.Races) do
-        if k ~= "SCOURGE" and k ~= "SKYBORNE" then -- prevent duplicate alias entries in dropdown
+        if k ~= "SCOURGE" and k ~= "UNDEAD" and k ~= "SKYBORNE" then -- prevent duplicate alias entries in dropdown
             table.insert(list, { token = k, name = v.name or k, faction = v.faction or "Neutral" })
         end
     end
@@ -95,7 +95,7 @@ function HFG:GetCompositeProfile(overrideClass, overrideSpec, overrideRace, over
     local profKey = string.upper(overrideProf or self:GetPlayerProfession())
 
     local classMod = self.Registry.Classes[classKey] or self.Registry.Classes["PALADIN"] or {}
-    local raceMod = self.Registry.Races[raceKey] or self.Registry.Races["UNDEAD"] or {}
+    local raceMod = self.Registry.Races[raceKey] or self.Registry.Races["FORSAKEN"] or self.Registry.Races["UNDEAD"] or {}
     local profMod = self.Registry.Professions[profKey] or self.Registry.Professions["ENGINEERING"] or {}
     local dungMod = self.Registry.Dungeons or {}
 

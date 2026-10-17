@@ -2,7 +2,7 @@
 ## Title: Heathen's Forever Guide
 ## Notes: Leveling, Dungeon, Spec, and Profession Progression Guide for WoW Forever
 ## Author: FilthyHeathen
-## Version: 1.4.1
+## Version: 1.4.2
 ## SavedVariablesPerCharacter: HFG_CharDB
 
 # Core Engine & Dynamic Registry
@@ -22,7 +22,7 @@ Modules\Classes\Rogue.lua
 Modules\Classes\Hunter.lua
 
 # Race Modules (Horde)
-Modules\Races\Horde\Undead.lua
+Modules\Races\Horde\Forsaken.lua
 Modules\Races\Horde\Tauren.lua
 Modules\Races\Horde\Orc.lua
 Modules\Races\Horde\Troll.lua
@@ -54,7 +54,7 @@ Engine\GuideEngine\GuideEngine.lua
 Engine\GuideEngine\GuideHUD.lua
 Modules\Guides\Horde\OrcTroll_1_12.lua
 Modules\Guides\Horde\Tauren_1_12.lua
-Modules\Guides\Horde\Undead_1_12.lua
+Modules\Guides\Horde\Forsaken_1_12.lua
 Modules\Guides\Horde\SkyborneHorde_1_12.lua
 Modules\Guides\Horde\Horde_12_20.lua
 Modules\Guides\Horde\Horde_20_30.lua

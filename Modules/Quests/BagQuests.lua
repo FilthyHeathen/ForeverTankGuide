@@ -8,7 +8,7 @@ HFG.BagQuests = {
     { id = 1001, name = "Book Return", race = "Human", level = 1, slots = 6, zone = "Elwynn Forest", starter = "Marshal Dughan" },
     { id = 1002, name = "Grund and Gozwin", race = {"Dwarf", "Gnome", "SkyborneAlliance"}, level = 1, slots = 6, zone = "Dun Morogh", starter = "Anvilmar" },
     { id = 1003, name = "Soft Saber Pelts", race = "NightElf", level = 1, slots = 6, zone = "Teldrassil", starter = "Aldria" },
-    { id = 1004, name = "Sticks and Bones", race = "Undead", level = 1, slots = 6, zone = "Tirisfal Glades", starter = "Eleanor Shackleton" },
+    { id = 1004, name = "Sticks and Bones", race = {"Forsaken", "Undead", "Scourge"}, level = 1, slots = 6, zone = "Tirisfal Glades", starter = "Eleanor Shackleton" },
     { id = 1005, name = "Carry Your Weight", race = {"Orc", "Troll"}, level = 1, slots = 6, zone = "Durotar", starter = "Furl Scornbrow" },
     { id = 1006, name = "Grace of An'she and Mu'sha", race = "Tauren", level = 1, slots = 6, zone = "Mulgore", starter = "Red Cloud Mesa" },
     { id = 1007, name = "The Problem With Prideclaws", race = "SkyborneHorde", level = 1, slots = 6, zone = "Zephras Isle", starter = "Shen'dar Highlands" },
