@@ -164,6 +164,15 @@ function HFG:EvaluateStepProgress()
     local step = GE.activeGuide.steps[GE.activeStepIndex]
     if not step or not step.goals then return false end
 
+    -- Automatically skip steps intended for opposite faction in joint guides
+    local playerFaction = self:GetPlayerFaction()
+    if step.faction and step.faction ~= "Both" and string.upper(step.faction) ~= string.upper(playerFaction) then
+        if GE.activeStepIndex < #GE.activeGuide.steps then
+            self:NextGuideStep()
+            return true
+        end
+    end
+
     local allGoalsComplete = true
 
     for _, goal in ipairs(step.goals) do
